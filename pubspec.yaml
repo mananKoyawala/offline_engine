@@ -20,6 +20,10 @@ dependencies:
   dio: ^5.4.0
   dartz: ^0.10.1
   riverpod_annotation: ^4.0.2
+  drift: ^2.34.0
+  uuid: ^4.5.3
+  path_provider: ^2.1.5
+  path: ^1.9.1
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +34,7 @@ dev_dependencies:
   json_annotation: ^4.11.0
   freezed_annotation: ^3.1.0
   json_serializable: ^6.7.1
+  drift_dev: ^2.34.0
 
 flutter:
 
