@@ -1,15 +1,20 @@
 import 'package:drift/drift.dart';
+import 'package:injectable/injectable.dart';
 import 'package:offline_engine/core/import/app_imports.dart';
 import 'package:offline_engine/feature/data/datasources/local/task_local_data_source.dart';
 
+@LazySingleton(as: TaskLocalDataSource)
 class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   final AppDatabase database;
 
   TaskLocalDataSourceImpl(this.database);
 
+  // TODO : ALL NOT NULL CHECK FOR LIST TO GET WHILE DELETE SO DELETED NOT APPEARED
   @override
   Future<List<TaskItem>> getTasks() async {
-    final result = await database.select(database.tasks).get();
+    final result = await (database.select(
+      database.tasks,
+    )..where((t) => t.deletedAt.isNull())).get();
 
     return result.map(TaskItem.fromDrift).toList();
   }
