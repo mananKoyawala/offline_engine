@@ -38,7 +38,7 @@ class DeleteTasksLocalUsecase {
   DeleteTasksLocalUsecase(this._repository);
   final ITaskRepository _repository;
 
-  Future<bool> call(String taskId) {
-    return _repository.deleteTaskLocal(taskId);
+  Future<bool> call(UpdateTaskParams params) {
+    return _repository.deleteTaskLocal(params);
   }
 }

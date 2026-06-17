@@ -8,5 +8,5 @@ abstract class ITaskRepository {
 
   Future<bool> updateTaskLocal(UpdateTaskParams task);
 
-  Future<bool> deleteTaskLocal(String taskId);
+  Future<bool> deleteTaskLocal(UpdateTaskParams task);
 }

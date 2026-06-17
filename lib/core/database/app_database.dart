@@ -3,24 +3,30 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:injectable/injectable.dart';
+import 'package:offline_engine/core/database/daos/sync_operations_dao.dart';
 import 'package:offline_engine/core/database/daos/task_dao.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
 
 part 'app_database.g.dart';
 
 @lazySingleton
-@DriftDatabase(tables: [Tasks])
+@DriftDatabase(tables: [Tasks, SyncOperations])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) async {
+      await m.createAll();
+    },
+    onUpgrade: (Migrator m, int from, int to) async {
+      await m.deleteTable('tasks');
+      await m.deleteTable('sync_operations');
+
       await m.createAll();
     },
   );

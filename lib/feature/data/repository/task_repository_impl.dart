@@ -15,8 +15,8 @@ class TaskRepositoryImpl implements ITaskRepository {
   TaskRepositoryImpl(this.local, this.remote);
 
   @override
-  Future<bool> deleteTaskLocal(String taskId) {
-    return local.deleteTask(taskId);
+  Future<bool> deleteTaskLocal(UpdateTaskParams task) {
+    return local.deleteTask(task);
   }
 
   @override

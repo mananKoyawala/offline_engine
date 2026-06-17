@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:offline_engine/core/import/app_imports.dart';
 import 'package:offline_engine/feature/data/datasources/local/task_local_data_source.dart';
+import 'package:offline_engine/feature/presentation/enums/sync_operations.dart';
+import 'package:uuid/uuid.dart';
 
 @LazySingleton(as: TaskLocalDataSource)
 class TaskLocalDataSourceImpl implements TaskLocalDataSource {
@@ -9,7 +14,6 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
 
   TaskLocalDataSourceImpl(this.database);
 
-  // TODO : ALL NOT NULL CHECK FOR LIST TO GET WHILE DELETE SO DELETED NOT APPEARED
   @override
   Future<List<TaskItem>> getTasks() async {
     final result = await (database.select(
@@ -21,21 +25,44 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
 
   @override
   Future<bool> insertTask(CreateTaskParams task) async {
-    return !(await database
+    final taskId = const Uuid().v4();
+    try {
+      await database.transaction(() async {
+        await database
             .into(database.tasks)
             .insert(
               TasksCompanion(
+                id: Value(taskId),
                 title: Value(task.title),
                 description: Value(task.description),
                 priority: Value(task.priority.value),
               ),
-            ) <=
-        0);
+            );
+
+        await database
+            .into(database.syncOperations)
+            .insert(
+              SyncOperationsCompanion(
+                taskId: Value(taskId),
+                status: Value(SyncStatus.pending.status),
+                payload: Value(jsonEncode(task.toJson())),
+                type: Value(SyncOperations.create.type),
+              ),
+            );
+      });
+
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
   }
 
   @override
   Future<bool> updateTask(UpdateTaskParams task) async {
-    return !(await (database.update(
+    try {
+      await database.transaction(() async {
+        await (database.update(
           database.tasks,
         )..where((t) => t.id.equals(task.id))).write(
           TasksCompanion(
@@ -44,15 +71,50 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
             priority: Value(task.priority.value),
             isCompleted: Value(task.isCompleted),
           ),
-        ) <=
-        0);
+        );
+
+        await database
+            .into(database.syncOperations)
+            .insert(
+              SyncOperationsCompanion(
+                taskId: Value(task.id),
+                status: Value(SyncStatus.pending.status),
+                payload: Value(jsonEncode(task.toJson())),
+                type: Value(SyncOperations.update.type),
+              ),
+            );
+      });
+
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override
-  Future<bool> deleteTask(String taskId) async {
-    return !(await (database.update(database.tasks)
-              ..where((t) => t.id.equals(taskId)))
-            .write(TasksCompanion(deletedAt: Value(DateTime.now()))) <=
-        0);
+  Future<bool> deleteTask(UpdateTaskParams task) async {
+    try {
+      await database.transaction(() async {
+        await (database.update(database.tasks)
+              ..where((t) => t.id.equals(task.id)))
+            .write(TasksCompanion(deletedAt: Value(DateTime.now())));
+
+        await database
+            .into(database.syncOperations)
+            .insert(
+              SyncOperationsCompanion(
+                taskId: Value(task.id),
+                payload: Value(jsonEncode(task.toJson())),
+                status: Value(SyncStatus.pending.status),
+                type: Value(SyncOperations.delete.type),
+              ),
+            );
+      });
+
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
   }
 }

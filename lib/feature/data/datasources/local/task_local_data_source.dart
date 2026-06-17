@@ -7,5 +7,5 @@ abstract class TaskLocalDataSource {
 
   Future<bool> updateTask(UpdateTaskParams task);
 
-  Future<bool> deleteTask(String taskId);
+  Future<bool> deleteTask(UpdateTaskParams task);
 }
