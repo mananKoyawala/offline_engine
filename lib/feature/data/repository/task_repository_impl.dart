@@ -1,4 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:j_client/j_client.dart';
 import 'package:offline_engine/feature/data/datasources/local/task_local_data_source.dart';
 import 'package:offline_engine/feature/data/datasources/remote/task_remote_data_source.dart';
 import 'package:offline_engine/feature/data/models/task_item.dart';
@@ -15,23 +17,26 @@ class TaskRepositoryImpl implements ITaskRepository {
   TaskRepositoryImpl(this.local, this.remote);
 
   @override
-  Future<bool> deleteTaskLocal(UpdateTaskParams task) {
+  Future<Either<ApiFailure, bool>> deleteTaskLocal(UpdateTaskParams task) {
     return local.deleteTask(task);
   }
 
   @override
-  Future<List<TaskEntity>> getTasksLocal() async {
-    final tasks = await local.getTasks();
-    return tasks.map((t) => t.toEntity()).toList();
+  Future<Either<ApiFailure, List<TaskEntity>>> getTasksLocal() async {
+    final result = await local.getTasks();
+
+    return result.fold(left, (tasks) {
+      return right(tasks.map((t) => t.toEntity()).toList());
+    });
   }
 
   @override
-  Future<bool> insertTaskLocal(CreateTaskParams task) {
+  Future<Either<ApiFailure, bool>> insertTaskLocal(CreateTaskParams task) {
     return local.insertTask(task);
   }
 
   @override
-  Future<bool> updateTaskLocal(UpdateTaskParams task) {
+  Future<Either<ApiFailure, bool>> updateTaskLocal(UpdateTaskParams task) {
     return local.updateTask(task);
   }
 }

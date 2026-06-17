@@ -1,11 +1,12 @@
+import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/import/app_imports.dart';
 
 abstract class TaskLocalDataSource {
-  Future<List<TaskItem>> getTasks();
+  Future<Either<ApiFailure, List<TaskItem>>> getTasks();
 
-  Future<bool> insertTask(CreateTaskParams task);
+  Future<Either<ApiFailure, bool>> insertTask(CreateTaskParams task);
 
-  Future<bool> updateTask(UpdateTaskParams task);
+  Future<Either<ApiFailure, bool>> updateTask(UpdateTaskParams task);
 
-  Future<bool> deleteTask(UpdateTaskParams task);
+  Future<Either<ApiFailure, bool>> deleteTask(UpdateTaskParams task);
 }

@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:offline_engine/feature/domain/enitites/task_entity.dart';
 import 'package:offline_engine/feature/domain/params/create_task_params.dart';
 import 'package:offline_engine/feature/domain/params/update_task_params.dart';
 import 'package:offline_engine/feature/presentation/getters/task_getters.dart';
@@ -20,61 +17,66 @@ class TaskNotifier extends _$TaskNotifier {
 
   Future<void> refresh() async {
     state = state.copyWith(isLoading: true, clearError: true);
-    try {
-      final tasks = await getTasksLocalUsecase();
-      state = state.copyWith(tasks: tasks, isLoading: false);
-    } catch (e, st) {
-      log('Failed to load tasks', error: e, stackTrace: st);
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: 'Failed to load tasks',
-      );
-    }
+
+    final result = await getTasksLocalUsecase();
+
+    result.fold(
+      (failure) {
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: 'Failed to load tasks',
+        );
+      },
+      (tasks) {
+        state = state.copyWith(tasks: tasks, isLoading: false);
+      },
+    );
   }
 
-  Future<bool> createTask(CreateTaskParams params) async {
+  Future<void> createTask(CreateTaskParams params) async {
     state = state.copyWith(isSubmitting: true, clearError: true);
-    try {
-      final taskCreated = await createTasksLocalUsecase(params);
 
-      if (taskCreated) {
-        Fluttertoast.showToast(msg: "Task created");
-        await refresh();
-      } else {
+    final result = await createTasksLocalUsecase(params);
+
+    result.fold(
+      (failure) {
         Fluttertoast.showToast(msg: "Failed to create task");
-      }
-      state = state.copyWith(isSubmitting: false);
-      return taskCreated;
-    } catch (e, st) {
-      log('Failed to create task', error: e, stackTrace: st);
-      Fluttertoast.showToast(msg: "Failed to create task");
-      state = state.copyWith(isSubmitting: false);
-      return false;
-    }
+        state = state.copyWith(isSubmitting: false);
+      },
+      (taskCreated) async {
+        if (taskCreated) {
+          Fluttertoast.showToast(msg: "Task created");
+          await refresh();
+        } else {
+          Fluttertoast.showToast(msg: "Failed to create task");
+        }
+      },
+    );
   }
 
-  Future<bool> updateTask(UpdateTaskParams params) async {
+  Future<void> updateTask(UpdateTaskParams params) async {
     state = state.copyWith(isSubmitting: true, clearError: true);
-    try {
-      final taskUpdated = await updateTasksLocalUsecase(params);
 
-      if (taskUpdated) {
-        Fluttertoast.showToast(msg: "Task updated");
-        await refresh();
-      } else {
+    final result = await updateTasksLocalUsecase(params);
+
+    result.fold(
+      (failure) {
         Fluttertoast.showToast(msg: "Failed to update task");
-      }
-      state = state.copyWith(isSubmitting: false);
-      return taskUpdated;
-    } catch (e, st) {
-      log('Failed to update task', error: e, stackTrace: st);
-      Fluttertoast.showToast(msg: "Failed to update task");
-      state = state.copyWith(isSubmitting: false);
-      return false;
-    }
+        state = state.copyWith(isSubmitting: false);
+      },
+      (taskUpdated) async {
+        if (taskUpdated) {
+          Fluttertoast.showToast(msg: "Task updated");
+          await refresh();
+        } else {
+          Fluttertoast.showToast(msg: "Failed to update task");
+        }
+        state = state.copyWith(isSubmitting: false);
+      },
+    );
   }
 
-  Future<bool> deleteTask(UpdateTaskParams params, {String? taskId}) async {
+  Future<void> deleteTask(UpdateTaskParams params, {String? taskId}) async {
     final previousTasks = state.tasks;
     if (taskId != null) {
       state = state.copyWith(
@@ -83,28 +85,35 @@ class TaskNotifier extends _$TaskNotifier {
       );
     }
 
-    try {
-      final taskDeleted = await deleteTasksLocalUsecase(params);
+    final result = await deleteTasksLocalUsecase(params);
 
-      if (taskDeleted) {
-        Fluttertoast.showToast(msg: "Task deleted");
-        await refresh();
-      } else {
+    result.fold(
+      (failure) {
         Fluttertoast.showToast(msg: "Failed to delete task");
         state = state.copyWith(tasks: previousTasks);
-      }
-      return taskDeleted;
-    } catch (e, st) {
-      log('Failed to delete task', error: e, stackTrace: st);
-      Fluttertoast.showToast(msg: "Failed to delete task");
-      state = state.copyWith(tasks: previousTasks);
-      return false;
-    }
+      },
+      (taskDeleted) async {
+        if (taskDeleted) {
+          Fluttertoast.showToast(msg: "Task deleted");
+          await refresh();
+        } else {
+          Fluttertoast.showToast(msg: "Failed to delete task");
+          state = state.copyWith(tasks: previousTasks);
+        }
+      },
+    );
   }
 
-  Future<List<TaskEntity>> fetchLocalTasks() async {
-    final tasks = await getTasksLocalUsecase();
-    state = state.copyWith(tasks: tasks);
-    return tasks;
+  Future<void> fetchLocalTasks() async {
+    final result = await getTasksLocalUsecase();
+
+    result.fold(
+      (failure) {
+        state = state.copyWith(tasks: []);
+      },
+      (tasks) {
+        state = state.copyWith(tasks: tasks);
+      },
+    );
   }
 }

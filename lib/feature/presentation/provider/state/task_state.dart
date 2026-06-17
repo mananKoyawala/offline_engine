@@ -8,7 +8,7 @@ abstract class TaskState with _$TaskState {
   const factory TaskState({
     String? error,
     @Default(false) bool isLoading,
-    @Default('') errorMessage,
+    @Default(null) String? errorMessage,
     @Default(false) clearError,
     @Default(false) isSubmitting,
     @Default([]) List<TaskEntity> tasks,

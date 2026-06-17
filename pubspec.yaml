@@ -1,7 +1,7 @@
 name: offline_engine
 description: "A new Flutter project."
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -28,6 +28,8 @@ dependencies:
   get_it: ^9.2.1
   fluttertoast: ^9.1.0
 
+  j_client:
+    path: ../test_client
 
 dev_dependencies:
   flutter_test:
@@ -41,5 +43,4 @@ dev_dependencies:
   riverpod_generator: ^4.0.4
 
 flutter:
-
   uses-material-design: true

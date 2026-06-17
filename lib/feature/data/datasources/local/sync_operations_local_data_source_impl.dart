@@ -1,4 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/database/app_database.dart';
 import 'package:offline_engine/feature/data/datasources/local/sync_operations_local_data_source.dart';
 import 'package:offline_engine/feature/data/models/sync_operation_item.dart';
@@ -11,9 +13,14 @@ class SyncOperationsLocalDataSourceImpl
   SyncOperationsLocalDataSourceImpl(this.database);
 
   @override
-  Future<List<SyncOperationItem>> getSyncOperations() async {
-    final result = await database.select(database.syncOperations).get();
+  Future<Either<ApiFailure, List<SyncOperationItem>>>
+  getSyncOperations() async {
+    try {
+      final result = await database.select(database.syncOperations).get();
 
-    return result.map(SyncOperationItem.fromDrift).toList();
+      return right(result.map(SyncOperationItem.fromDrift).toList());
+    } catch (e) {
+      return left(ApiFailure.unknown(e.toString()));
+    }
   }
 }

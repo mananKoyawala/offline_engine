@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dartz/dartz.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
+import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/import/app_imports.dart';
 import 'package:offline_engine/feature/data/datasources/local/task_local_data_source.dart';
 import 'package:offline_engine/feature/presentation/enums/sync_operations.dart';
@@ -15,16 +17,20 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   TaskLocalDataSourceImpl(this.database);
 
   @override
-  Future<List<TaskItem>> getTasks() async {
-    final result = await (database.select(
-      database.tasks,
-    )..where((t) => t.deletedAt.isNull())).get();
+  Future<Either<ApiFailure, List<TaskItem>>> getTasks() async {
+    try {
+      final result = await (database.select(
+        database.tasks,
+      )..where((t) => t.deletedAt.isNull())).get();
 
-    return result.map(TaskItem.fromDrift).toList();
+      return right(result.map(TaskItem.fromDrift).toList());
+    } catch (e) {
+      return left(ApiFailure.unknown(e.toString()));
+    }
   }
 
   @override
-  Future<bool> insertTask(CreateTaskParams task) async {
+  Future<Either<ApiFailure, bool>> insertTask(CreateTaskParams task) async {
     final taskId = const Uuid().v4();
     try {
       await database.transaction(() async {
@@ -51,15 +57,15 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
             );
       });
 
-      return true;
+      return right(true);
     } catch (e) {
       log(e.toString());
-      return false;
+      return left(ApiFailure.unknown(e.toString()));
     }
   }
 
   @override
-  Future<bool> updateTask(UpdateTaskParams task) async {
+  Future<Either<ApiFailure, bool>> updateTask(UpdateTaskParams task) async {
     try {
       await database.transaction(() async {
         await (database.update(
@@ -85,14 +91,14 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
             );
       });
 
-      return true;
-    } catch (_) {
-      return false;
+      return right(true);
+    } catch (e) {
+      return left(ApiFailure.unknown(e.toString()));
     }
   }
 
   @override
-  Future<bool> deleteTask(UpdateTaskParams task) async {
+  Future<Either<ApiFailure, bool>> deleteTask(UpdateTaskParams task) async {
     try {
       await database.transaction(() async {
         await (database.update(database.tasks)
@@ -111,10 +117,10 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
             );
       });
 
-      return true;
+      return right(true);
     } catch (e) {
       log(e.toString());
-      return false;
+      return left(ApiFailure.unknown(e.toString()));
     }
   }
 }
