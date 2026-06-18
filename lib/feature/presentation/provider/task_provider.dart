@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:offline_engine/feature/domain/params/create_task_params.dart';
 import 'package:offline_engine/feature/domain/params/update_task_params.dart';
+import 'package:offline_engine/feature/presentation/enums/task_priority.dart';
 import 'package:offline_engine/feature/presentation/getters/task_getters.dart';
 import 'package:offline_engine/feature/presentation/provider/state/task_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -107,13 +110,83 @@ class TaskNotifier extends _$TaskNotifier {
   Future<void> fetchLocalTasks() async {
     final result = await getTasksLocalUsecase();
 
-    result.fold(
-      (failure) {
-        state = state.copyWith(tasks: []);
-      },
-      (tasks) {
-        state = state.copyWith(tasks: tasks);
-      },
+    result.fold((failure) {}, (tasks) {
+      state = state.copyWith(tasks: tasks);
+    });
+  }
+
+  Future<void> initScheduler() async {
+    final createParams1 = CreateTaskParams(
+      title: 'title 1',
+      description: 'description 1',
+      priority: TaskPriority.low,
     );
+
+    final createParams2 = CreateTaskParams(
+      title: 'title 2',
+      description: 'description 2',
+      priority: TaskPriority.medium,
+    );
+
+    final createParams3 = CreateTaskParams(
+      title: 'title 3',
+      description: 'description 3',
+      priority: TaskPriority.high,
+    );
+
+    await _schedulerTime();
+    await createTask(createParams1);
+
+    await _schedulerTime();
+    await createTask(createParams2);
+
+    await _schedulerTime();
+    await createTask(createParams3);
+
+    await _schedulerTime();
+    await fetchLocalTasks();
+    log(state.tasks.length.toString());
+    var task = state.tasks.first;
+    final updateParams1 = UpdateTaskParams(
+      id: task.id,
+      title: task.title,
+      description: "Updated description",
+      priority: TaskPriority.high,
+      isCompleted: task.isCompleted,
+    );
+
+    await _schedulerTime();
+    await updateTask(updateParams1);
+
+    await _schedulerTime();
+    await fetchLocalTasks();
+
+    await _schedulerTime();
+    final updateParams2 = UpdateTaskParams(
+      id: task.id,
+      title: "Title updated",
+      description: task.description,
+      priority: task.priority,
+      isCompleted: true,
+    );
+    await updateTask(updateParams2);
+
+    await _schedulerTime();
+    await fetchLocalTasks();
+
+    await _schedulerTime();
+    task = state.tasks.last;
+    final deleteParams2 = UpdateTaskParams(
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      priority: task.priority,
+      isCompleted: task.isCompleted,
+    );
+    await deleteTask(deleteParams2);
+  }
+
+  Future<void> _schedulerTime() async {
+    await Future.delayed(const Duration(milliseconds: 1500));
   }
 }

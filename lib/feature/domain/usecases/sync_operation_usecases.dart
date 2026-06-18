@@ -12,3 +12,13 @@ class GetSyncOperationLocalUsecase {
     return _repository.getSyncOperations();
   }
 }
+
+@lazySingleton
+class GetSyncOperationStreamLocalUsecase {
+  GetSyncOperationStreamLocalUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Stream<Either<ApiFailure, List<SyncOperationItem>>> call() {
+    return _repository.getSyncOperationsStream();
+  }
+}

@@ -83,6 +83,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i427.ISyncOperationRepository>(),
       ),
     );
+    gh.lazySingleton<_i13.GetSyncOperationStreamLocalUsecase>(
+      () => _i13.GetSyncOperationStreamLocalUsecase(
+        gh<_i427.ISyncOperationRepository>(),
+      ),
+    );
     return this;
   }
 }

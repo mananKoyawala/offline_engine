@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offline_engine/feature/domain/enitites/task_entity.dart';
 import 'package:offline_engine/feature/domain/params/update_task_params.dart';
+import 'package:offline_engine/feature/presentation/pages/sync_operations_page.dart';
 import 'package:offline_engine/feature/presentation/pages/widgets/task_card.dart';
 import 'package:offline_engine/feature/presentation/pages/widgets/task_form_sheet.dart';
 import 'package:offline_engine/feature/presentation/provider/task_provider.dart';
@@ -76,6 +77,17 @@ class _TaskPageState extends ConsumerState<TaskPage> {
         title: const Text('My Tasks'),
         centerTitle: false,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => SyncOperationsPage()),
+              );
+            },
+            icon: Icon(Icons.info),
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () => ref.read(taskProvider.notifier).refresh(),

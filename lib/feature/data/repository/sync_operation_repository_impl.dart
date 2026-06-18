@@ -14,4 +14,10 @@ class SyncOperationRepositoryImpl implements ISyncOperationRepository {
   Future<Either<ApiFailure, List<SyncOperationItem>>> getSyncOperations() {
     return local.getSyncOperations();
   }
+
+  @override
+  Stream<Either<ApiFailure, List<SyncOperationItem>>>
+  getSyncOperationsStream() {
+    return local.getSyncOperationsStream();
+  }
 }

@@ -23,4 +23,26 @@ class SyncOperationsLocalDataSourceImpl
       return left(ApiFailure.unknown(e.toString()));
     }
   }
+
+  @override
+  Stream<Either<ApiFailure, List<SyncOperationItem>>>
+  getSyncOperationsStream() {
+    try {
+      return database
+          .select(database.syncOperations)
+          .watch()
+          .map(
+            (rows) => right<ApiFailure, List<SyncOperationItem>>(
+              rows.map(SyncOperationItem.fromDrift).toList(),
+            ),
+          )
+          .handleError(
+            (e) => left<ApiFailure, List<SyncOperationItem>>(
+              ApiFailure.unknown(e.toString()),
+            ),
+          );
+    } catch (e) {
+      return Stream.value(left(ApiFailure.unknown(e.toString())));
+    }
+  }
 }
