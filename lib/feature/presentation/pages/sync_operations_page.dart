@@ -4,17 +4,10 @@ import 'package:offline_engine/feature/presentation/provider/sync_operation_prov
 import 'package:offline_engine/feature/presentation/provider/task_provider.dart';
 
 class SyncOperationsPage extends ConsumerWidget {
-  SyncOperationsPage({super.key});
-
-  bool initialized = false;
+  const SyncOperationsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!initialized) {
-      ref.read(taskProvider.notifier).initScheduler();
-      initialized = true;
-    }
-
     final syncOperations = ref.watch(syncOperationsProvider);
     final pendingcount = ref.watch(pendingCountProvider);
     final failedCount = ref.watch(failedCountProvider);
@@ -24,7 +17,21 @@ class SyncOperationsPage extends ConsumerWidget {
     final deleteCount = ref.watch(deleteCountProvider);
     final updateCount = ref.watch(updateCountProvider);
     return Scaffold(
-      appBar: AppBar(title: Text("Sync Operations"), centerTitle: true),
+      appBar: AppBar(
+        title: Text("Sync Operations"),
+        centerTitle: true,
+        actions: [
+          Tooltip(
+            message: "Schedule Tasks",
+            child: IconButton(
+              onPressed: () {
+                ref.read(taskProvider.notifier).initScheduler();
+              },
+              icon: Icon(Icons.schedule),
+            ),
+          ),
+        ],
+      ),
       body: syncOperations.when(
         data: (streamData) {
           return streamData.fold(
