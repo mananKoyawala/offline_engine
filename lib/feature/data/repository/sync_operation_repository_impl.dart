@@ -20,4 +20,39 @@ class SyncOperationRepositoryImpl implements ISyncOperationRepository {
   getSyncOperationsStream() {
     return local.getSyncOperationsStream();
   }
+
+  @override
+  Stream<int> getPendingCount() {
+    return local.getPendingCount();
+  }
+
+  @override
+  Stream<int> getProcessingCount() {
+    return local.getProcessingCount();
+  }
+
+  @override
+  Stream<int> getFailedCount() {
+    return local.getFailedCount();
+  }
+
+  @override
+  Stream<int> getSuccessCount() {
+    return local.getSuccessCount();
+  }
+
+  @override
+  Stream<int> getCreateCount() {
+    return local.getCreateCount();
+  }
+
+  @override
+  Stream<int> getUpdateCount() {
+    return local.getUpdateCount();
+  }
+
+  @override
+  Stream<int> getDeleteCount() {
+    return local.getDeleteCount();
+  }
 }

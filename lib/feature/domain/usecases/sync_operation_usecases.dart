@@ -22,3 +22,73 @@ class GetSyncOperationStreamLocalUsecase {
     return _repository.getSyncOperationsStream();
   }
 }
+
+@lazySingleton
+class GetPendingCountLocalUsecase {
+  GetPendingCountLocalUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Stream<int> call() {
+    return _repository.getPendingCount();
+  }
+}
+
+@lazySingleton
+class GetProcessingCountLocalUsecase {
+  GetProcessingCountLocalUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Stream<int> call() {
+    return _repository.getProcessingCount();
+  }
+}
+
+@lazySingleton
+class GetSuccessCountLocalUsecase {
+  GetSuccessCountLocalUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Stream<int> call() {
+    return _repository.getSuccessCount();
+  }
+}
+
+@lazySingleton
+class GetFailedCountLocalUsecase {
+  GetFailedCountLocalUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Stream<int> call() {
+    return _repository.getFailedCount();
+  }
+}
+
+@lazySingleton
+class GetCreateCountLocalUsecase {
+  GetCreateCountLocalUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Stream<int> call() {
+    return _repository.getCreateCount();
+  }
+}
+
+@lazySingleton
+class GetUpdateCountLocalUsecase {
+  GetUpdateCountLocalUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Stream<int> call() {
+    return _repository.getUpdateCount();
+  }
+}
+
+@lazySingleton
+class GetDeleteCountLocalUsecase {
+  GetDeleteCountLocalUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Stream<int> call() {
+    return _repository.getDeleteCount();
+  }
+}

@@ -4,6 +4,7 @@ import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/database/app_database.dart';
 import 'package:offline_engine/feature/data/datasources/local/sync_operations_local_data_source.dart';
 import 'package:offline_engine/feature/data/models/sync_operation_item.dart';
+import 'package:offline_engine/feature/presentation/enums/sync_operations.dart';
 
 @LazySingleton(as: SyncOperationsLocalDataSource)
 class SyncOperationsLocalDataSourceImpl
@@ -43,6 +44,118 @@ class SyncOperationsLocalDataSourceImpl
           );
     } catch (e) {
       return Stream.value(left(ApiFailure.unknown(e.toString())));
+    }
+  }
+
+  @override
+  Stream<int> getPendingCount() {
+    try {
+      return database
+          .select(database.syncOperations)
+          .watch()
+          .map(
+            (rows) => rows
+                .where((row) => row.status == SyncStatus.pending.status)
+                .length,
+          );
+    } catch (e) {
+      return Stream.value(0);
+    }
+  }
+
+  @override
+  Stream<int> getProcessingCount() {
+    try {
+      return database
+          .select(database.syncOperations)
+          .watch()
+          .map(
+            (rows) => rows
+                .where((row) => row.status == SyncStatus.processing.status)
+                .length,
+          );
+    } catch (e) {
+      return Stream.value(0);
+    }
+  }
+
+  @override
+  Stream<int> getSuccessCount() {
+    try {
+      return database
+          .select(database.syncOperations)
+          .watch()
+          .map(
+            (rows) => rows
+                .where((row) => row.status == SyncStatus.success.status)
+                .length,
+          );
+    } catch (e) {
+      return Stream.value(0);
+    }
+  }
+
+  @override
+  Stream<int> getFailedCount() {
+    try {
+      return database
+          .select(database.syncOperations)
+          .watch()
+          .map(
+            (rows) => rows
+                .where((row) => row.status == SyncStatus.failed.status)
+                .length,
+          );
+    } catch (e) {
+      return Stream.value(0);
+    }
+  }
+
+  @override
+  Stream<int> getCreateCount() {
+    try {
+      return database
+          .select(database.syncOperations)
+          .watch()
+          .map(
+            (rows) => rows
+                .where((row) => row.type == SyncOperations.create.type)
+                .length,
+          );
+    } catch (e) {
+      return Stream.value(0);
+    }
+  }
+
+  @override
+  Stream<int> getUpdateCount() {
+    try {
+      return database
+          .select(database.syncOperations)
+          .watch()
+          .map(
+            (rows) => rows
+                .where((row) => row.type == SyncOperations.update.type)
+                .length,
+          );
+    } catch (e) {
+      return Stream.value(0);
+    }
+  }
+
+  @override
+  Stream<int> getDeleteCount() {
+    try {
+      return database
+          .select(database.syncOperations)
+          .watch()
+          .map(
+            (rows) => rows
+                .where((row) => row.type == SyncOperations.delete.type)
+                .length,
+          );
+    } catch (e) {
+      return Stream.value(0);
     }
   }
 }

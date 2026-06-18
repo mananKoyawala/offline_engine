@@ -88,6 +88,37 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i427.ISyncOperationRepository>(),
       ),
     );
+    gh.lazySingleton<_i13.GetPendingCountLocalUsecase>(
+      () => _i13.GetPendingCountLocalUsecase(
+        gh<_i427.ISyncOperationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i13.GetProcessingCountLocalUsecase>(
+      () => _i13.GetProcessingCountLocalUsecase(
+        gh<_i427.ISyncOperationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i13.GetSuccessCountLocalUsecase>(
+      () => _i13.GetSuccessCountLocalUsecase(
+        gh<_i427.ISyncOperationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i13.GetFailedCountLocalUsecase>(
+      () =>
+          _i13.GetFailedCountLocalUsecase(gh<_i427.ISyncOperationRepository>()),
+    );
+    gh.lazySingleton<_i13.GetCreateCountLocalUsecase>(
+      () =>
+          _i13.GetCreateCountLocalUsecase(gh<_i427.ISyncOperationRepository>()),
+    );
+    gh.lazySingleton<_i13.GetUpdateCountLocalUsecase>(
+      () =>
+          _i13.GetUpdateCountLocalUsecase(gh<_i427.ISyncOperationRepository>()),
+    );
+    gh.lazySingleton<_i13.GetDeleteCountLocalUsecase>(
+      () =>
+          _i13.GetDeleteCountLocalUsecase(gh<_i427.ISyncOperationRepository>()),
+    );
     return this;
   }
 }
