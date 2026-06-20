@@ -17,8 +17,8 @@ class TaskRepositoryImpl implements ITaskRepository {
   TaskRepositoryImpl(this.local, this.remote);
 
   @override
-  Future<Either<ApiFailure, bool>> deleteTaskLocal(UpdateTaskParams task) {
-    return local.deleteTask(task);
+  Future<Either<ApiFailure, bool>> deleteTaskLocal(UpdateTaskParams params) {
+    return local.deleteTask(params);
   }
 
   @override
@@ -31,12 +31,32 @@ class TaskRepositoryImpl implements ITaskRepository {
   }
 
   @override
-  Future<Either<ApiFailure, bool>> insertTaskLocal(CreateTaskParams task) {
-    return local.insertTask(task);
+  Future<Either<ApiFailure, bool>> insertTaskLocal(CreateTaskParams params) {
+    return local.insertTask(params);
   }
 
   @override
-  Future<Either<ApiFailure, bool>> updateTaskLocal(UpdateTaskParams task) {
-    return local.updateTask(task);
+  Future<Either<ApiFailure, bool>> updateTaskLocal(UpdateTaskParams params) {
+    return local.updateTask(params);
+  }
+
+  @override
+  Future<Either<ApiFailure, bool>> createTaskRemote(UpdateTaskParams params) {
+    return remote.createTask(params);
+  }
+
+  @override
+  Future<Either<ApiFailure, bool>> deleteTaskRemote(String taskId) {
+    return remote.deleteTask(taskId);
+  }
+
+  @override
+  Future<Either<ApiFailure, bool>> updateTaskRemote(UpdateTaskParams params) {
+    return remote.updateTask(params);
+  }
+
+  @override
+  Future<Either<ApiFailure, List<TaskEntity>>> getTasksRemote() {
+    return remote.getTasks();
   }
 }

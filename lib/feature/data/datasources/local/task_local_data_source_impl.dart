@@ -45,13 +45,21 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
               ),
             );
 
+        final params = UpdateTaskParams(
+          id: taskId,
+          title: task.title,
+          description: task.description,
+          priority: task.priority,
+          isCompleted: false,
+        );
+
         await database
             .into(database.syncOperations)
             .insert(
               SyncOperationsCompanion(
                 taskId: Value(taskId),
                 status: Value(SyncStatus.pending.status),
-                payload: Value(jsonEncode(task.toJson())),
+                payload: Value(jsonEncode(params.toJson())),
                 type: Value(SyncOperations.create.type),
               ),
             );

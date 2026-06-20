@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:offline_engine/feature/domain/params/create_task_params.dart';
 import 'package:offline_engine/feature/domain/params/update_task_params.dart';
+import 'package:offline_engine/feature/presentation/enums/sync_operations.dart';
 import 'package:offline_engine/feature/presentation/enums/task_priority.dart';
+import 'package:offline_engine/feature/presentation/getters/sync_operation_getters.dart';
 import 'package:offline_engine/feature/presentation/getters/task_getters.dart';
 import 'package:offline_engine/feature/presentation/provider/state/task_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -103,6 +105,74 @@ class TaskNotifier extends _$TaskNotifier {
           Fluttertoast.showToast(msg: "Failed to delete task");
           state = state.copyWith(tasks: previousTasks);
         }
+      },
+    );
+  }
+
+  void syncOperations() async {
+    final stream = getSyncOperationStreamLocalUsecase();
+
+    stream.listen((data) {
+      data.fold(
+        (failure) {
+          return;
+        },
+        (response) async {
+          for (var item in response) {
+            log("${item.payload ?? {}}");
+            UpdateTaskParams params = UpdateTaskParams.fromJson(
+              item.payload ?? {},
+            );
+
+            switch (item.type) {
+              case SyncOperations.create:
+                await _createTaskRemote(params);
+              case SyncOperations.delete:
+                await _deleteTaskRemote(params.id);
+              case SyncOperations.update:
+                await _updateTaskRemote(params);
+            }
+          }
+        },
+      );
+    });
+  }
+
+  Future<bool> _createTaskRemote(UpdateTaskParams params) async {
+    final result = await createTasksRemoteUsecase(params);
+
+    return result.fold(
+      (failure) {
+        return false;
+      },
+      (isCreated) {
+        return isCreated;
+      },
+    );
+  }
+
+  Future<bool> _updateTaskRemote(UpdateTaskParams params) async {
+    final result = await updateTasksRemoteUsecase(params);
+
+    return result.fold(
+      (failure) {
+        return false;
+      },
+      (isCreated) {
+        return isCreated;
+      },
+    );
+  }
+
+  Future<bool> _deleteTaskRemote(String taskId) async {
+    final result = await deleteTasksRemoteUsecase(taskId);
+
+    return result.fold(
+      (failure) {
+        return false;
+      },
+      (isCreated) {
+        return isCreated;
       },
     );
   }

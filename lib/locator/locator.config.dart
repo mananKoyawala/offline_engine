@@ -13,6 +13,7 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:offline_engine/core/database/app_database.dart' as _i410;
 import 'package:offline_engine/core/import/app_imports.dart' as _i467;
+import 'package:offline_engine/core/network/api_clients.dart' as _i738;
 import 'package:offline_engine/feature/data/datasources/local/sync_operations_local_data_source.dart'
     as _i1066;
 import 'package:offline_engine/feature/data/datasources/local/sync_operations_local_data_source_impl.dart'
@@ -40,14 +41,18 @@ import 'package:offline_engine/feature/domain/usecases/task_usecases.dart'
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.lazySingleton<_i410.AppDatabase>(() => _i410.AppDatabase());
+    await gh.lazySingletonAsync<_i738.APIClients>(() {
+      final i = _i738.APIClients();
+      return i.init().then((_) => i);
+    }, preResolve: true);
     gh.lazySingleton<_i99.TaskRemoteDataSource>(
-      () => _i614.TaskRemoteDataSourceImpl(gh<_i467.AppDatabase>()),
+      () => _i614.TaskRemoteDataSourceImpl(gh<_i738.APIClients>()),
     );
     gh.lazySingleton<_i717.TaskLocalDataSource>(
       () => _i449.TaskLocalDataSourceImpl(gh<_i467.AppDatabase>()),
@@ -77,6 +82,18 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i25.DeleteTasksLocalUsecase>(
       () => _i25.DeleteTasksLocalUsecase(gh<_i252.ITaskRepository>()),
+    );
+    gh.lazySingleton<_i25.GetTasksRemoteUsecase>(
+      () => _i25.GetTasksRemoteUsecase(gh<_i252.ITaskRepository>()),
+    );
+    gh.lazySingleton<_i25.CreateTasksRemoteUsecase>(
+      () => _i25.CreateTasksRemoteUsecase(gh<_i252.ITaskRepository>()),
+    );
+    gh.lazySingleton<_i25.UpdateTasksRemoteUsecase>(
+      () => _i25.UpdateTasksRemoteUsecase(gh<_i252.ITaskRepository>()),
+    );
+    gh.lazySingleton<_i25.DeleteTasksRemoteUsecase>(
+      () => _i25.DeleteTasksRemoteUsecase(gh<_i252.ITaskRepository>()),
     );
     gh.lazySingleton<_i13.GetSyncOperationLocalUsecase>(
       () => _i13.GetSyncOperationLocalUsecase(

@@ -43,3 +43,43 @@ class DeleteTasksLocalUsecase {
     return _repository.deleteTaskLocal(params);
   }
 }
+
+@lazySingleton
+class GetTasksRemoteUsecase {
+  GetTasksRemoteUsecase(this._repository);
+  final ITaskRepository _repository;
+
+  Future<Either<ApiFailure, List<TaskEntity>>> call() {
+    return _repository.getTasksRemote();
+  }
+}
+
+@lazySingleton
+class CreateTasksRemoteUsecase {
+  CreateTasksRemoteUsecase(this._repository);
+  final ITaskRepository _repository;
+
+  Future<Either<ApiFailure, bool>> call(UpdateTaskParams params) {
+    return _repository.createTaskRemote(params);
+  }
+}
+
+@lazySingleton
+class UpdateTasksRemoteUsecase {
+  UpdateTasksRemoteUsecase(this._repository);
+  final ITaskRepository _repository;
+
+  Future<Either<ApiFailure, bool>> call(UpdateTaskParams params) {
+    return _repository.updateTaskRemote(params);
+  }
+}
+
+@lazySingleton
+class DeleteTasksRemoteUsecase {
+  DeleteTasksRemoteUsecase(this._repository);
+  final ITaskRepository _repository;
+
+  Future<Either<ApiFailure, bool>> call(String taskId) {
+    return _repository.deleteTaskRemote(taskId);
+  }
+}

@@ -9,10 +9,24 @@ abstract class UpdateTaskParams with _$UpdateTaskParams {
     required String id,
     required String title,
     required String description,
-    required TaskPriority priority,
+    @TaskPriorityConverter() required TaskPriority priority,
     required bool isCompleted,
   }) = _UpdateTaskParams;
 
   factory UpdateTaskParams.fromJson(Map<String, dynamic> json) =>
       _$UpdateTaskParamsFromJson(json);
+}
+
+class TaskPriorityConverter implements JsonConverter<TaskPriority, int> {
+  const TaskPriorityConverter();
+
+  @override
+  TaskPriority fromJson(int json) {
+    return TaskPriority.fromValue(json);
+  }
+
+  @override
+  int toJson(TaskPriority object) {
+    return object.value;
+  }
 }
