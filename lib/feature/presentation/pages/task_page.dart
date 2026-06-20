@@ -154,7 +154,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
             Icon(
               icon,
               size: 56,
-              color: theme.colorScheme.onSurface.withOpacity(0.3),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 16),
             Text(
@@ -168,7 +168,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
               subtitle,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
           ],

@@ -44,7 +44,7 @@ class TaskCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -79,7 +79,9 @@ class TaskCard extends StatelessWidget {
                                 ? TextDecoration.lineThrough
                                 : null,
                             color: isDone
-                                ? theme.colorScheme.onSurface.withOpacity(0.4)
+                                ? theme.colorScheme.onSurface.withValues(
+                                    alpha: 0.4,
+                                  )
                                 : theme.colorScheme.onSurface,
                           ),
                         ),
@@ -90,8 +92,8 @@ class TaskCard extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withOpacity(
-                                0.6,
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.6,
                               ),
                             ),
                           ),
@@ -103,7 +105,7 @@ class TaskCard extends StatelessWidget {
                   ),
                   Icon(
                     Icons.chevron_right,
-                    color: theme.colorScheme.onSurface.withOpacity(0.3),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
                   ),
                 ],
               ),

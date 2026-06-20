@@ -127,7 +127,7 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
                 height: 4,
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.onSurface.withOpacity(0.15),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
