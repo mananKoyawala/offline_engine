@@ -37,6 +37,8 @@ import 'package:offline_engine/feature/domain/usecases/sync_operation_usecases.d
     as _i13;
 import 'package:offline_engine/feature/domain/usecases/task_usecases.dart'
     as _i25;
+import 'package:offline_engine/service/queue_manager/queue_manager.dart'
+    as _i178;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -46,6 +48,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.lazySingleton<_i410.AppDatabase>(() => _i410.AppDatabase());
+    gh.lazySingleton<_i178.QueueManager>(() => _i178.QueueManager());
     gh.lazySingleton<_i99.TaskRemoteDataSource>(
       () => _i614.TaskRemoteDataSourceImpl(gh<_i467.AppDatabase>()),
     );
