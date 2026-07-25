@@ -3,11 +3,23 @@ import 'package:drift/drift.dart';
 @DataClassName("SyncOperation")
 class SyncOperations extends Table {
   IntColumn get id => integer().autoIncrement()();
+
   TextColumn get taskId => text()();
+
   TextColumn get type => text()(); // create, update, delete
+
   TextColumn get payload => text()();
+
   TextColumn get status => text()(); // pending, failed, success, processing
+
+  // Number of retry attempts
+  IntColumn get retryCount => integer().withDefault(const Constant(0))();
+
+  // Last failure reason
+  TextColumn get lastError => text().nullable()();
+
   DateTimeColumn get createdAt =>
       dateTime().clientDefault(() => DateTime.now())();
+
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

@@ -6,6 +6,7 @@ import 'package:offline_engine/locator/locator.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
+
   runApp(ProviderScope(child: const OfflineEngineApp()));
 }
 
