@@ -29,7 +29,7 @@ dependencies:
   fluttertoast: ^9.1.0
 
   j_client:
-    path: ../test_client
+    path: ../dio_client
 
 dev_dependencies:
   flutter_test:
