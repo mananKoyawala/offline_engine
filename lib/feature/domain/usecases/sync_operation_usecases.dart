@@ -92,3 +92,33 @@ class GetDeleteCountLocalUsecase {
     return _repository.getDeleteCount();
   }
 }
+
+@lazySingleton
+class MarkOperationSuccessUsecase {
+  MarkOperationSuccessUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Future<bool> call(int id) {
+    return _repository.markOperationSuccess(id);
+  }
+}
+
+@lazySingleton
+class MarkOperationFailedUsecase {
+  MarkOperationFailedUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Future<bool> call(int id, String lastError) {
+    return _repository.markOperationFailed(id, lastError);
+  }
+}
+
+@lazySingleton
+class GetAllPendingOperationsUsecase {
+  GetAllPendingOperationsUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Future<Either<ApiFailure, List<SyncOperationItem>>> call() {
+    return _repository.getAllPendingOperations();
+  }
+}

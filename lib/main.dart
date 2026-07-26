@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offline_engine/feature/presentation/pages/task_page.dart';
 import 'package:offline_engine/locator/locator.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupLocator();
+  await setupLocator();
 
   runApp(ProviderScope(child: const OfflineEngineApp()));
 }

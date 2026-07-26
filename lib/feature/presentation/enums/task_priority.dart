@@ -13,4 +13,13 @@ enum TaskPriority {
       orElse: () => TaskPriority.medium,
     );
   }
+
+  static int textToValue(String text) {
+    return TaskPriority.values
+        .firstWhere(
+          (e) => e.name.toLowerCase() == text.toLowerCase(),
+          orElse: () => TaskPriority.medium,
+        )
+        .value;
+  }
 }

@@ -55,4 +55,20 @@ class SyncOperationRepositoryImpl implements ISyncOperationRepository {
   Stream<int> getDeleteCount() {
     return local.getDeleteCount();
   }
+
+  @override
+  Future<Either<ApiFailure, List<SyncOperationItem>>>
+  getAllPendingOperations() {
+    return local.getAllPendingOperations();
+  }
+
+  @override
+  Future<bool> markOperationFailed(int id, String lastError) {
+    return local.markOperationFailed(id, lastError);
+  }
+
+  @override
+  Future<bool> markOperationSuccess(int id) {
+    return local.markOperationSuccess(id);
+  }
 }

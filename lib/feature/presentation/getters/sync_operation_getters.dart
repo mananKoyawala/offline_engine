@@ -27,3 +27,12 @@ GetUpdateCountLocalUsecase get getUpdateCountLocalUsecase =>
 
 GetDeleteCountLocalUsecase get getDeleteCountLocalUsecase =>
     locator<GetDeleteCountLocalUsecase>();
+
+MarkOperationFailedUsecase get markOperationFailedUsecase =>
+    locator<MarkOperationFailedUsecase>();
+
+MarkOperationSuccessUsecase get markOperationSuccessUsecase =>
+    locator<MarkOperationSuccessUsecase>();
+
+GetAllPendingOperationsUsecase get getAllPendingOperationsUsecase =>
+    locator<GetAllPendingOperationsUsecase>();

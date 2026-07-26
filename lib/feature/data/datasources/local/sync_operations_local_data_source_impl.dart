@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/database/app_database.dart';
@@ -156,6 +157,64 @@ class SyncOperationsLocalDataSourceImpl
           );
     } catch (e) {
       return Stream.value(0);
+    }
+  }
+
+  @override
+  Future<Either<ApiFailure, List<SyncOperationItem>>>
+  getAllPendingOperations() async {
+    try {
+      final result =
+          await (database.select(database.syncOperations)
+                ..where((t) => t.status.isValue(SyncStatus.pending.status))
+                ..orderBy([(t) => OrderingTerm(expression: t.createdAt)]))
+              .get();
+
+      return right(result.map(SyncOperationItem.fromDrift).toList());
+    } catch (e) {
+      return left(ApiFailure.unknown(e.toString()));
+    }
+  }
+
+  @override
+  Future<bool> markOperationFailed(int id, String lastError) async {
+    try {
+      final operation = await (database.select(
+        database.syncOperations,
+      )..where((t) => t.id.equals(id))).getSingleOrNull();
+
+      if (operation == null) return false;
+
+      final updatedRows =
+          await (database.update(
+            database.syncOperations,
+          )..where((t) => t.id.equals(id))).write(
+            SyncOperationsCompanion(
+              status: Value(SyncStatus.failed.status),
+              lastError: Value(lastError),
+              retryCount: Value(operation.retryCount + 1),
+            ),
+          );
+
+      return updatedRows > 0;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> markOperationSuccess(int id) async {
+    try {
+      final updatedRows =
+          await (database.update(
+            database.syncOperations,
+          )..where((t) => t.id.equals(id))).write(
+            SyncOperationsCompanion(status: Value(SyncStatus.failed.status)),
+          );
+
+      return updatedRows > 0;
+    } catch (e) {
+      return false;
     }
   }
 }

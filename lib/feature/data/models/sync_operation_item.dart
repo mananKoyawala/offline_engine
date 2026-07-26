@@ -11,9 +11,9 @@ abstract class SyncOperationItem with _$SyncOperationItem {
   const SyncOperationItem._();
 
   const factory SyncOperationItem({
-    int? id,
-    String? taskId,
-    Map<String, dynamic>? payload,
+    @Default(0) int id,
+    @Default('') String taskId,
+    @Default({}) Map<String, dynamic> payload,
     @Default(SyncStatus.failed) SyncStatus status,
     @Default(SyncOperations.create) SyncOperations type,
 
