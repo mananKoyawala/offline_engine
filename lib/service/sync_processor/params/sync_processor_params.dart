@@ -1,6 +1,6 @@
-import 'package:offline_engine/feature/data/models/sync_operation_item.dart';
-import 'package:offline_engine/feature/presentation/enums/sync_operations.dart';
-import 'package:offline_engine/feature/presentation/enums/task_priority.dart';
+import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
+import 'package:offline_engine/feature/tasks/presentation/enums/sync_operations.dart';
+import 'package:offline_engine/feature/tasks/presentation/enums/task_priority.dart';
 import 'package:offline_engine/service/sync_processor/enums/sync_processor_enums.dart';
 
 class SyncProcessorParams {

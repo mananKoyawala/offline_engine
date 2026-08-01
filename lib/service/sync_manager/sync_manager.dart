@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:injectable/injectable.dart';
-import 'package:offline_engine/feature/presentation/getters/sync_operation_getters.dart';
+import 'package:offline_engine/feature/tasks/presentation/getters/sync_operation_getters.dart';
 import 'package:offline_engine/service/operation_resolver/sync_operation_response_resolver.dart';
 import 'package:offline_engine/service/queue_manager/queue_manager.dart';
 import 'package:offline_engine/service/sync_processor/getters/sync_manager_getters.dart';
@@ -13,27 +13,25 @@ class SyncManager {
 
   SyncManager(this._queueManager);
 
-  bool _isSyncing = false;
+  static bool _isSyncing = false;
 
-  @postConstruct
   void initialize() async {
     final result = await getAllPendingOperationsUsecase();
-    result.fold(
+    await result.fold(
       (failure) {
         log('failed to fetch pending operations');
       },
       (operations) {
         _queueManager.enqueueAll(operations);
-
-        // TODO : Make it automatically
-        startSync();
       },
     );
   } // Load all pending operations
 
   void startSync() async {
     if (_isSyncing) return;
-
+    log('# ========================');
+    log('# Start of Syncing Operations');
+    log('# ========================');
     _isSyncing = true;
 
     try {
@@ -68,6 +66,10 @@ class SyncManager {
     } finally {
       _isSyncing = false;
     }
+
+    log('# ========================');
+    log('# End of Syncing Operations');
+    log('# ========================');
   }
 
   void stopSync() {}

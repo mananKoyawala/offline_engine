@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offline_engine/feature/presentation/pages/task_page.dart';
+import 'package:offline_engine/core/app_container.dart';
+import 'package:offline_engine/feature/login/presentation/pages/login_page.dart';
 import 'package:offline_engine/locator/locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();
-
-  runApp(ProviderScope(child: const OfflineEngineApp()));
+  final container = ProviderContainer();
+  appContainer = container;
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
+      child: const OfflineEngineApp(),
+    ),
+  );
 }
 
 class OfflineEngineApp extends StatelessWidget {
@@ -18,7 +25,7 @@ class OfflineEngineApp extends StatelessWidget {
     return MaterialApp(
       title: 'Offline Engine',
       debugShowCheckedModeBanner: true,
-      home: TaskPage(),
+      home: LoginPage(),
     );
   }
 }
