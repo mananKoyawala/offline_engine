@@ -98,8 +98,8 @@ class MarkOperationSuccessUsecase {
   MarkOperationSuccessUsecase(this._repository);
   final ISyncOperationRepository _repository;
 
-  Future<bool> call(int id) {
-    return _repository.markOperationSuccess(id);
+  Future<bool> call(int id, int updatedVersion) {
+    return _repository.markOperationSuccess(id, updatedVersion);
   }
 }
 

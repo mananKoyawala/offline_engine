@@ -42,6 +42,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
                 title: Value(task.title),
                 description: Value(task.description),
                 priority: Value(task.priority.value),
+                version: const Value(0),
               ),
             );
 
@@ -51,7 +52,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
               SyncOperationsCompanion(
                 taskId: Value(taskId),
                 status: Value(SyncStatus.pending.status),
-                payload: Value(jsonEncode(task.toJson())),
+                payload: Value(jsonEncode({...task.toJson(), 'version': 0})),
                 type: Value(SyncOperations.create.type),
               ),
             );
@@ -68,16 +69,19 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   Future<Either<ApiFailure, bool>> updateTask(UpdateTaskParams task) async {
     try {
       await database.transaction(() async {
-        await (database.update(
-          database.tasks,
-        )..where((t) => t.id.equals(task.id))).write(
-          TasksCompanion(
-            title: Value(task.title),
-            description: Value(task.description),
-            priority: Value(task.priority.value),
-            isCompleted: Value(task.isCompleted),
-          ),
-        );
+        final updatedTask =
+            await (database.update(
+              database.tasks,
+            )..where((t) => t.id.equals(task.id))).writeReturning(
+              TasksCompanion(
+                title: Value(task.title),
+                description: Value(task.description),
+                priority: Value(task.priority.value),
+                isCompleted: Value(task.isCompleted),
+              ),
+            );
+
+        final updated = updatedTask.single;
 
         await database
             .into(database.syncOperations)
@@ -85,7 +89,9 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
               SyncOperationsCompanion(
                 taskId: Value(task.id),
                 status: Value(SyncStatus.pending.status),
-                payload: Value(jsonEncode(task.toJson())),
+                payload: Value(
+                  jsonEncode({...task.toJson(), 'version': updated.version}),
+                ),
                 type: Value(SyncOperations.update.type),
               ),
             );
@@ -101,16 +107,23 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   Future<Either<ApiFailure, bool>> deleteTask(UpdateTaskParams task) async {
     try {
       await database.transaction(() async {
-        await (database.update(database.tasks)
-              ..where((t) => t.id.equals(task.id)))
-            .write(TasksCompanion(deletedAt: Value(DateTime.now())));
+        final deletedTask =
+            await (database.update(
+              database.tasks,
+            )..where((t) => t.id.equals(task.id))).writeReturning(
+              TasksCompanion(deletedAt: Value(DateTime.now())),
+            );
+
+        final deleted = deletedTask.single;
 
         await database
             .into(database.syncOperations)
             .insert(
               SyncOperationsCompanion(
                 taskId: Value(task.id),
-                payload: Value(jsonEncode(task.toJson())),
+                payload: Value(
+                  jsonEncode({...task.toJson(), 'version': deleted.version}),
+                ),
                 status: Value(SyncStatus.pending.status),
                 type: Value(SyncOperations.delete.type),
               ),

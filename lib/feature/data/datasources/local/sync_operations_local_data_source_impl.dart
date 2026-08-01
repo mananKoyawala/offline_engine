@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
@@ -166,7 +169,7 @@ class SyncOperationsLocalDataSourceImpl
     try {
       final result =
           await (database.select(database.syncOperations)
-                ..where((t) => t.status.isValue(SyncStatus.pending.status))
+                ..where((t) => t.status.isNotValue(SyncStatus.success.status))
                 ..orderBy([(t) => OrderingTerm(expression: t.createdAt)]))
               .get();
 
@@ -203,16 +206,36 @@ class SyncOperationsLocalDataSourceImpl
   }
 
   @override
-  Future<bool> markOperationSuccess(int id) async {
+  Future<bool> markOperationSuccess(int id, int updatedVersion) async {
     try {
-      final updatedRows =
-          await (database.update(
-            database.syncOperations,
-          )..where((t) => t.id.equals(id))).write(
-            SyncOperationsCompanion(status: Value(SyncStatus.failed.status)),
-          );
+      final operation = await (database.select(
+        database.syncOperations,
+      )..where((t) => t.id.equals(id))).getSingleOrNull();
 
-      return updatedRows > 0;
+      if (operation == null) return false;
+
+      final payload = Map<String, dynamic>.from(
+        jsonDecode(operation.payload) as Map<String, dynamic>,
+      )..['version'] = updatedVersion;
+
+      await database.transaction(() async {
+        await (database.update(
+          database.syncOperations,
+        )..where((t) => t.id.equals(id))).write(
+          SyncOperationsCompanion(
+            status: Value(SyncStatus.success.status),
+            payload: Value(jsonEncode(payload)),
+          ),
+        );
+
+        log('Updated payload ${jsonEncode(payload)}');
+
+        await (database.update(database.tasks)
+              ..where((t) => t.id.equals(operation.taskId)))
+            .write(TasksCompanion(version: Value(updatedVersion)));
+      });
+
+      return true;
     } catch (e) {
       return false;
     }

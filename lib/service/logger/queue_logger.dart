@@ -14,7 +14,7 @@ class QueueLogger {
 Action     : ${action.name}
 Queue Size : $length
 Operations :
-${operations == null || operations.isEmpty ? 'None' : operations.map((e) => '  • ${e.type} | ${e.taskId}').join('\n')}
+${operations == null || operations.isEmpty ? 'None' : operations.map((e) => '  • ${e.id} | ${e.type} | ${e.taskId} | ${e.payload}').join('\n')}
 =======================================
 ''');
   }

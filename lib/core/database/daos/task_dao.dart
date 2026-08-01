@@ -11,6 +11,7 @@ class Tasks extends Table {
         const CustomExpression<bool>('priority BETWEEN -1 AND 1'),
       )(); // -1 -> low, 0 -> medium, 1 -> high
   BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
+  IntColumn get version => integer().withDefault(const Constant(0))();
   DateTimeColumn get createdAt =>
       dateTime().clientDefault(() => DateTime.now())();
   DateTimeColumn get updatedAt => dateTime().nullable()();

@@ -68,7 +68,7 @@ class SyncOperationRepositoryImpl implements ISyncOperationRepository {
   }
 
   @override
-  Future<bool> markOperationSuccess(int id) {
-    return local.markOperationSuccess(id);
+  Future<bool> markOperationSuccess(int id, int updatedVersion) {
+    return local.markOperationSuccess(id, updatedVersion);
   }
 }

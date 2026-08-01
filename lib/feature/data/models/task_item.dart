@@ -14,6 +14,7 @@ abstract class TaskItem with _$TaskItem {
     String? description,
     int? priority,
     @Default(false) bool isCompleted,
+    @Default(0) int version,
     DateTime? createdAt,
   }) = _TaskItem;
 
@@ -27,6 +28,7 @@ abstract class TaskItem with _$TaskItem {
       description: task.description,
       priority: task.priority,
       isCompleted: task.isCompleted,
+      version: task.version,
       createdAt: task.createdAt,
     );
   }

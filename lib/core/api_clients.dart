@@ -29,8 +29,16 @@ class APIClients {
       baseUrl: baseUrl,
       getHeaders: () => AppHeaders.commonHeaders,
       getToken: () =>
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzNTA2N2I5LTFjZDMtNGM1Ny1iNThkLTBmNDY4OGExY2Q4OCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzg1MDYxMTI5LCJleHAiOjE3ODUwNjI1Mjl9.1V0APP6MuX_F3rTnQsqrbf8oyirWAoD87iOea14CnVk',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIzNTA2N2I5LTFjZDMtNGM1Ny1iNThkLTBmNDY4OGExY2Q4OCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzg1NTgxNzcwLCJleHAiOjE3ODU1ODMxNzB9.5v9dcSKwJxde9o3XlKfCF7rSu72qqq3eMj36gbL-HCQ',
       onSessionExpired: onSessionExpired ?? () {},
     );
   }
 }
+
+// TODO : 
+/* 
+1. Update client version in task and sync operation (done)
+2. Static login and refresh token generator
+3. Conflict resolver
+4. Queue operation merger
+*/

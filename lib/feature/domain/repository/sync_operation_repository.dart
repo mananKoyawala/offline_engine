@@ -12,6 +12,6 @@ abstract class ISyncOperationRepository {
   Stream<int> getCreateCount();
   Stream<int> getUpdateCount();
   Stream<int> getDeleteCount();
-  Future<bool> markOperationSuccess(int id);
+  Future<bool> markOperationSuccess(int id, int updatedVersion);
   Future<bool> markOperationFailed(int id, String lastError);
 }
