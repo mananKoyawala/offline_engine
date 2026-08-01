@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offline_engine/core/global_getters.dart';
 import 'package:offline_engine/feature/tasks/domain/enitites/task_entity.dart';
 import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
 import 'package:offline_engine/feature/tasks/presentation/pages/sync_operations_page.dart';
@@ -18,8 +17,8 @@ class TaskPage extends ConsumerStatefulWidget {
 
 class _TaskPageState extends ConsumerState<TaskPage> {
   void _openCreateForm() {
-    syncManagerInstance.startSync();
-    return;
+    // syncManagerInstance.startSync();
+    // return;
     showTaskFormSheet(
       context,
       onSubmit: (result) {
