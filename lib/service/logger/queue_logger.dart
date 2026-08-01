@@ -19,5 +19,3 @@ ${operations == null || operations.isEmpty ? 'None' : operations.map((e) => '  â
 ''');
   }
 }
-
-// TODO : Just Queue is setting as of now. We have to proceed futher for api call, mark success, conflict resolve and failed

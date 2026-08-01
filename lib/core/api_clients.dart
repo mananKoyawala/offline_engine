@@ -38,7 +38,7 @@ class APIClients {
 // TODO :
 /* 
 1. Update client version in task and sync operation (done)
-2. Static login and refresh token generator
+2. Static login and refresh token generator (done)
 3. Conflict resolver
 4. Queue operation merger
 */
