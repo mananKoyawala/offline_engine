@@ -21,8 +21,8 @@ Stream<int> failedCount(Ref ref) {
 }
 
 @riverpod
-Stream<int> processingCount(Ref ref) {
-  return getProcessingCountLocalUsecase();
+Stream<int> mergedCount(Ref ref) {
+  return getMergedCountLocalUsecase();
 }
 
 @riverpod

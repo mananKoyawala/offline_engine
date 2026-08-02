@@ -10,8 +10,11 @@ GetSyncOperationStreamLocalUsecase get getSyncOperationStreamLocalUsecase =>
 GetPendingCountLocalUsecase get getPendingCountLocalUsecase =>
     locator<GetPendingCountLocalUsecase>();
 
-GetProcessingCountLocalUsecase get getProcessingCountLocalUsecase =>
-    locator<GetProcessingCountLocalUsecase>();
+GetMergedCountLocalUsecase get getMergedCountLocalUsecase =>
+    locator<GetMergedCountLocalUsecase>();
+
+GetAutoResolvedCountLocalUsecase get getAutoResolvedCountLocalUsecase =>
+    locator<GetAutoResolvedCountLocalUsecase>();
 
 GetSuccessCountLocalUsecase get getSuccessCountLocalUsecase =>
     locator<GetSuccessCountLocalUsecase>();
@@ -33,6 +36,12 @@ MarkOperationFailedUsecase get markOperationFailedUsecase =>
 
 MarkOperationSuccessUsecase get markOperationSuccessUsecase =>
     locator<MarkOperationSuccessUsecase>();
+
+MarkOperationMergedUsecase get markOperationMergedUsecase =>
+    locator<MarkOperationMergedUsecase>();
+
+MarkOperationAutoResolvedUsecase get markOperationAutoResolvedUsecase =>
+    locator<MarkOperationAutoResolvedUsecase>();
 
 GetAllPendingOperationsUsecase get getAllPendingOperationsUsecase =>
     locator<GetAllPendingOperationsUsecase>();

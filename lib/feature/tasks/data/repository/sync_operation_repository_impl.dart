@@ -27,8 +27,13 @@ class SyncOperationRepositoryImpl implements ISyncOperationRepository {
   }
 
   @override
-  Stream<int> getProcessingCount() {
-    return local.getProcessingCount();
+  Stream<int> getMergedCount() {
+    return local.getMergedCount();
+  }
+
+  @override
+  Stream<int> getAutoResolvedCount() {
+    return local.getMergedCount();
   }
 
   @override
@@ -70,5 +75,15 @@ class SyncOperationRepositoryImpl implements ISyncOperationRepository {
   @override
   Future<bool> markOperationSuccess(int id, int updatedVersion) {
     return local.markOperationSuccess(id, updatedVersion);
+  }
+
+  @override
+  Future<bool> markOperationAutoResolved(String taskId) {
+    return local.markOperationAutoResolved(taskId);
+  }
+
+  @override
+  Future<bool> markOperationMerged(int id) {
+    return local.markOperationMerged(id);
   }
 }

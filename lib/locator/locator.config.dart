@@ -134,8 +134,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1037.ISyncOperationRepository>(),
       ),
     );
-    gh.lazySingleton<_i1046.GetProcessingCountLocalUsecase>(
-      () => _i1046.GetProcessingCountLocalUsecase(
+    gh.lazySingleton<_i1046.GetMergedCountLocalUsecase>(
+      () => _i1046.GetMergedCountLocalUsecase(
+        gh<_i1037.ISyncOperationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i1046.GetAutoResolvedCountLocalUsecase>(
+      () => _i1046.GetAutoResolvedCountLocalUsecase(
         gh<_i1037.ISyncOperationRepository>(),
       ),
     );
@@ -176,6 +181,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1046.GetAllPendingOperationsUsecase>(
       () => _i1046.GetAllPendingOperationsUsecase(
+        gh<_i1037.ISyncOperationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i1046.MarkOperationMergedUsecase>(
+      () => _i1046.MarkOperationMergedUsecase(
+        gh<_i1037.ISyncOperationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i1046.MarkOperationAutoResolvedUsecase>(
+      () => _i1046.MarkOperationAutoResolvedUsecase(
         gh<_i1037.ISyncOperationRepository>(),
       ),
     );

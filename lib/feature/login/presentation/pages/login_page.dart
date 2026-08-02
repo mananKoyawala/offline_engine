@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offline_engine/core/global_getters.dart';
 import 'package:offline_engine/feature/login/presentation/provider/login_provider.dart';
+import 'package:offline_engine/feature/login/presentation/provider/state/login_state.dart';
 import 'package:offline_engine/feature/tasks/presentation/pages/task_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -91,7 +92,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 
-  Widget _buildLoginButton(state) {
+  Widget _buildLoginButton(LoginState state) {
     return SizedBox(
       width: double.infinity,
       height: 56,
@@ -123,7 +124,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 
-  Widget _buildErrorSection(state) {
+  Widget _buildErrorSection(LoginState state) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -151,7 +152,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           Text(
             state.canRetry
                 ? 'You can retry now'
-                : 'Please wait ${state.retryCountdown} s before retrying',
+                : 'Please wait ${state.retryCountDown} s before retrying',
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.white70, fontSize: 13),
           ),

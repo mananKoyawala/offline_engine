@@ -34,12 +34,22 @@ class GetPendingCountLocalUsecase {
 }
 
 @lazySingleton
-class GetProcessingCountLocalUsecase {
-  GetProcessingCountLocalUsecase(this._repository);
+class GetMergedCountLocalUsecase {
+  GetMergedCountLocalUsecase(this._repository);
   final ISyncOperationRepository _repository;
 
   Stream<int> call() {
-    return _repository.getProcessingCount();
+    return _repository.getMergedCount();
+  }
+}
+
+@lazySingleton
+class GetAutoResolvedCountLocalUsecase {
+  GetAutoResolvedCountLocalUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Stream<int> call() {
+    return _repository.getAutoResolvedCount();
   }
 }
 
@@ -120,5 +130,25 @@ class GetAllPendingOperationsUsecase {
 
   Future<Either<ApiFailure, List<SyncOperationItem>>> call() {
     return _repository.getAllPendingOperations();
+  }
+}
+
+@lazySingleton
+class MarkOperationMergedUsecase {
+  MarkOperationMergedUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Future<bool> call(int id) {
+    return _repository.markOperationMerged(id);
+  }
+}
+
+@lazySingleton
+class MarkOperationAutoResolvedUsecase {
+  MarkOperationAutoResolvedUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Future<bool> call(String taskId) {
+    return _repository.markOperationAutoResolved(taskId);
   }
 }

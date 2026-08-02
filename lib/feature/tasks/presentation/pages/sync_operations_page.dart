@@ -11,7 +11,7 @@ class SyncOperationsPage extends ConsumerWidget {
     final syncOperations = ref.watch(syncOperationsProvider);
     final pendingcount = ref.watch(pendingCountProvider);
     final failedCount = ref.watch(failedCountProvider);
-    final processingCount = ref.watch(processingCountProvider);
+    final mergedCount = ref.watch(mergedCountProvider);
     final successCount = ref.watch(successCountProvider);
     final createCount = ref.watch(createCountProvider);
     final deleteCount = ref.watch(deleteCountProvider);
@@ -61,9 +61,7 @@ class SyncOperationsPage extends ConsumerWidget {
 
                         Column(
                           children: [
-                            Text(
-                              'Processing count : ${processingCount.value ?? 0}',
-                            ),
+                            Text('Merged count : ${mergedCount.value ?? 0}'),
                             Text('Success count : ${successCount.value ?? 0}'),
                           ],
                         ),

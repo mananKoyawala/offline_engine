@@ -19,7 +19,8 @@ enum SyncStatus {
   pending("pending"),
   failed("failed"),
   success("success"),
-  processing("processing");
+  merged("merged"),
+  autoResolved("autoResolved");
 
   final String status;
 

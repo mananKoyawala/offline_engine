@@ -68,14 +68,30 @@ class SyncOperationsLocalDataSourceImpl
   }
 
   @override
-  Stream<int> getProcessingCount() {
+  Stream<int> getMergedCount() {
     try {
       return database
           .select(database.syncOperations)
           .watch()
           .map(
             (rows) => rows
-                .where((row) => row.status == SyncStatus.processing.status)
+                .where((row) => row.status == SyncStatus.merged.status)
+                .length,
+          );
+    } catch (e) {
+      return Stream.value(0);
+    }
+  }
+
+  @override
+  Stream<int> getAutoResolvedCount() {
+    try {
+      return database
+          .select(database.syncOperations)
+          .watch()
+          .map(
+            (rows) => rows
+                .where((row) => row.status == SyncStatus.autoResolved.status)
                 .length,
           );
     } catch (e) {
@@ -169,7 +185,11 @@ class SyncOperationsLocalDataSourceImpl
     try {
       final result =
           await (database.select(database.syncOperations)
-                ..where((t) => t.status.isNotValue(SyncStatus.success.status))
+                ..where(
+                  (t) =>
+                      t.status.isValue(SyncStatus.pending.status) |
+                      t.status.isValue(SyncStatus.failed.status),
+                )
                 ..orderBy([(t) => OrderingTerm(expression: t.createdAt)]))
               .get();
 
@@ -206,6 +226,46 @@ class SyncOperationsLocalDataSourceImpl
   }
 
   @override
+  Future<bool> markOperationMerged(int id) async {
+    try {
+      final operation = await (database.select(
+        database.syncOperations,
+      )..where((t) => t.id.equals(id))).getSingleOrNull();
+
+      if (operation == null) return false;
+
+      final updatedRows =
+          await (database.update(
+            database.syncOperations,
+          )..where((t) => t.id.equals(id))).write(
+            SyncOperationsCompanion(status: Value(SyncStatus.merged.status)),
+          );
+
+      return updatedRows > 0;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> markOperationAutoResolved(String taskId) async {
+    try {
+      final updatedRows =
+          await (database.update(
+            database.syncOperations,
+          )..where((t) => t.taskId.equals(taskId))).write(
+            SyncOperationsCompanion(
+              status: Value(SyncStatus.autoResolved.status),
+            ),
+          );
+
+      return updatedRows > 0;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
   Future<bool> markOperationSuccess(int id, int updatedVersion) async {
     try {
       final operation = await (database.select(
@@ -219,6 +279,7 @@ class SyncOperationsLocalDataSourceImpl
       )..['version'] = updatedVersion;
 
       await database.transaction(() async {
+        // Mark operation successful
         await (database.update(
           database.syncOperations,
         )..where((t) => t.id.equals(id))).write(
@@ -228,8 +289,20 @@ class SyncOperationsLocalDataSourceImpl
           ),
         );
 
+        // Mark operation merged
+        await (database.update(database.syncOperations)..where(
+              (t) => t.id.isNotValue(id) & t.taskId.equals(operation.taskId),
+            ))
+            .write(
+              SyncOperationsCompanion(
+                status: Value(SyncStatus.merged.status),
+                payload: Value(jsonEncode(payload)),
+              ),
+            );
+
         log('Updated payload ${jsonEncode(payload)}');
 
+        // Update version for all the items related taskId
         await (database.update(database.tasks)
               ..where((t) => t.id.equals(operation.taskId)))
             .write(TasksCompanion(version: Value(updatedVersion)));

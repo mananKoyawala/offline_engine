@@ -6,7 +6,8 @@ abstract class SyncOperationsLocalDataSource {
   Future<Either<ApiFailure, List<SyncOperationItem>>> getAllPendingOperations();
   Stream<Either<ApiFailure, List<SyncOperationItem>>> getSyncOperationsStream();
   Stream<int> getPendingCount();
-  Stream<int> getProcessingCount();
+  Stream<int> getMergedCount();
+  Stream<int> getAutoResolvedCount();
   Stream<int> getFailedCount();
   Stream<int> getSuccessCount();
   Stream<int> getCreateCount();
@@ -14,4 +15,6 @@ abstract class SyncOperationsLocalDataSource {
   Stream<int> getDeleteCount();
   Future<bool> markOperationSuccess(int id, int updatedVersion);
   Future<bool> markOperationFailed(int id, String lastError);
+  Future<bool> markOperationAutoResolved(String id);
+  Future<bool> markOperationMerged(int id);
 }
