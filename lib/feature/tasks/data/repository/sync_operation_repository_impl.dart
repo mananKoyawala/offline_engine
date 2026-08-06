@@ -2,7 +2,9 @@ import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
 import 'package:offline_engine/feature/tasks/data/datasources/local/sync_operations_local_data_source.dart';
 import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
+import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
 import 'package:offline_engine/feature/tasks/domain/repository/sync_operation_repository.dart';
+import 'package:offline_engine/service/conflict_resolver/conflict_resolver_params.dart';
 
 @LazySingleton(as: ISyncOperationRepository)
 class SyncOperationRepositoryImpl implements ISyncOperationRepository {
@@ -85,5 +87,32 @@ class SyncOperationRepositoryImpl implements ISyncOperationRepository {
   @override
   Future<bool> markOperationMerged(int id) {
     return local.markOperationMerged(id);
+  }
+
+  @override
+  Future<bool> solveVersionMismatchConflict(
+    int id,
+    ConflictResolverParams params,
+    int updatedVersion,
+  ) {
+    return local.solveVersionMismatchConflict(id, params, updatedVersion);
+  }
+
+  @override
+  Future<bool> solveAlreadyDeletedConflict(
+    int id,
+    ConflictResolverParams params,
+    int updatedVersion,
+  ) {
+    return local.solveAlreadyDeletedConflict(id, params, updatedVersion);
+  }
+
+  @override
+  Future<bool> solveDeletedConflict(
+    int id,
+    ConflictResolverParams params,
+    int updatedVersion,
+  ) {
+    return local.solveDeletedConflict(id, params, updatedVersion);
   }
 }

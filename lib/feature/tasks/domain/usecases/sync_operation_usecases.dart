@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/import/app_imports.dart';
 import 'package:offline_engine/feature/tasks/domain/repository/sync_operation_repository.dart';
+import 'package:offline_engine/service/conflict_resolver/conflict_resolver_params.dart';
 
 @lazySingleton
 class GetSyncOperationLocalUsecase {
@@ -150,5 +151,35 @@ class MarkOperationAutoResolvedUsecase {
 
   Future<bool> call(String taskId) {
     return _repository.markOperationAutoResolved(taskId);
+  }
+}
+
+@lazySingleton
+class SolveVersionMismatchConflictUsecase {
+  SolveVersionMismatchConflictUsecase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Future<bool> call(int id, ConflictResolverParams params, int updatedVersion) {
+    return _repository.solveVersionMismatchConflict(id, params, updatedVersion);
+  }
+}
+
+@lazySingleton
+class SolveAlreadyDeletedConflictUseCase {
+  SolveAlreadyDeletedConflictUseCase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Future<bool> call(int id, ConflictResolverParams params, int updatedVersion) {
+    return _repository.solveAlreadyDeletedConflict(id, params, updatedVersion);
+  }
+}
+
+@lazySingleton
+class SolveDeletedConflictUseCase {
+  SolveDeletedConflictUseCase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Future<bool> call(int id, ConflictResolverParams params, int updatedVersion) {
+    return _repository.solveDeletedConflict(id, params, updatedVersion);
   }
 }

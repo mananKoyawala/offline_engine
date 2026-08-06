@@ -8,7 +8,9 @@ import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/database/app_database.dart';
 import 'package:offline_engine/feature/tasks/data/datasources/local/sync_operations_local_data_source.dart';
 import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
+import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
 import 'package:offline_engine/feature/tasks/presentation/enums/sync_operations.dart';
+import 'package:offline_engine/service/conflict_resolver/conflict_resolver_params.dart';
 
 @LazySingleton(as: SyncOperationsLocalDataSource)
 class SyncOperationsLocalDataSourceImpl
@@ -306,6 +308,184 @@ class SyncOperationsLocalDataSourceImpl
         await (database.update(database.tasks)
               ..where((t) => t.id.equals(operation.taskId)))
             .write(TasksCompanion(version: Value(updatedVersion)));
+      });
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> solveVersionMismatchConflict(
+    int id,
+    ConflictResolverParams params,
+    int updatedVersion,
+  ) async {
+    try {
+      final operation = await (database.select(
+        database.syncOperations,
+      )..where((t) => t.id.equals(id))).getSingleOrNull();
+
+      if (operation == null) return false;
+
+      final payload = {...params.toJson(), 'version': updatedVersion};
+
+      await database.transaction(() async {
+        // Mark operation successful
+        await (database.update(
+          database.syncOperations,
+        )..where((t) => t.id.equals(id))).write(
+          SyncOperationsCompanion(
+            status: Value(SyncStatus.conflictSolved.status),
+            payload: Value(jsonEncode(payload)),
+          ),
+        );
+
+        // Mark operation merged
+        await (database.update(database.syncOperations)..where(
+              (t) => t.id.isNotValue(id) & t.taskId.equals(operation.taskId),
+            ))
+            .write(
+              SyncOperationsCompanion(
+                status: Value(SyncStatus.merged.status),
+                payload: Value(jsonEncode(payload)),
+              ),
+            );
+
+        // Update version for all the items related taskId
+        await (database.update(
+          database.tasks,
+        )..where((t) => t.id.equals(operation.taskId))).write(
+          TasksCompanion(
+            title: Value(params.title),
+            priority: Value(params.priority.value),
+            isCompleted: Value(params.isCompleted),
+            description: Value(params.description),
+            version: Value(updatedVersion),
+          ),
+        );
+      });
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> solveAlreadyDeletedConflict(
+    int id,
+    ConflictResolverParams params,
+    int updatedVersion,
+  ) async {
+    try {
+      final operation = await (database.select(
+        database.syncOperations,
+      )..where((t) => t.id.equals(id))).getSingleOrNull();
+
+      if (operation == null) return false;
+
+      final payload = {...params.toJson(), 'version': updatedVersion};
+
+      await database.transaction(() async {
+        // Mark operation successful
+        await (database.update(
+          database.syncOperations,
+        )..where((t) => t.id.equals(id))).write(
+          SyncOperationsCompanion(
+            status: Value(SyncStatus.alreadyDeletedSolved.status),
+            payload: Value(jsonEncode(payload)),
+          ),
+        );
+
+        // Mark operation merged
+        await (database.update(database.syncOperations)..where(
+              (t) => t.id.isNotValue(id) & t.taskId.equals(operation.taskId),
+            ))
+            .write(
+              SyncOperationsCompanion(
+                status: Value(SyncStatus.merged.status),
+                payload: Value(jsonEncode(payload)),
+              ),
+            );
+
+        // Update version for all the items related taskId
+        await (database.update(
+          database.tasks,
+        )..where((t) => t.id.equals(operation.taskId))).write(
+          TasksCompanion(
+            title: Value(params.title),
+            priority: Value(params.priority.value),
+            isCompleted: Value(params.isCompleted),
+            description: Value(params.description),
+            updatedAt: Value(DateTime.parse(params.updatedAt)),
+            deletedAt: Value(DateTime.parse(params.deletedAt)),
+            version: Value(updatedVersion),
+          ),
+        );
+      });
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> solveDeletedConflict(
+    int id,
+    ConflictResolverParams params,
+    int updatedVersion,
+  ) async {
+    try {
+      final operation = await (database.select(
+        database.syncOperations,
+      )..where((t) => t.id.equals(id))).getSingleOrNull();
+
+      if (operation == null) return false;
+
+      final payload = {...params.toJson(), 'version': updatedVersion};
+
+      await database.transaction(() async {
+        // Mark operation successful
+        await (database.update(
+          database.syncOperations,
+        )..where((t) => t.id.equals(id))).write(
+          SyncOperationsCompanion(
+            status: Value(SyncStatus.deletedSolved.status),
+            payload: Value(jsonEncode(payload)),
+          ),
+        );
+
+        // Mark operation merged
+        await (database.update(database.syncOperations)..where(
+              (t) =>
+                  t.id.isNotValue(id) &
+                  t.taskId.equals(operation.taskId) &
+                  t.status.equals(SyncStatus.pending.status),
+            ))
+            .write(
+              SyncOperationsCompanion(
+                status: Value(SyncStatus.merged.status),
+                payload: Value(jsonEncode(payload)),
+              ),
+            );
+
+        // Update version for all the items related taskId
+        await (database.update(
+          database.tasks,
+        )..where((t) => t.id.equals(operation.taskId))).write(
+          TasksCompanion(
+            title: Value(params.title),
+            priority: Value(params.priority.value),
+            isCompleted: Value(params.isCompleted),
+            description: Value(params.description),
+            updatedAt: Value(DateTime.parse(params.updatedAt)),
+            deletedAt: Value(DateTime.parse(params.deletedAt)),
+            version: Value(updatedVersion),
+          ),
+        );
       });
 
       return true;

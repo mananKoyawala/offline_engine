@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:injectable/injectable.dart';
-import 'package:j_client/j_client.dart';
 import 'package:offline_engine/feature/tasks/presentation/getters/sync_operation_getters.dart';
 import 'package:offline_engine/service/operation_resolver/sync_operation_response_resolver.dart';
 import 'package:offline_engine/service/queue_manager/queue_manager.dart';
@@ -50,22 +49,15 @@ class SyncManager {
         await result.fold(
           (failure) async {
             log("Failure : ${failure.message}");
-            await SyncOperationResponseResolver.resolveFailureAll(
+            await SyncOperationResponseResolver.resolveFailure(
               operations,
               failure,
             );
           },
           (response) async {
             log("Success : ${response.success}");
-            if (response.success) {
-              _queueManager.dequeue();
-              await SyncOperationResponseResolver.resolveResponseAll(response);
-            } else {
-              await SyncOperationResponseResolver.resolveFailureAll(
-                operations,
-                ApiFailure.serverError(message: response.status.toString()),
-              );
-            }
+
+            await SyncOperationResponseResolver.resolveResponse(response);
           },
         );
       }
@@ -82,57 +74,6 @@ class SyncManager {
 
     log('# ========================');
     log('# End of Syncing All Operations');
-    log('# ========================');
-  }
-
-  void startSync() async {
-    if (_isSyncing) return;
-    log('# ========================');
-    log('# Start of Syncing Operations');
-    log('# ========================');
-    _isSyncing = true;
-
-    try {
-      // peek operation from queue
-      final operation = _queueManager.peek();
-
-      if (operation != null) {
-        // send to backend
-
-        final result = await syncOperationUsecase([
-          SyncProcessorParams.fromOperation(operation),
-        ]);
-        await result.fold(
-          (failure) async {
-            log("Failure : ${failure.message}");
-            await SyncOperationResponseResolver.resolveFailure(
-              operation.id,
-              failure,
-            );
-          },
-          (response) async {
-            log("Success : ${response.success}");
-            if (response.success) {
-              _queueManager.dequeue();
-              await SyncOperationResponseResolver.resolveResponse(
-                operation.id,
-                response,
-              );
-            } else {
-              await SyncOperationResponseResolver.resolveFailure(
-                operation.id,
-                ApiFailure.serverError(message: response.status.toString()),
-              );
-            }
-          },
-        );
-      }
-    } finally {
-      _isSyncing = false;
-    }
-
-    log('# ========================');
-    log('# End of Syncing Operations');
     log('# ========================');
   }
 

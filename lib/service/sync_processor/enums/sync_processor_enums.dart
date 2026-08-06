@@ -24,8 +24,17 @@ enum SyncOperationStatus {
 
 enum SyncConflictType {
   @JsonValue('duplicate_create')
-  duplicateCreate,
+  duplicate_create,
 
   @JsonValue('deleted')
   deleted,
+
+  @JsonValue('version_mismatch')
+  version_mismatch,
+
+  @JsonValue('already_deleted')
+  already_deleted,
+
+  @JsonValue('null')
+  none,
 }

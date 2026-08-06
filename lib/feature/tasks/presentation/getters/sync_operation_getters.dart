@@ -45,3 +45,12 @@ MarkOperationAutoResolvedUsecase get markOperationAutoResolvedUsecase =>
 
 GetAllPendingOperationsUsecase get getAllPendingOperationsUsecase =>
     locator<GetAllPendingOperationsUsecase>();
+
+SolveVersionMismatchConflictUsecase get solveVersionMismatchConflictUsecase =>
+    locator<SolveVersionMismatchConflictUsecase>();
+
+SolveAlreadyDeletedConflictUseCase get solveAlreadyDeletedConflictUseCase =>
+    locator<SolveAlreadyDeletedConflictUseCase>();
+
+SolveDeletedConflictUseCase get solveDeletedConflictUseCase =>
+    locator<SolveDeletedConflictUseCase>();

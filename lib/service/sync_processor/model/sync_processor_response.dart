@@ -47,7 +47,9 @@ abstract class SyncProcessorOperation with _$SyncProcessorOperation {
     @Default(false)
     bool requiresResolution,
 
-    @JsonKey(name: 'conflict_type') SyncConflictType? conflictType,
+    @JsonKey(name: 'conflict_type')
+    @Default(SyncConflictType.none)
+    SyncConflictType conflictType,
 
     @JsonKey(name: 'client_version') @Default(0) int clientVersion,
 

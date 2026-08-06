@@ -194,6 +194,21 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1037.ISyncOperationRepository>(),
       ),
     );
+    gh.lazySingleton<_i1046.SolveVersionMismatchConflictUsecase>(
+      () => _i1046.SolveVersionMismatchConflictUsecase(
+        gh<_i1037.ISyncOperationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i1046.SolveAlreadyDeletedConflictUseCase>(
+      () => _i1046.SolveAlreadyDeletedConflictUseCase(
+        gh<_i1037.ISyncOperationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i1046.SolveDeletedConflictUseCase>(
+      () => _i1046.SolveDeletedConflictUseCase(
+        gh<_i1037.ISyncOperationRepository>(),
+      ),
+    );
     return this;
   }
 }
