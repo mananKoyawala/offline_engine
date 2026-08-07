@@ -209,6 +209,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1037.ISyncOperationRepository>(),
       ),
     );
+    gh.lazySingleton<_i1046.SolveDuplicateCreatedConflictUseCase>(
+      () => _i1046.SolveDuplicateCreatedConflictUseCase(
+        gh<_i1037.ISyncOperationRepository>(),
+      ),
+    );
     return this;
   }
 }

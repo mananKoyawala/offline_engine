@@ -115,4 +115,13 @@ class SyncOperationRepositoryImpl implements ISyncOperationRepository {
   ) {
     return local.solveDeletedConflict(id, params, updatedVersion);
   }
+
+  @override
+  Future<bool> solveDuplicateCreatedConflict(
+    int id,
+    ConflictResolverParams params,
+    int updatedVersion,
+  ) {
+    return local.solveDuplicateCreatedConflict(id, params, updatedVersion);
+  }
 }

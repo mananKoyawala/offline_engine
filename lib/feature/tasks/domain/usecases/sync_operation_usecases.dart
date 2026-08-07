@@ -183,3 +183,17 @@ class SolveDeletedConflictUseCase {
     return _repository.solveDeletedConflict(id, params, updatedVersion);
   }
 }
+
+@lazySingleton
+class SolveDuplicateCreatedConflictUseCase {
+  SolveDuplicateCreatedConflictUseCase(this._repository);
+  final ISyncOperationRepository _repository;
+
+  Future<bool> call(int id, ConflictResolverParams params, int updatedVersion) {
+    return _repository.solveDuplicateCreatedConflict(
+      id,
+      params,
+      updatedVersion,
+    );
+  }
+}

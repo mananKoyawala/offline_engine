@@ -7,12 +7,31 @@ import 'package:offline_engine/service/sync_processor/model/sync_processor_respo
 
 class ConflictResolver {
   static Future<void> solveConflict(SyncProcessorOperation operation) async {
+    final params = ConflictResolverParams(
+      id: operation.entityId,
+      title: operation.conflictData!.title,
+      description: operation.conflictData!.description!,
+      priority: TaskPriority.fromValue(operation.conflictData!.priority),
+      isCompleted: operation.conflictData!.isCompleted,
+      createdAt: operation.conflictData!.createdAt,
+      updatedAt: operation.conflictData!.updatedAt,
+      deletedAt: operation.conflictData!.deletedAt ?? '',
+    );
+
     switch (operation.conflictType) {
       case SyncConflictType.none:
         return;
       case SyncConflictType.duplicate_create:
         // DELETE FROM LOCAL SYNC OPERATION
         log('duplicate_created');
+        if (operation.conflictData != null) {
+          solveDuplicateCreatedConflictUseCase(
+            int.parse(operation.operationId),
+            params,
+            operation.conflictData!.version,
+          );
+        }
+        break;
       case SyncConflictType.already_deleted:
         // DELETE FROM LOCAL SYNC OPERATION
         // MARK TASK AS DELETED
@@ -20,18 +39,7 @@ class ConflictResolver {
         if (operation.conflictData != null) {
           solveAlreadyDeletedConflictUseCase(
             int.parse(operation.operationId),
-            ConflictResolverParams(
-              id: operation.entityId,
-              title: operation.conflictData!.title,
-              description: operation.conflictData!.description!,
-              priority: TaskPriority.fromValue(
-                operation.conflictData!.priority,
-              ),
-              isCompleted: operation.conflictData!.isCompleted,
-              createdAt: operation.conflictData!.createdAt,
-              updatedAt: operation.conflictData!.updatedAt,
-              deletedAt: operation.conflictData!.deletedAt ?? '',
-            ),
+            params,
             operation.conflictData!.version,
           );
         }
@@ -42,18 +50,7 @@ class ConflictResolver {
         if (operation.conflictData != null) {
           solveVersionMismatchConflictUsecase(
             int.parse(operation.operationId),
-            ConflictResolverParams(
-              id: operation.entityId,
-              title: operation.conflictData!.title,
-              description: operation.conflictData!.description!,
-              priority: TaskPriority.fromValue(
-                operation.conflictData!.priority,
-              ),
-              isCompleted: operation.conflictData!.isCompleted,
-              createdAt: operation.conflictData!.createdAt,
-              updatedAt: operation.conflictData!.updatedAt,
-              deletedAt: operation.conflictData!.deletedAt ?? '',
-            ),
+            params,
             operation.conflictData!.version,
           );
         }
@@ -64,18 +61,7 @@ class ConflictResolver {
         if (operation.conflictData != null) {
           solveDeletedConflictUseCase(
             int.parse(operation.operationId),
-            ConflictResolverParams(
-              id: operation.entityId,
-              title: operation.conflictData!.title,
-              description: operation.conflictData!.description!,
-              priority: TaskPriority.fromValue(
-                operation.conflictData!.priority,
-              ),
-              isCompleted: operation.conflictData!.isCompleted,
-              createdAt: operation.conflictData!.createdAt,
-              updatedAt: operation.conflictData!.updatedAt,
-              deletedAt: operation.conflictData!.deletedAt ?? '',
-            ),
+            params,
             operation.conflictData!.version,
           );
         }

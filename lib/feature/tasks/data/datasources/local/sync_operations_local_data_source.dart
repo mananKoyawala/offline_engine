@@ -33,4 +33,9 @@ abstract class SyncOperationsLocalDataSource {
     ConflictResolverParams params,
     int updatedVersion,
   );
+  Future<bool> solveDuplicateCreatedConflict(
+    int id,
+    ConflictResolverParams params,
+    int updatedVersion,
+  );
 }

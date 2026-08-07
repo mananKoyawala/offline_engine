@@ -10,10 +10,10 @@ class SyncOperationResponseResolver {
     for (final operation in response.data) {
       if (operation.status == SyncOperationStatus.success) {
         // To generate conflict comment this code
-        // await markOperationSuccessUsecase(
-        //   int.parse(operation.operationId),
-        //   operation.serverVersion ?? 1,
-        // );
+        await markOperationSuccessUsecase(
+          int.parse(operation.operationId),
+          operation.serverVersion ?? 1,
+        );
         continue;
       }
 

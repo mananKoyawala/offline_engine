@@ -54,3 +54,6 @@ SolveAlreadyDeletedConflictUseCase get solveAlreadyDeletedConflictUseCase =>
 
 SolveDeletedConflictUseCase get solveDeletedConflictUseCase =>
     locator<SolveDeletedConflictUseCase>();
+
+SolveDuplicateCreatedConflictUseCase get solveDuplicateCreatedConflictUseCase =>
+    locator<SolveDuplicateCreatedConflictUseCase>();

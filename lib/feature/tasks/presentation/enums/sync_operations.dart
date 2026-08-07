@@ -21,9 +21,10 @@ enum SyncStatus {
   success("success"),
   merged("merged"),
   autoResolved("autoResolved"),
-  conflictSolved("conflictSolved"),
+  versionMismatchedSolved("versionMismatchedSolved"),
   alreadyDeletedSolved("alreadyDeletedSolved"),
-  deletedSolved("deletedSolved");
+  deletedSolved("deletedSolved"),
+  duplicateCreateSolved("duplicateCreateSolved");
 
   final String status;
 
