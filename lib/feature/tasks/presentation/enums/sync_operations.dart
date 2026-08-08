@@ -20,11 +20,11 @@ enum SyncStatus {
   failed("failed"),
   success("success"),
   merged("merged"),
-  autoResolved("autoResolved"),
-  versionMismatchedSolved("versionMismatchedSolved"),
-  alreadyDeletedSolved("alreadyDeletedSolved"),
-  deletedSolved("deletedSolved"),
-  duplicateCreateSolved("duplicateCreateSolved");
+  autoResolved("auto_resolved"),
+  versionResolved("version_resolved"),
+  alreadyDeleted("already_deleted"),
+  deleteResolved("delete_resolved"),
+  duplicateCreate("duplicate_create");
 
   final String status;
 

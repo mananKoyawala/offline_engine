@@ -336,7 +336,7 @@ class SyncOperationsLocalDataSourceImpl
           database.syncOperations,
         )..where((t) => t.id.equals(id))).write(
           SyncOperationsCompanion(
-            status: Value(SyncStatus.versionMismatchedSolved.status),
+            status: Value(SyncStatus.versionResolved.status),
             payload: Value(jsonEncode(payload)),
           ),
         );
@@ -365,6 +365,16 @@ class SyncOperationsLocalDataSourceImpl
             isCompleted: Value(params.isCompleted),
             description: Value(params.description),
             version: Value(updatedVersion),
+            updatedAt: Value(
+              params.updatedAt.isEmpty
+                  ? null
+                  : DateTime.parse(params.updatedAt),
+            ),
+            deletedAt: Value(
+              params.deletedAt.isEmpty
+                  ? null
+                  : DateTime.parse(params.deletedAt),
+            ),
           ),
         );
       });
@@ -396,7 +406,7 @@ class SyncOperationsLocalDataSourceImpl
           database.syncOperations,
         )..where((t) => t.id.equals(id))).write(
           SyncOperationsCompanion(
-            status: Value(SyncStatus.alreadyDeletedSolved.status),
+            status: Value(SyncStatus.alreadyDeleted.status),
             payload: Value(jsonEncode(payload)),
           ),
         );
@@ -424,8 +434,16 @@ class SyncOperationsLocalDataSourceImpl
             priority: Value(params.priority.value),
             isCompleted: Value(params.isCompleted),
             description: Value(params.description),
-            updatedAt: Value(DateTime.parse(params.updatedAt)),
-            deletedAt: Value(DateTime.parse(params.deletedAt)),
+            updatedAt: Value(
+              params.updatedAt.isEmpty
+                  ? null
+                  : DateTime.parse(params.updatedAt),
+            ),
+            deletedAt: Value(
+              params.deletedAt.isEmpty
+                  ? null
+                  : DateTime.parse(params.deletedAt),
+            ),
             version: Value(updatedVersion),
           ),
         );
@@ -458,7 +476,7 @@ class SyncOperationsLocalDataSourceImpl
           database.syncOperations,
         )..where((t) => t.id.equals(id))).write(
           SyncOperationsCompanion(
-            status: Value(SyncStatus.deletedSolved.status),
+            status: Value(SyncStatus.deleteResolved.status),
             payload: Value(jsonEncode(payload)),
           ),
         );
@@ -486,8 +504,16 @@ class SyncOperationsLocalDataSourceImpl
             priority: Value(params.priority.value),
             isCompleted: Value(params.isCompleted),
             description: Value(params.description),
-            updatedAt: Value(DateTime.parse(params.updatedAt)),
-            deletedAt: Value(DateTime.parse(params.deletedAt)),
+            updatedAt: Value(
+              params.updatedAt.isEmpty
+                  ? null
+                  : DateTime.parse(params.updatedAt),
+            ),
+            deletedAt: Value(
+              params.deletedAt.isEmpty
+                  ? null
+                  : DateTime.parse(params.deletedAt),
+            ),
             version: Value(updatedVersion),
           ),
         );
@@ -520,7 +546,7 @@ class SyncOperationsLocalDataSourceImpl
           database.syncOperations,
         )..where((t) => t.id.equals(id))).write(
           SyncOperationsCompanion(
-            status: Value(SyncStatus.duplicateCreateSolved.status),
+            status: Value(SyncStatus.duplicateCreate.status),
             payload: Value(jsonEncode(payload)),
           ),
         );
@@ -548,8 +574,16 @@ class SyncOperationsLocalDataSourceImpl
             priority: Value(params.priority.value),
             isCompleted: Value(params.isCompleted),
             description: Value(params.description),
-            updatedAt: Value(DateTime.parse(params.updatedAt)),
-            deletedAt: Value(DateTime.parse(params.deletedAt)),
+            updatedAt: Value(
+              params.updatedAt.isEmpty
+                  ? null
+                  : DateTime.parse(params.updatedAt),
+            ),
+            deletedAt: Value(
+              params.deletedAt.isEmpty
+                  ? null
+                  : DateTime.parse(params.deletedAt),
+            ),
             version: Value(updatedVersion),
           ),
         );
