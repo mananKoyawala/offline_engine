@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:injectable/injectable.dart';
 import 'package:offline_engine/feature/tasks/presentation/getters/sync_operation_getters.dart';
+import 'package:offline_engine/service/internet_service/internet_service.dart';
 import 'package:offline_engine/service/operation_resolver/sync_operation_response_resolver.dart';
 import 'package:offline_engine/service/queue_manager/queue_manager.dart';
 import 'package:offline_engine/service/sync_processor/getters/sync_manager_getters.dart';
@@ -10,25 +12,44 @@ import 'package:offline_engine/service/sync_processor/params/sync_processor_para
 @injectable
 class SyncManager {
   final QueueManager _queueManager;
+  final InternetService _internetService;
 
-  SyncManager(this._queueManager);
+  SyncManager(this._queueManager, this._internetService);
 
   static bool _isSyncing = false;
 
-  void initialize() async {
-    final result = await getAllPendingOperationsUsecase();
-    await result.fold(
-      (failure) {
-        log('failed to fetch pending operations');
-      },
-      (operations) {
-        _queueManager.enqueueAll(operations);
-      },
-    );
-  } // Load all pending operations
+  StreamSubscription<bool>? _internetSubscription;
+
+  bool _isInitialized = false;
+  bool _isInitializing = false;
+
+  Future<void> initialize() async {
+    if (_isInitialized || _isInitializing) return;
+
+    _isInitializing = true;
+
+    try {
+      await _internetService.initialize();
+
+      _internetSubscription ??= _internetService.onStatusChanged.listen((
+        isConnected,
+      ) async {
+        log('Internet status: $isConnected');
+
+        if (isConnected) {
+          await _processQueue();
+          startSyncAll();
+        }
+      });
+
+      _isInitialized = true;
+    } finally {
+      _isInitializing = false;
+    }
+  }
 
   void startSyncAll() async {
-    if (_isSyncing) return;
+    if (_isSyncing || !_internetService.isConnected) return;
     log('# ========================');
     log('# Start of Syncing All Operations');
     log('# ========================');
@@ -79,5 +100,16 @@ class SyncManager {
 
   void stopSync() {}
 
-  void processQueue() {}
+  Future<void> _processQueue() async {
+    final result = await getAllPendingOperationsUsecase();
+
+    result.fold(
+      (failure) {
+        log('Failed to fetch pending operations');
+      },
+      (operations) {
+        _queueManager.enqueueAll(operations);
+      },
+    );
+  }
 }
