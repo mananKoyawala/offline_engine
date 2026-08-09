@@ -12,3 +12,6 @@ UpdateTasksLocalUsecase get updateTasksLocalUsecase =>
 
 DeleteTasksLocalUsecase get deleteTasksLocalUsecase =>
     locator<DeleteTasksLocalUsecase>();
+
+FetchAndUpsertTasksUsecase get fetchAndUpsertTasksUsecase =>
+    locator<FetchAndUpsertTasksUsecase>();

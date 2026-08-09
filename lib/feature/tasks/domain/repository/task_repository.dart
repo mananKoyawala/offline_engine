@@ -10,4 +10,7 @@ abstract class ITaskRepository {
   Future<Either<ApiFailure, bool>> updateTaskLocal(UpdateTaskParams task);
 
   Future<Either<ApiFailure, bool>> deleteTaskLocal(UpdateTaskParams task);
+
+  /// Fetches tasks from the server and upserts them into the local DB.
+  Future<Either<ApiFailure, bool>> fetchAndUpsertTasksRemote();
 }

@@ -141,4 +141,76 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
       return left(ApiFailure.unknown(e.toString()));
     }
   }
+
+  @override
+  Future<Either<ApiFailure, bool>> upsertTasksFromRemote(
+    List<TaskItem> remoteTasks,
+  ) async {
+    try {
+      // Collect task IDs that have at least one pending sync operation.
+      // These are local changes not yet confirmed by the server → skip them
+      // so we don't overwrite the user's in-flight edits.
+      final pendingRows = await (database.selectOnly(database.syncOperations)
+            ..addColumns([database.syncOperations.taskId])
+            ..where(
+              database.syncOperations.status.equals(SyncStatus.pending.status),
+            ))
+          .get();
+
+      final pendingTaskIds = pendingRows
+          .map((r) => r.read(database.syncOperations.taskId))
+          .whereType<String>()
+          .toSet();
+
+      await database.transaction(() async {
+        for (final remote in remoteTasks) {
+          final id = remote.id;
+          if (id == null) continue;
+
+          // Skip tasks the user has locally modified but not yet synced.
+          if (pendingTaskIds.contains(id)) continue;
+
+          final existing =
+              await (database.select(
+                database.tasks,
+              )..where((t) => t.id.equals(id))).getSingleOrNull();
+
+          if (existing == null) {
+            // New task from server — insert it.
+            await database.into(database.tasks).insert(
+              TasksCompanion(
+                id: Value(id),
+                title: Value(remote.title ?? ''),
+                description: Value(remote.description),
+                priority: Value(remote.priority ?? 0),
+                isCompleted: Value(remote.isCompleted),
+                version: Value(remote.version),
+              ),
+            );
+          } else if (remote.version >= existing.version) {
+            // Server version is same or newer — overwrite local.
+            // (For non-pending tasks, server is the source of truth.)
+            await (database.update(database.tasks)
+                  ..where((t) => t.id.equals(id)))
+                .write(
+                  TasksCompanion(
+                    title: Value(remote.title ?? ''),
+                    description: Value(remote.description),
+                    priority: Value(remote.priority ?? 0),
+                    isCompleted: Value(remote.isCompleted),
+                    version: Value(remote.version),
+                    updatedAt: Value(DateTime.now()),
+                  ),
+                );
+          }
+          // If remote.version <= existing.version, local is already up-to-date.
+        }
+      });
+
+      return right(true);
+    } catch (e) {
+      log(e.toString());
+      return left(ApiFailure.unknown(e.toString()));
+    }
+  }
 }

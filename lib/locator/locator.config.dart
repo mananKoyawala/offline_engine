@@ -104,7 +104,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i44.LoginUsecases(loginRepository: gh<_i836.ILoginRepository>()),
     );
     gh.lazySingleton<_i662.TaskRemoteDataSource>(
-      () => _i367.TaskRemoteDataSourceImpl(gh<_i467.AppDatabase>()),
+      () => _i367.TaskRemoteDataSourceImpl(gh<_i626.APIClients>()),
     );
     gh.lazySingleton<_i116.SyncOperationUsecase>(
       () => _i116.SyncOperationUsecase(gh<_i570.ISyncProcessorRepository>()),
@@ -131,6 +131,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1008.DeleteTasksLocalUsecase>(
       () => _i1008.DeleteTasksLocalUsecase(gh<_i461.ITaskRepository>()),
+    );
+    gh.lazySingleton<_i1008.FetchAndUpsertTasksUsecase>(
+      () => _i1008.FetchAndUpsertTasksUsecase(gh<_i461.ITaskRepository>()),
     );
     gh.lazySingleton<_i1046.GetSyncOperationLocalUsecase>(
       () => _i1046.GetSyncOperationLocalUsecase(

@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:offline_engine/core/global_getters.dart';
 import 'package:offline_engine/feature/tasks/domain/params/create_task_params.dart';
 import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
 import 'package:offline_engine/feature/tasks/presentation/enums/task_priority.dart';
@@ -12,8 +14,19 @@ part 'task_provider.g.dart';
 
 @riverpod
 class TaskNotifier extends _$TaskNotifier {
+  StreamSubscription<void>? _remoteFetchSubscription;
+
   @override
   TaskState build() {
+    // Auto-refresh whenever SyncManager completes a remote fetch.
+    _remoteFetchSubscription?.cancel();
+    _remoteFetchSubscription = syncManagerInstance.onRemoteFetchDone.listen(
+      (_) => refresh(),
+    );
+
+    // Cancel the subscription when the provider is disposed.
+    ref.onDispose(() => _remoteFetchSubscription?.cancel());
+
     Future.microtask(refresh);
     return const TaskState(isLoading: true);
   }

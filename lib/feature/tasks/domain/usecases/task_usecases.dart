@@ -43,3 +43,13 @@ class DeleteTasksLocalUsecase {
     return _repository.deleteTaskLocal(params);
   }
 }
+
+@lazySingleton
+class FetchAndUpsertTasksUsecase {
+  FetchAndUpsertTasksUsecase(this._repository);
+  final ITaskRepository _repository;
+
+  Future<Either<ApiFailure, bool>> call() {
+    return _repository.fetchAndUpsertTasksRemote();
+  }
+}

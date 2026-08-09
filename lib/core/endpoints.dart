@@ -5,3 +5,7 @@ class SyncOperationEndponts {
 class LoginEndpoints {
   static String get login => '/user/login';
 }
+
+class TaskEndpoints {
+  static String get getTasks => '/task';
+}

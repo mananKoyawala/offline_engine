@@ -39,4 +39,13 @@ class TaskRepositoryImpl implements ITaskRepository {
   Future<Either<ApiFailure, bool>> updateTaskLocal(UpdateTaskParams task) {
     return local.updateTask(task);
   }
+
+  @override
+  Future<Either<ApiFailure, bool>> fetchAndUpsertTasksRemote() async {
+    final result = await remote.fetchTasks();
+    return result.fold(
+      left,
+      (remoteTasks) => local.upsertTasksFromRemote(remoteTasks),
+    );
+  }
 }

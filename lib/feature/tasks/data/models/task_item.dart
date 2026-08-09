@@ -13,9 +13,9 @@ abstract class TaskItem with _$TaskItem {
     String? title,
     String? description,
     int? priority,
-    @Default(false) bool isCompleted,
+    @JsonKey(name: 'is_completed') @Default(false) bool isCompleted,
     @Default(0) int version,
-    DateTime? createdAt,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _TaskItem;
 
   factory TaskItem.fromJson(Map<String, dynamic> json) =>
