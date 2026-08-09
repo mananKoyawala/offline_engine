@@ -156,6 +156,12 @@ class SyncManager with WidgetsBindingObserver {
 
     _queueManager.clear();
 
+    // Notify listeners (e.g. TaskNotifier) to refresh the local task list
+    // now that conflicts are resolved and operations are completed.
+    if (!_remoteFetchDoneController.isClosed) {
+      _remoteFetchDoneController.add(null);
+    }
+
     log('# ========================');
     log('# End of Syncing All Operations');
     log('# ========================');
