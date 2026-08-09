@@ -292,7 +292,10 @@ class SyncOperationsLocalDataSourceImpl
 
         // Mark operation merged
         await (database.update(database.syncOperations)..where(
-              (t) => t.id.isNotValue(id) & t.taskId.equals(operation.taskId),
+              (t) =>
+                  t.id.isNotValue(id) &
+                  t.taskId.equals(operation.taskId) &
+                  t.status.equals(SyncStatus.pending.status),
             ))
             .write(
               SyncOperationsCompanion(
