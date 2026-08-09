@@ -49,6 +49,8 @@ import 'package:offline_engine/service/internet_service/internet_service.dart'
     as _i665;
 import 'package:offline_engine/service/queue_manager/queue_manager.dart'
     as _i178;
+import 'package:offline_engine/service/sync_event_bus/sync_event_bus.dart'
+    as _i999;
 import 'package:offline_engine/service/sync_manager/sync_manager.dart' as _i762;
 import 'package:offline_engine/service/sync_processor/repository/sync_processor_repository.dart'
     as _i570;
@@ -75,20 +77,25 @@ extension GetItInjectableX on _i174.GetIt {
     }, preResolve: true);
     gh.lazySingleton<_i665.InternetService>(() => _i665.InternetService());
     gh.lazySingleton<_i178.QueueManager>(() => _i178.QueueManager());
+    gh.lazySingleton<_i999.SyncEventBus>(() => _i999.SyncEventBus());
     gh.lazySingleton<_i570.ISyncProcessorRepository>(
       () => _i722.SyncProcessorRepositoryImpl(gh<_i626.APIClients>()),
     );
     gh.lazySingleton<_i836.ILoginRepository>(
       () => _i31.LoginRepositoryImpl(clients: gh<_i626.APIClients>()),
     );
-    gh.factory<_i762.SyncManager>(
+    gh.lazySingleton<_i762.SyncManager>(
       () => _i762.SyncManager(
         gh<_i178.QueueManager>(),
         gh<_i665.InternetService>(),
+        gh<_i999.SyncEventBus>(),
       ),
     );
     gh.lazySingleton<_i883.TaskLocalDataSource>(
-      () => _i3.TaskLocalDataSourceImpl(gh<_i467.AppDatabase>()),
+      () => _i3.TaskLocalDataSourceImpl(
+        gh<_i467.AppDatabase>(),
+        gh<_i999.SyncEventBus>(),
+      ),
     );
     gh.lazySingleton<_i537.SyncOperationsLocalDataSource>(
       () => _i340.SyncOperationsLocalDataSourceImpl(gh<_i410.AppDatabase>()),

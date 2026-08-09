@@ -8,13 +8,15 @@ import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/import/app_imports.dart';
 import 'package:offline_engine/feature/tasks/data/datasources/local/task_local_data_source.dart';
 import 'package:offline_engine/feature/tasks/presentation/enums/sync_operations.dart';
+import 'package:offline_engine/service/sync_event_bus/sync_event_bus.dart';
 import 'package:uuid/uuid.dart';
 
 @LazySingleton(as: TaskLocalDataSource)
 class TaskLocalDataSourceImpl implements TaskLocalDataSource {
   final AppDatabase database;
+  final SyncEventBus _syncEventBus;
 
-  TaskLocalDataSourceImpl(this.database);
+  TaskLocalDataSourceImpl(this.database, this._syncEventBus);
 
   @override
   Future<Either<ApiFailure, List<TaskItem>>> getTasks() async {
@@ -58,6 +60,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
             );
       });
 
+      _syncEventBus.notifyTaskWritten();
       return right(true);
     } catch (e) {
       log(e.toString());
@@ -97,6 +100,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
             );
       });
 
+      _syncEventBus.notifyTaskWritten();
       return right(true);
     } catch (e) {
       return left(ApiFailure.unknown(e.toString()));
@@ -130,6 +134,7 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
             );
       });
 
+      _syncEventBus.notifyTaskWritten();
       return right(true);
     } catch (e) {
       log(e.toString());
