@@ -15,13 +15,18 @@ part 'task_provider.g.dart';
 @riverpod
 class TaskNotifier extends _$TaskNotifier {
   StreamSubscription<void>? _remoteFetchSubscription;
+  bool _isRefreshing = false;
 
   @override
   TaskState build() {
     // Auto-refresh whenever SyncManager completes a remote fetch.
     _remoteFetchSubscription?.cancel();
     _remoteFetchSubscription = syncManagerInstance.onRemoteFetchDone.listen(
-      (_) => refresh(),
+      (_) {
+        // Only auto-refresh if we're not already in a manual refresh
+        // (which itself called fetchRemoteTasks and will reload after).
+        if (!_isRefreshing) refresh();
+      },
     );
 
     // Cancel the subscription when the provider is disposed.
@@ -32,7 +37,12 @@ class TaskNotifier extends _$TaskNotifier {
   }
 
   Future<void> refresh() async {
+    if (_isRefreshing) return;
+    _isRefreshing = true;
     state = state.copyWith(isLoading: true, clearError: true);
+
+    // Fetch latest from server first, then reload from local DB.
+    await syncManagerInstance.fetchRemoteTasks();
 
     final result = await getTasksLocalUsecase();
 
@@ -47,6 +57,8 @@ class TaskNotifier extends _$TaskNotifier {
         state = state.copyWith(tasks: tasks, isLoading: false);
       },
     );
+
+    _isRefreshing = false;
   }
 
   Future<void> createTask(CreateTaskParams params) async {

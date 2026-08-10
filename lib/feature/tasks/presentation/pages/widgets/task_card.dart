@@ -61,10 +61,13 @@ class TaskCard extends StatelessWidget {
         ? (isDone
               ? const Color(0xFF2C2C34)
               : _priorityColor.withValues(alpha: 0.25))
-        : (isDone ? const Color(0xFFEEEEF2) : _priorityColor.withValues(alpha: 0.2));
+        : (isDone
+              ? const Color(0xFFEEEEF2)
+              : _priorityColor.withValues(alpha: 0.2));
     final titleColor = isDark ? Colors.white : const Color(0xFF111111);
-    final subtitleColor =
-        isDark ? const Color(0xFFB0B0BA) : const Color(0xFF8A8A96);
+    final subtitleColor = isDark
+        ? const Color(0xFFB0B0BA)
+        : const Color(0xFF8A8A96);
 
     return Dismissible(
       key: ValueKey(task.id),
@@ -78,7 +81,7 @@ class TaskCard extends StatelessWidget {
         alignment: Alignment.centerRight,
         decoration: BoxDecoration(
           color: const Color(0xFFE5484D),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(14),
         ),
         child: const Column(
           mainAxisSize: MainAxisSize.min,
@@ -100,13 +103,15 @@ class TaskCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           color: cardColor,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(14),
           border: Border.all(color: borderColor, width: 1),
           boxShadow: isDark
               ? null
               : [
                   BoxShadow(
-                    color: _priorityColor.withValues(alpha: isDone ? 0.0 : 0.06),
+                    color: _priorityColor.withValues(
+                      alpha: isDone ? 0.0 : 0.06,
+                    ),
                     blurRadius: 16,
                     offset: const Offset(0, 4),
                   ),
@@ -154,9 +159,7 @@ class TaskCard extends StatelessWidget {
                               child: Text(
                                 task.title,
                                 style: TextStyle(
-                                  color: isDone
-                                      ? subtitleColor
-                                      : titleColor,
+                                  color: isDone ? subtitleColor : titleColor,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                   decoration: isDone
@@ -267,8 +270,9 @@ class TaskCard extends StatelessWidget {
         final isDark = Theme.of(ctx).brightness == Brightness.dark;
         final bgColor = isDark ? const Color(0xFF1C1C22) : Colors.white;
         final titleColor = isDark ? Colors.white : const Color(0xFF111111);
-        final bodyColor =
-            isDark ? const Color(0xFFB0B0BA) : const Color(0xFF8A8A96);
+        final bodyColor = isDark
+            ? const Color(0xFFB0B0BA)
+            : const Color(0xFF8A8A96);
 
         return Dialog(
           backgroundColor: Colors.transparent,

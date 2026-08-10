@@ -20,8 +20,6 @@ class TaskPage extends ConsumerStatefulWidget {
 
 class _TaskPageState extends ConsumerState<TaskPage> {
   void _openCreateForm() {
-    // syncManagerInstance.startSync();
-    // return;
     showTaskFormSheet(
       context,
       onSubmit: (result) {
@@ -78,13 +76,16 @@ class _TaskPageState extends ConsumerState<TaskPage> {
     final isDarkMode = ref.watch(themeProvider).isDarkMode;
 
     final backgroundColor = isDarkMode ? Colors.black : Colors.white;
-    final surfaceColor =
-        isDarkMode ? const Color(0xFF1A1A1F) : const Color(0xFFF7F7FA);
+    final surfaceColor = isDarkMode
+        ? const Color(0xFF1A1A1F)
+        : const Color(0xFFF7F7FA);
     final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
-    final subtitleColor =
-        isDarkMode ? const Color(0xFFB0B0BA) : const Color(0xFF8A8A96);
-    final borderColor =
-        isDarkMode ? const Color(0xFF2C2C34) : const Color(0xFFEEEEF2);
+    final subtitleColor = isDarkMode
+        ? const Color(0xFFB0B0BA)
+        : const Color(0xFF8A8A96);
+    final borderColor = isDarkMode
+        ? const Color(0xFF2C2C34)
+        : const Color(0xFFEEEEF2);
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -129,9 +130,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
       padding: const EdgeInsets.fromLTRB(20, 16, 12, 16),
       decoration: BoxDecoration(
         color: isDarkMode ? Colors.black : Colors.white,
-        border: Border(
-          bottom: BorderSide(color: borderColor, width: 1),
-        ),
+        border: Border(bottom: BorderSide(color: borderColor, width: 1)),
       ),
       child: Row(
         children: [
@@ -250,16 +249,11 @@ class _TaskPageState extends ConsumerState<TaskPage> {
         backgroundColor: appColor,
         foregroundColor: Colors.white,
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         icon: const Icon(Icons.add_rounded, size: 20),
         label: const Text(
           'New Task',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 15,
-          ),
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
         ),
       ),
     );
@@ -273,10 +267,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
   }) {
     if (state.isLoading && state.tasks.isEmpty) {
       return Center(
-        child: CircularProgressIndicator(
-          color: appColor,
-          strokeWidth: 2.4,
-        ),
+        child: CircularProgressIndicator(color: appColor, strokeWidth: 2.4),
       );
     }
 
