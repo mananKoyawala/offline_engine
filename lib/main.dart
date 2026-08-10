@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offline_engine/core/app_container.dart';
 import 'package:offline_engine/core/navigator_key.dart';
-import 'package:offline_engine/feature/login/presentation/pages/login_page.dart';
+import 'package:offline_engine/feature/splash/presentation/pages/spalsh_page.dart';
 import 'package:offline_engine/locator/locator.dart';
 
 Future<void> main() async {
@@ -27,7 +27,7 @@ class OfflineEngineApp extends StatelessWidget {
       title: 'Offline Engine',
       debugShowCheckedModeBanner: true,
       navigatorKey: navigatorKey,
-      home: LoginPage(),
+      home: SpalshPage(),
     );
   }
 }
