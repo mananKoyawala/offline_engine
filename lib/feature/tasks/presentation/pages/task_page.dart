@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offline_engine/core/global_getters.dart';
+import 'package:offline_engine/core/theme/colors.dart';
+import 'package:offline_engine/core/theme/theme_provider.dart';
 import 'package:offline_engine/feature/tasks/domain/enitites/task_entity.dart';
 import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
 import 'package:offline_engine/feature/tasks/presentation/pages/sync_operations_page.dart';
@@ -73,68 +75,237 @@ class _TaskPageState extends ConsumerState<TaskPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(taskProvider);
-    final theme = Theme.of(context);
+    final isDarkMode = ref.watch(themeProvider).isDarkMode;
+
+    final backgroundColor = isDarkMode ? Colors.black : Colors.white;
+    final surfaceColor =
+        isDarkMode ? const Color(0xFF1A1A1F) : const Color(0xFFF7F7FA);
+    final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
+    final subtitleColor =
+        isDarkMode ? const Color(0xFFB0B0BA) : const Color(0xFF8A8A96);
+    final borderColor =
+        isDarkMode ? const Color(0xFF2C2C34) : const Color(0xFFEEEEF2);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Tasks'),
-        centerTitle: false,
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
+      backgroundColor: backgroundColor,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeader(
+              isDarkMode: isDarkMode,
+              titleColor: titleColor,
+              subtitleColor: subtitleColor,
+              surfaceColor: surfaceColor,
+              borderColor: borderColor,
+            ),
+            Expanded(
+              child: RefreshIndicator(
+                color: appColor,
+                onRefresh: () => ref.read(taskProvider.notifier).refresh(),
+                child: _buildBody(
+                  state: state,
+                  isDarkMode: isDarkMode,
+                  titleColor: titleColor,
+                  subtitleColor: subtitleColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: _buildFAB(isDarkMode),
+    );
+  }
+
+  Widget _buildHeader({
+    required bool isDarkMode,
+    required Color titleColor,
+    required Color subtitleColor,
+    required Color surfaceColor,
+    required Color borderColor,
+  }) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 16, 12, 16),
+      decoration: BoxDecoration(
+        color: isDarkMode ? Colors.black : Colors.white,
+        border: Border(
+          bottom: BorderSide(color: borderColor, width: 1),
+        ),
+      ),
+      child: Row(
+        children: [
+          // Branding logo
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: appColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            alignment: Alignment.center,
+            child: const Text(
+              'OE',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0.4,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'My Tasks',
+                  style: TextStyle(
+                    color: titleColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    height: 1.1,
+                  ),
+                ),
+                Text(
+                  'Offline Engine',
+                  style: TextStyle(
+                    color: subtitleColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          _buildIconButton(
+            icon: Icons.sync_rounded,
+            isDarkMode: isDarkMode,
+            onTap: () => syncManagerInstance.startSyncAll(),
+          ),
+          const SizedBox(width: 6),
+          _buildIconButton(
+            icon: Icons.info_outline_rounded,
+            isDarkMode: isDarkMode,
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => SyncOperationsPage()),
               );
             },
-            icon: Icon(Icons.info),
-          ),
-          IconButton(
-            onPressed: () {
-              syncManagerInstance.startSyncAll();
-            },
-            icon: Icon(Icons.sync),
           ),
         ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: () => ref.read(taskProvider.notifier).refresh(),
-        child: _buildBody(state, theme),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _openCreateForm,
-        icon: const Icon(Icons.add),
-        label: const Text('New Task'),
       ),
     );
   }
 
-  Widget _buildBody(TaskState state, ThemeData theme) {
+  Widget _buildIconButton({
+    required IconData icon,
+    required bool isDarkMode,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: onTap,
+        child: Container(
+          width: 38,
+          height: 38,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: isDarkMode
+                ? const Color(0xFF2B2B2F)
+                : const Color(0xFFF0F0F5),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(
+            icon,
+            size: 20,
+            color: isDarkMode
+                ? const Color(0xFFB0B0BA)
+                : const Color(0xFF6B7280),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFAB(bool isDarkMode) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: appColor.withValues(alpha: 0.35),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: FloatingActionButton.extended(
+        onPressed: _openCreateForm,
+        backgroundColor: appColor,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        icon: const Icon(Icons.add_rounded, size: 20),
+        label: const Text(
+          'New Task',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 15,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBody({
+    required TaskState state,
+    required bool isDarkMode,
+    required Color titleColor,
+    required Color subtitleColor,
+  }) {
     if (state.isLoading && state.tasks.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+        child: CircularProgressIndicator(
+          color: appColor,
+          strokeWidth: 2.4,
+        ),
+      );
     }
 
     if (state.errorMessage != null && state.tasks.isEmpty) {
       return _buildMessage(
-        icon: Icons.error_outline,
+        icon: Icons.error_outline_rounded,
         title: 'Something went wrong',
         subtitle: state.errorMessage!,
-        theme: theme,
+        isDarkMode: isDarkMode,
+        titleColor: titleColor,
+        subtitleColor: subtitleColor,
+        iconColor: Colors.redAccent,
       );
     }
 
     if (state.tasks.isEmpty) {
       return _buildMessage(
-        icon: Icons.checklist_rtl,
+        icon: Icons.checklist_rtl_rounded,
         title: 'No tasks yet',
         subtitle: 'Tap "New Task" to create your first one.',
-        theme: theme,
+        isDarkMode: isDarkMode,
+        titleColor: titleColor,
+        subtitleColor: subtitleColor,
+        iconColor: appColor.withValues(alpha: 0.35),
       );
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
       itemCount: state.tasks.length,
       itemBuilder: (context, index) {
         final task = state.tasks[index];
@@ -152,7 +323,10 @@ class _TaskPageState extends ConsumerState<TaskPage> {
     required IconData icon,
     required String title,
     required String subtitle,
-    required ThemeData theme,
+    required bool isDarkMode,
+    required Color titleColor,
+    required Color subtitleColor,
+    required Color iconColor,
   }) {
     return Center(
       child: Padding(
@@ -160,24 +334,35 @@ class _TaskPageState extends ConsumerState<TaskPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 56,
-              color: theme.colorScheme.onSurface.withOpacity(0.3),
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? const Color(0xFF2B2B2F)
+                    : const Color(0xFFF0F0F5),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Icon(icon, size: 36, color: iconColor),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             Text(
               title,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+              style: TextStyle(
+                color: titleColor,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: 6),
             Text(
               subtitle,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withOpacity(0.6),
+              style: TextStyle(
+                color: subtitleColor,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                height: 1.5,
               ),
             ),
           ],

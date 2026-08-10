@@ -44,3 +44,8 @@ Stream<int> updateCount(Ref ref) {
 Stream<int> deleteCount(Ref ref) {
   return getDeleteCountLocalUsecase();
 }
+
+@riverpod
+Stream<int> autoResolvedCount(Ref ref) {
+  return getAutoResolvedCountLocalUsecase();
+}
