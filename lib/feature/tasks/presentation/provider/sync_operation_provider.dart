@@ -1,4 +1,5 @@
 import 'package:j_client/j_client.dart';
+import 'package:offline_engine/core/global_getters.dart';
 import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
 import 'package:offline_engine/feature/tasks/presentation/getters/sync_operation_getters.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -48,4 +49,9 @@ Stream<int> deleteCount(Ref ref) {
 @riverpod
 Stream<int> autoResolvedCount(Ref ref) {
   return getAutoResolvedCountLocalUsecase();
+}
+
+@riverpod
+Stream<bool> isSyncing(Ref ref) {
+  return syncManagerInstance.onSyncingStateChanged;
 }

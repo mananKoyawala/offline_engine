@@ -4,6 +4,7 @@ import 'package:offline_engine/core/app_container.dart';
 import 'package:offline_engine/core/navigator_key.dart';
 import 'package:offline_engine/feature/splash/presentation/pages/spalsh_page.dart';
 import 'package:offline_engine/locator/locator.dart';
+import 'package:offline_engine/shared/widgets/sync_banner_wrapper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,9 @@ class OfflineEngineApp extends StatelessWidget {
       debugShowCheckedModeBanner: true,
       navigatorKey: navigatorKey,
       home: SpalshPage(),
+      builder: (context, child) => SyncBannerWrapper(
+        child: child ?? const SizedBox.shrink(),
+      ),
     );
   }
 }

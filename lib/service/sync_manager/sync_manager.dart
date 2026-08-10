@@ -23,6 +23,12 @@ class SyncManager with WidgetsBindingObserver {
   bool _isSyncing = false;
   bool _isFetchingRemote = false;
 
+  final StreamController<bool> _syncingStateController =
+      StreamController<bool>.broadcast();
+
+  /// Emits `true` when a sync starts and `false` when it ends.
+  Stream<bool> get onSyncingStateChanged => _syncingStateController.stream;
+
   StreamSubscription<bool>? _internetSubscription;
   StreamSubscription<void>? _taskWriteSubscription;
   Timer? _syncDebounceTimer;
@@ -122,6 +128,7 @@ class SyncManager with WidgetsBindingObserver {
     log('# Start of Syncing All Operations');
     log('# ========================');
     _isSyncing = true;
+    if (!_syncingStateController.isClosed) _syncingStateController.add(true);
 
     try {
       final operations = _queueManager.peekAll();
@@ -148,6 +155,7 @@ class SyncManager with WidgetsBindingObserver {
       }
     } finally {
       _isSyncing = false;
+      if (!_syncingStateController.isClosed) _syncingStateController.add(false);
     }
 
     await SyncOperationResponseResolver.resolveAutoResolvedTaskIds(
@@ -189,5 +197,6 @@ class SyncManager with WidgetsBindingObserver {
     _internetSubscription?.cancel();
     _taskWriteSubscription?.cancel();
     _remoteFetchDoneController.close();
+    _syncingStateController.close();
   }
 }
