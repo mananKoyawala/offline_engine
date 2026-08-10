@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offline_engine/core/global_getters.dart';
+import 'package:offline_engine/core/theme/colors.dart';
+import 'package:offline_engine/core/theme/theme_provider.dart';
 import 'package:offline_engine/feature/login/presentation/provider/login_provider.dart';
-import 'package:offline_engine/feature/login/presentation/provider/state/login_state.dart';
 import 'package:offline_engine/feature/tasks/presentation/pages/task_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -13,6 +14,21 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
+  final TextEditingController _emailController = TextEditingController(
+    text: 'manan@gmail.com',
+  );
+  final TextEditingController _passwordController = TextEditingController(
+    text: 'Manan@123',
+  );
+  bool _obscurePassword = true;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   Future<void> _handleLogin() async {
     final success = await ref.read(loginProvider.notifier).login();
 
@@ -30,43 +46,153 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(loginProvider);
+    final isDarkMode = ref.watch(themeProvider).isDarkMode;
+
+    final backgroundColor = isDarkMode ? Colors.black : Colors.white;
+    final fieldFillColor = isDarkMode
+        ? const Color(0xFF2B2B2F)
+        : const Color(0xFFF7F7FA);
+    final fieldBorderColor = isDarkMode
+        ? const Color(0xFF404049)
+        : const Color(0xFFE5E7EB);
+    final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
+    final bodyColor = isDarkMode
+        ? const Color(0xFFB0B0BA)
+        : const Color(0xFF8A8A96);
+    final labelColor = isDarkMode
+        ? const Color(0xFFB8B8C2)
+        : const Color(0xFF6B7280);
 
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF1E3A8A), Color(0xFF6D28D9)],
-          ),
-        ),
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+      backgroundColor: backgroundColor,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _buildLogo(),
-                  const SizedBox(height: 16),
+                  _buildBranding(isDarkMode),
+                  const SizedBox(height: 26),
                   Text(
-                    'Welcome Back',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                    'Welcome back',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: titleColor,
+                      fontSize: 33,
+                      height: 1.05,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'Log in to continue syncing your workspace',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: bodyColor,
+                      fontSize: 16,
+                      height: 1.2,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  const SizedBox(height: 28),
+                  Text(
+                    'Email',
+                    style: TextStyle(
+                      color: labelColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'Sign in to continue',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+                  _buildField(
+                    controller: _emailController,
+                    isDarkMode: isDarkMode,
+                    borderColor: fieldBorderColor,
+                    filledColor: fieldFillColor,
+                    textColor: titleColor,
                   ),
-                  const SizedBox(height: 48),
-                  _buildLoginButton(state),
-                  const SizedBox(height: 24),
-                  if (state.hasError) _buildErrorSection(state),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Password',
+                    style: TextStyle(
+                      color: labelColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _buildField(
+                    controller: _passwordController,
+                    isDarkMode: isDarkMode,
+                    borderColor: fieldBorderColor,
+                    filledColor: fieldFillColor,
+                    textColor: titleColor,
+                    obscureText: _obscurePassword,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                      ),
+                      color: appColor,
+                    ),
+                  ),
+                  const SizedBox(height: 28),
+                  SizedBox(
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: state.isLoading ? null : _handleLogin,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: appColor,
+                        foregroundColor: Colors.white,
+                        disabledBackgroundColor: appColor.withValues(
+                          alpha: 0.65,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: state.isLoading
+                          ? const SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.4,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                              ),
+                            )
+                          : const Text(
+                              'Log In',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                    ),
+                  ),
+                  if (state.hasError) ...[
+                    const SizedBox(height: 16),
+                    Text(
+                      state.errorMessage ?? 'Login failed. Please try again.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: isDarkMode ? Colors.redAccent : Colors.red,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -76,107 +202,89 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 
-  Widget _buildLogo() {
-    return Container(
-      width: 90,
-      height: 90,
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.15),
-        shape: BoxShape.circle,
-      ),
-      child: const Icon(
-        Icons.lock_outline_rounded,
-        color: Colors.white,
-        size: 44,
-      ),
-    );
-  }
-
-  Widget _buildLoginButton(LoginState state) {
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: ElevatedButton(
-        onPressed: state.isLoading ? null : _handleLogin,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: const Color(0xFF1E3A8A),
-          elevation: 6,
-          shadowColor: Colors.black45,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+  Widget _buildBranding(bool isDarkMode) {
+    return Column(
+      children: [
+        Container(
+          width: 66,
+          height: 66,
+          decoration: BoxDecoration(
+            color: appColor,
+            borderRadius: BorderRadius.circular(18),
+          ),
+          alignment: Alignment.center,
+          child: const Text(
+            'OE',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 0.4,
+            ),
           ),
         ),
-        child: state.isLoading
-            ? const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.5,
-                  valueColor: AlwaysStoppedAnimation(Color(0xFF1E3A8A)),
-                ),
-              )
-            : const Text(
-                'Login',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-      ),
+        const SizedBox(height: 18),
+        Text(
+          'Offline Engine',
+          style: TextStyle(
+            color: isDarkMode ? Colors.white : const Color(0xFF111111),
+            fontSize: 24,
+            fontWeight: FontWeight.w800,
+            height: 1.1,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Sync anywhere. Instantly.',
+          style: TextStyle(
+            color: isDarkMode
+                ? const Color(0xFF9A9AA6)
+                : const Color(0xFF9B9BA6),
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildErrorSection(LoginState state) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.red.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.red.withValues(alpha: 0.4)),
+  Widget _buildField({
+    required TextEditingController controller,
+    required bool isDarkMode,
+    required Color borderColor,
+    required Color filledColor,
+    required Color textColor,
+    bool obscureText = false,
+    Widget? suffixIcon,
+  }) {
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      style: TextStyle(
+        color: textColor,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
       ),
-      child: Column(
-        children: [
-          const Icon(
-            Icons.error_outline_rounded,
-            color: Colors.redAccent,
-            size: 28,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            state.errorMessage ?? 'Login failed. Please try again.',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            state.canRetry
-                ? 'You can retry now'
-                : 'Please wait ${state.retryCountDown} s before retrying',
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white70, fontSize: 13),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              onPressed: state.canRetry ? _handleLogin : null,
-              icon: const Icon(Icons.refresh_rounded),
-              label: const Text('Retry'),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                disabledForegroundColor: Colors.white38,
-                side: BorderSide(
-                  color: state.canRetry ? Colors.white : Colors.white24,
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-          ),
-        ],
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: filledColor,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 16,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: borderColor, width: 1),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: borderColor, width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: appColor, width: 1.2),
+        ),
+        suffixIcon: suffixIcon,
       ),
     );
   }
