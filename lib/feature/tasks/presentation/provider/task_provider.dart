@@ -23,8 +23,7 @@ class TaskNotifier extends _$TaskNotifier {
     _remoteFetchSubscription?.cancel();
     _remoteFetchSubscription = syncManagerInstance.onRemoteFetchDone.listen(
       (_) {
-        // Only auto-refresh if we're not already in a manual refresh
-        // (which itself called fetchRemoteTasks and will reload after).
+        // Remote fetch already done by SyncManager — just reload local DB.
         if (!_isRefreshing) refresh();
       },
     );
@@ -36,13 +35,15 @@ class TaskNotifier extends _$TaskNotifier {
     return const TaskState(isLoading: true);
   }
 
-  Future<void> refresh() async {
+  Future<void> refresh({bool remote = false}) async {
     if (_isRefreshing) return;
     _isRefreshing = true;
     state = state.copyWith(isLoading: true, clearError: true);
 
-    // Fetch latest from server first, then reload from local DB.
-    await syncManagerInstance.fetchRemoteTasks();
+    // Hit the network only on explicit/manual refresh and when connected.
+    if (remote && syncManagerInstance.isConnected) {
+      await syncManagerInstance.fetchRemoteTasks();
+    }
 
     final result = await getTasksLocalUsecase();
 

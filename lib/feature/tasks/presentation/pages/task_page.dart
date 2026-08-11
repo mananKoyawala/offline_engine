@@ -103,7 +103,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
             Expanded(
               child: RefreshIndicator(
                 color: appColor,
-                onRefresh: () => ref.read(taskProvider.notifier).refresh(),
+                onRefresh: () => ref.read(taskProvider.notifier).refresh(remote: true),
                 child: _buildBody(
                   state: state,
                   isDarkMode: isDarkMode,

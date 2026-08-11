@@ -29,6 +29,9 @@ class SyncManager with WidgetsBindingObserver {
   /// Emits `true` when a sync starts and `false` when it ends.
   Stream<bool> get onSyncingStateChanged => _syncingStateController.stream;
 
+  /// Whether the device currently has internet access.
+  bool get isConnected => _internetService.isConnected;
+
   StreamSubscription<bool>? _internetSubscription;
   StreamSubscription<void>? _taskWriteSubscription;
   Timer? _syncDebounceTimer;

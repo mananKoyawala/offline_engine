@@ -10,6 +10,8 @@ class ThemeNotifier extends _$ThemeNotifier {
     return ThemeState();
   }
 
+  bool get isDarkMode => state.isDarkMode;
+
   void changeThemeMode(bool value) {
     state = state.copyWith(isDarkMode: value);
   }
