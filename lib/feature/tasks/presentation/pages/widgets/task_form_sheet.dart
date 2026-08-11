@@ -84,7 +84,7 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
             title: title,
             description: description,
             priority: _priority,
-            isCompleted: false,
+            isCompleted: widget.existingTask!.isCompleted,
           ),
         ),
       );

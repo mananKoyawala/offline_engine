@@ -1,3 +1,4 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:offline_engine/core/import/app_imports.dart';
 
 part 'update_task_params.freezed.dart';
@@ -10,7 +11,7 @@ abstract class UpdateTaskParams with _$UpdateTaskParams {
     required String title,
     required String description,
     required TaskPriority priority,
-    required bool isCompleted,
+    @JsonKey(name: 'is_completed') required bool isCompleted,
   }) = _UpdateTaskParams;
 
   factory UpdateTaskParams.fromJson(Map<String, dynamic> json) =>
