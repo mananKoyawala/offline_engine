@@ -43,6 +43,16 @@ dev_dependencies:
   drift_dev: ^2.34.0
   freezed: ^3.2.5
   riverpod_generator: ^4.0.4
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo/offline_engine_logo.jpg"
+  min_sdk_android: 21
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/logo/
