@@ -18,7 +18,7 @@ class SyncOperationResponseResolver {
       }
 
       if (operation.status == SyncOperationStatus.conflict) {
-        ConflictResolver.solveConflict(operation);
+        await ConflictResolver.solveConflict(operation);
       }
 
       if (operation.status == SyncOperationStatus.failed) {
