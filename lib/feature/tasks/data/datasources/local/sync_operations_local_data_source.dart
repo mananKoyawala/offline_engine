@@ -1,6 +1,6 @@
 import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/import/app_imports.dart';
-import 'package:offline_engine/service/conflict_resolver/conflict_resolver_params.dart';
+import 'package:offline_engine/service/sync/conflict_resolver/conflict_resolver_params.dart';
 
 abstract class SyncOperationsLocalDataSource {
   Future<Either<ApiFailure, List<SyncOperationItem>>> getSyncOperations();

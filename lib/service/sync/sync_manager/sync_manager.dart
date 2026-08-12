@@ -5,12 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:offline_engine/feature/tasks/presentation/getters/sync_operation_getters.dart';
 import 'package:offline_engine/feature/tasks/presentation/getters/task_getters.dart';
-import 'package:offline_engine/service/internet_service/internet_service.dart';
-import 'package:offline_engine/service/operation_resolver/sync_operation_response_resolver.dart';
-import 'package:offline_engine/service/queue_manager/queue_manager.dart';
-import 'package:offline_engine/service/sync_event_bus/sync_event_bus.dart';
-import 'package:offline_engine/service/sync_processor/getters/sync_manager_getters.dart';
-import 'package:offline_engine/service/sync_processor/params/sync_processor_params.dart';
+import 'package:offline_engine/service/network/internet_service/internet_service.dart';
+import 'package:offline_engine/service/sync/operation_resolver/sync_operation_response_resolver.dart';
+import 'package:offline_engine/service/sync/queue_manager/queue_manager.dart';
+import 'package:offline_engine/service/sync/sync_event_bus/sync_event_bus.dart';
+import 'package:offline_engine/service/sync/sync_processor/getters/sync_manager_getters.dart';
+import 'package:offline_engine/service/sync/sync_processor/params/sync_processor_params.dart';
 
 @lazySingleton
 class SyncManager with WidgetsBindingObserver {

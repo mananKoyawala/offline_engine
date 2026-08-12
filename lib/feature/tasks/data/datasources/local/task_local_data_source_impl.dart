@@ -8,7 +8,7 @@ import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/import/app_imports.dart';
 import 'package:offline_engine/feature/tasks/data/datasources/local/task_local_data_source.dart';
 import 'package:offline_engine/feature/tasks/presentation/enums/sync_operations.dart';
-import 'package:offline_engine/service/sync_event_bus/sync_event_bus.dart';
+import 'package:offline_engine/service/sync/sync_event_bus/sync_event_bus.dart';
 import 'package:uuid/uuid.dart';
 
 @LazySingleton(as: TaskLocalDataSource)
@@ -150,12 +150,15 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
       // Collect task IDs that have at least one pending sync operation.
       // These are local changes not yet confirmed by the server → skip them
       // so we don't overwrite the user's in-flight edits.
-      final pendingRows = await (database.selectOnly(database.syncOperations)
-            ..addColumns([database.syncOperations.taskId])
-            ..where(
-              database.syncOperations.status.equals(SyncStatus.pending.status),
-            ))
-          .get();
+      final pendingRows =
+          await (database.selectOnly(database.syncOperations)
+                ..addColumns([database.syncOperations.taskId])
+                ..where(
+                  database.syncOperations.status.equals(
+                    SyncStatus.pending.status,
+                  ),
+                ))
+              .get();
 
       final pendingTaskIds = pendingRows
           .map((r) => r.read(database.syncOperations.taskId))
@@ -170,38 +173,39 @@ class TaskLocalDataSourceImpl implements TaskLocalDataSource {
           // Skip tasks the user has locally modified but not yet synced.
           if (pendingTaskIds.contains(id)) continue;
 
-          final existing =
-              await (database.select(
-                database.tasks,
-              )..where((t) => t.id.equals(id))).getSingleOrNull();
+          final existing = await (database.select(
+            database.tasks,
+          )..where((t) => t.id.equals(id))).getSingleOrNull();
 
           if (existing == null) {
             // New task from server — insert it.
-            await database.into(database.tasks).insert(
-              TasksCompanion(
-                id: Value(id),
-                title: Value(remote.title ?? ''),
-                description: Value(remote.description),
-                priority: Value(remote.priority ?? 0),
-                isCompleted: Value(remote.isCompleted),
-                version: Value(remote.version),
-              ),
-            );
-          } else if (remote.version >= existing.version) {
-            // Server version is same or newer — overwrite local.
-            // (For non-pending tasks, server is the source of truth.)
-            await (database.update(database.tasks)
-                  ..where((t) => t.id.equals(id)))
-                .write(
+            await database
+                .into(database.tasks)
+                .insert(
                   TasksCompanion(
+                    id: Value(id),
                     title: Value(remote.title ?? ''),
                     description: Value(remote.description),
                     priority: Value(remote.priority ?? 0),
                     isCompleted: Value(remote.isCompleted),
                     version: Value(remote.version),
-                    updatedAt: Value(DateTime.now()),
                   ),
                 );
+          } else if (remote.version >= existing.version) {
+            // Server version is same or newer — overwrite local.
+            // (For non-pending tasks, server is the source of truth.)
+            await (database.update(
+              database.tasks,
+            )..where((t) => t.id.equals(id))).write(
+              TasksCompanion(
+                title: Value(remote.title ?? ''),
+                description: Value(remote.description),
+                priority: Value(remote.priority ?? 0),
+                isCompleted: Value(remote.isCompleted),
+                version: Value(remote.version),
+                updatedAt: Value(DateTime.now()),
+              ),
+            );
           }
           // If remote.version <= existing.version, local is already up-to-date.
         }

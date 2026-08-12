@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/service/sync_processor/model/sync_processor_response.dart';
-import 'package:offline_engine/service/sync_processor/params/sync_processor_params.dart';
-import 'package:offline_engine/service/sync_processor/repository/sync_processor_repository.dart';
+import 'package:offline_engine/service/sync/sync_processor/model/sync_processor_response.dart';
+import 'package:offline_engine/service/sync/sync_processor/params/sync_processor_params.dart';
+import 'package:offline_engine/service/sync/sync_processor/repository/sync_processor_repository.dart';
 
 @lazySingleton
 class SyncOperationUsecase {

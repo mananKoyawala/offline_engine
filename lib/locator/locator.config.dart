@@ -45,18 +45,19 @@ import 'package:offline_engine/feature/tasks/domain/usecases/sync_operation_usec
     as _i1046;
 import 'package:offline_engine/feature/tasks/domain/usecases/task_usecases.dart'
     as _i1008;
-import 'package:offline_engine/service/internet_service/internet_service.dart'
+import 'package:offline_engine/service/network/internet_service/internet_service.dart'
     as _i665;
-import 'package:offline_engine/service/queue_manager/queue_manager.dart'
+import 'package:offline_engine/service/sync/queue_manager/queue_manager.dart'
     as _i178;
-import 'package:offline_engine/service/sync_event_bus/sync_event_bus.dart'
+import 'package:offline_engine/service/sync/sync_event_bus/sync_event_bus.dart'
     as _i437;
-import 'package:offline_engine/service/sync_manager/sync_manager.dart' as _i762;
-import 'package:offline_engine/service/sync_processor/repository/sync_processor_repository.dart'
+import 'package:offline_engine/service/sync/sync_manager/sync_manager.dart'
+    as _i762;
+import 'package:offline_engine/service/sync/sync_processor/repository/sync_processor_repository.dart'
     as _i570;
-import 'package:offline_engine/service/sync_processor/repository/sync_processor_repository_impl.dart'
+import 'package:offline_engine/service/sync/sync_processor/repository/sync_processor_repository_impl.dart'
     as _i722;
-import 'package:offline_engine/service/sync_processor/usecase/sync_manager_usecases.dart'
+import 'package:offline_engine/service/sync/sync_processor/usecase/sync_manager_usecases.dart'
     as _i116;
 
 extension GetItInjectableX on _i174.GetIt {

@@ -1,5 +1,5 @@
 import 'package:offline_engine/core/import/app_imports.dart';
-import 'package:offline_engine/service/sync_processor/enums/sync_processor_enums.dart';
+import 'package:offline_engine/service/sync/sync_processor/enums/sync_processor_enums.dart';
 
 part 'sync_processor_response.freezed.dart';
 part 'sync_processor_response.g.dart';

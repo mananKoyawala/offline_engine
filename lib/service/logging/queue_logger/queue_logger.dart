@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:offline_engine/core/import/app_imports.dart';
-import 'package:offline_engine/service/queue_manager/enums/queue_enums.dart';
+import 'package:offline_engine/service/sync/queue_manager/enums/queue_enums.dart';
 
 class QueueLogger {
   static void printState(
