@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:offline_engine/core/theme/colors.dart';
-import 'package:offline_engine/feature/tasks/domain/enitites/task_entity.dart';
+import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
 import 'package:offline_engine/feature/tasks/presentation/enums/task_priority.dart';
 
 class TaskCard extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
 import 'package:offline_engine/core/import/app_imports.dart';
-import 'package:offline_engine/feature/tasks/domain/enitites/task_entity.dart';
+import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
 import 'package:offline_engine/feature/tasks/domain/repository/task_repository.dart';
 
 @lazySingleton

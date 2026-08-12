@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offline_engine/core/global_getters.dart';
 import 'package:offline_engine/core/theme/colors.dart';
 import 'package:offline_engine/core/theme/theme_provider.dart';
-import 'package:offline_engine/feature/tasks/domain/enitites/task_entity.dart';
+import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
 import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
 import 'package:offline_engine/feature/tasks/presentation/pages/sync_operations_page.dart';
 import 'package:offline_engine/feature/tasks/presentation/pages/widgets/task_card.dart';
@@ -103,7 +103,8 @@ class _TaskPageState extends ConsumerState<TaskPage> {
             Expanded(
               child: RefreshIndicator(
                 color: appColor,
-                onRefresh: () => ref.read(taskProvider.notifier).refresh(remote: true),
+                onRefresh: () =>
+                    ref.read(taskProvider.notifier).refresh(remote: true),
                 child: _buildBody(
                   state: state,
                   isDarkMode: isDarkMode,

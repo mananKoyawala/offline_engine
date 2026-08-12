@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:offline_engine/core/theme/colors.dart';
-import 'package:offline_engine/feature/tasks/domain/enitites/task_entity.dart';
+import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
 import 'package:offline_engine/feature/tasks/domain/params/create_task_params.dart';
 import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
 import 'package:offline_engine/feature/tasks/presentation/enums/task_priority.dart';
@@ -107,13 +107,16 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final sheetColor = isDark ? const Color(0xFF16161A) : Colors.white;
-    final fieldFill =
-        isDark ? const Color(0xFF2B2B2F) : const Color(0xFFF7F7FA);
-    final fieldBorder =
-        isDark ? const Color(0xFF3C3C44) : const Color(0xFFE5E7EB);
+    final fieldFill = isDark
+        ? const Color(0xFF2B2B2F)
+        : const Color(0xFFF7F7FA);
+    final fieldBorder = isDark
+        ? const Color(0xFF3C3C44)
+        : const Color(0xFFE5E7EB);
     final titleColor = isDark ? Colors.white : const Color(0xFF111111);
-    final labelColor =
-        isDark ? const Color(0xFFB8B8C2) : const Color(0xFF6B7280);
+    final labelColor = isDark
+        ? const Color(0xFFB8B8C2)
+        : const Color(0xFF6B7280);
 
     return Container(
       decoration: BoxDecoration(

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:offline_engine/feature/tasks/domain/enitites/task_entity.dart';
+import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
 
 part 'task_state.freezed.dart';
 
