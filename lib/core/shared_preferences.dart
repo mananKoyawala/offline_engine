@@ -26,10 +26,19 @@ class Preferences {
     return _preferences.getString(_refreshToken) ?? '';
   }
 
+  Future<void> setThemeMode(bool isDarkMode) async {
+    await _preferences.setBool(_themeMode, isDarkMode);
+  }
+
+  bool getThemeMode() {
+    return _preferences.getBool(_themeMode) ?? false;
+  }
+
   Future<void> clear() async {
     await _preferences.clear();
   }
 
   final String _accessToken = 'access_token';
   final String _refreshToken = 'refresh_token';
+  final String _themeMode = 'theme_mode';
 }

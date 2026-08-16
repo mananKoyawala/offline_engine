@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offline_engine/core/global_getters.dart';
 import 'package:offline_engine/core/theme/colors.dart';
 import 'package:offline_engine/core/theme/theme_provider.dart';
 import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
@@ -179,10 +178,9 @@ class _TaskPageState extends ConsumerState<TaskPage> {
               ],
             ),
           ),
-          _buildIconButton(
-            icon: Icons.sync_rounded,
+          _buildThemeToggleButton(
+            context: context,
             isDarkMode: isDarkMode,
-            onTap: () => syncManagerInstance.startSyncAll(),
           ),
           const SizedBox(width: 6),
           _buildIconButton(
@@ -196,6 +194,54 @@ class _TaskPageState extends ConsumerState<TaskPage> {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildThemeToggleButton({
+    required BuildContext context,
+    required bool isDarkMode,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: () => ref.read(themeProvider.notifier).changeThemeMode(!isDarkMode),
+        child: Container(
+          width: 38,
+          height: 38,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: isDarkMode
+                ? const Color(0xFF2B2B2F)
+                : const Color(0xFFF0F0F5),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 260),
+            transitionBuilder: (child, animation) {
+              final rotate = Tween<double>(begin: 0.8, end: 1.0).animate(
+                CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
+              );
+              return ScaleTransition(
+                scale: animation,
+                child: RotationTransition(
+                  turns: rotate,
+                  child: child,
+                ),
+              );
+            },
+            child: Icon(
+              isDarkMode ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+              key: ValueKey(isDarkMode),
+              size: 20,
+              color: isDarkMode
+                  ? const Color(0xFFB0B0BA)
+                  : const Color(0xFF6B7280),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offline_engine/core/theme/colors.dart';
 import 'package:offline_engine/core/theme/theme_provider.dart';
@@ -151,6 +155,253 @@ class SyncOperationsPage extends ConsumerWidget {
     );
   }
 
+  void _showOperationSheet(
+    BuildContext context,
+    SyncOperationItem op,
+    bool isDarkMode,
+  ) {
+    final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
+    final subtitleColor = isDarkMode
+        ? const Color(0xFFB0B0BA)
+        : const Color(0xFF8A8A96);
+    final borderColor = isDarkMode
+        ? const Color(0xFF2C2C34)
+        : const Color(0xFFEEEEF2);
+    final surfaceColor = isDarkMode ? const Color(0xFF16161A) : Colors.white;
+    final softSurfaceColor = isDarkMode
+        ? const Color(0xFF1C1C22)
+        : const Color(0xFFF7F7FA);
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return SafeArea(
+          top: false,
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(ctx).viewInsets.bottom,
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: surfaceColor,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(28),
+                ),
+                border: Border(top: BorderSide(color: borderColor, width: 1)),
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(ctx).size.height * 0.82,
+                ),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 36,
+                          height: 4,
+                          margin: const EdgeInsets.symmetric(vertical: 14),
+                          decoration: BoxDecoration(
+                            color: isDarkMode
+                                ? const Color(0xFF3C3C44)
+                                : const Color(0xFFDDDDE6),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                              color: _statusColor(
+                                op.status,
+                              ).withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: Icon(
+                              Icons.swap_horiz_rounded,
+                              color: _statusColor(op.status),
+                              size: 22,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Sync Operation Details',
+                                  style: TextStyle(
+                                    color: titleColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.1,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'A quick look at this queued operation',
+                                  style: TextStyle(
+                                    color: subtitleColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      _buildDetailCard(
+                        borderColor: borderColor,
+                        surfaceColor: softSurfaceColor,
+                        child: Column(
+                          children: [
+                            _buildDetailRow(
+                              label: 'Operation ID',
+                              value: '${op.id}',
+                              titleColor: titleColor,
+                              subtitleColor: subtitleColor,
+                            ),
+                            const SizedBox(height: 12),
+                            _buildDetailRow(
+                              label: 'Task ID',
+                              value: op.taskId.isNotEmpty ? op.taskId : '—',
+                              titleColor: titleColor,
+                              subtitleColor: subtitleColor,
+                            ),
+                            const SizedBox(height: 12),
+                            _buildDetailRow(
+                              label: 'Type',
+                              value: op.type.type.toUpperCase(),
+                              titleColor: titleColor,
+                              subtitleColor: subtitleColor,
+                              valueWidget: _buildBadge(
+                                text: op.type.type.toUpperCase(),
+                                color: _typeColor(op.type),
+                                isDarkMode: isDarkMode,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            _buildDetailRow(
+                              label: 'Status',
+                              value: _statusLabel(op.status),
+                              titleColor: titleColor,
+                              subtitleColor: subtitleColor,
+                              valueWidget: _buildBadge(
+                                text: _statusLabel(op.status),
+                                color: _statusColor(op.status),
+                                isDarkMode: isDarkMode,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      _buildDetailCard(
+                        borderColor: borderColor,
+                        surfaceColor: softSurfaceColor,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Payload',
+                                  style: TextStyle(
+                                    color: titleColor,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Material(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(10),
+                                    onTap: () => _copyPayload(op.payload),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 8,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: appColor.withValues(alpha: 0.12),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.copy_rounded,
+                                            size: 14,
+                                            color: appColor,
+                                          ),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            'Copy',
+                                            style: TextStyle(
+                                              color: appColor,
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(14),
+                              decoration: BoxDecoration(
+                                color: isDarkMode
+                                    ? const Color(0xFF15151A)
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(14),
+                                border: Border.all(
+                                  color: borderColor,
+                                  width: 1,
+                                ),
+                              ),
+                              child: SelectableText(
+                                JsonEncoder.withIndent(
+                                  '  ',
+                                ).convert(op.payload),
+                                style: TextStyle(
+                                  color: titleColor,
+                                  fontSize: 11,
+                                  height: 1.45,
+                                  fontFamily: 'monospace',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildIconBtn({
     required IconData icon,
     required bool isDarkMode,
@@ -259,6 +510,7 @@ class SyncOperationsPage extends ConsumerWidget {
         else
           ...data.map(
             (op) => _buildOperationTile(
+              context: context,
               op: op,
               isDarkMode: isDarkMode,
               titleColor: titleColor,
@@ -565,6 +817,7 @@ class SyncOperationsPage extends ConsumerWidget {
   // ── Operation list tile ───────────────────────────────────────────────────
 
   Widget _buildOperationTile({
+    required BuildContext context,
     required SyncOperationItem op,
     required bool isDarkMode,
     required Color titleColor,
@@ -574,125 +827,228 @@ class SyncOperationsPage extends ConsumerWidget {
     final typeColor = _typeColor(op.type);
     final cardColor = isDarkMode ? const Color(0xFF1C1C22) : Colors.white;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      decoration: BoxDecoration(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Material(
         color: cardColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDarkMode ? const Color(0xFF2C2C34) : const Color(0xFFEEEEF2),
-          width: 1,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Status dot
-            Container(
-              width: 3,
-              height: 44,
-              margin: const EdgeInsets.only(right: 12, top: 2),
-              decoration: BoxDecoration(
-                color: statusColor,
-                borderRadius: BorderRadius.circular(4),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () => _showOperationSheet(context, op, isDarkMode),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: isDarkMode
+                    ? const Color(0xFF2C2C34)
+                    : const Color(0xFFEEEEF2),
+                width: 1,
               ),
             ),
-            Expanded(
-              child: Column(
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Task: ${op.taskId.isNotEmpty ? op.taskId : '—'}',
-                          style: TextStyle(
-                            color: titleColor,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      // Type badge
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 3,
-                        ),
-                        decoration: BoxDecoration(
-                          color: typeColor.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          op.type.type.toUpperCase(),
-                          style: TextStyle(
-                            color: typeColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.4,
-                          ),
-                        ),
-                      ),
-                    ],
+                  Container(
+                    width: 3,
+                    height: 44,
+                    margin: const EdgeInsets.only(right: 12, top: 2),
+                    decoration: BoxDecoration(
+                      color: statusColor,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Text(
-                        'ID: ${op.id}',
-                        style: TextStyle(
-                          color: subtitleColor,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 7,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: statusColor.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(
-                            color: statusColor.withValues(alpha: 0.3),
-                            width: 0.8,
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            Container(
-                              width: 5,
-                              height: 5,
-                              decoration: BoxDecoration(
-                                color: statusColor,
-                                shape: BoxShape.circle,
+                            Expanded(
+                              child: Text(
+                                'Task: ${op.taskId.isNotEmpty ? op.taskId : '—'}',
+                                style: TextStyle(
+                                  color: titleColor,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            const SizedBox(width: 4),
-                            Text(
-                              _statusLabel(op.status),
-                              style: TextStyle(
-                                color: statusColor,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 3,
+                              ),
+                              decoration: BoxDecoration(
+                                color: typeColor.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                op.type.type.toUpperCase(),
+                                style: TextStyle(
+                                  color: typeColor,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.4,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Text(
+                              'ID: ${op.id}',
+                              style: TextStyle(
+                                color: subtitleColor,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 7,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: statusColor.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                  color: statusColor.withValues(alpha: 0.3),
+                                  width: 0.8,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 5,
+                                    height: 5,
+                                    decoration: BoxDecoration(
+                                      color: statusColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    _statusLabel(op.status),
+                                    style: TextStyle(
+                                      color: statusColor,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailCard({
+    required Color borderColor,
+    required Color surfaceColor,
+    required Widget child,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: surfaceColor,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: borderColor, width: 1),
+      ),
+      child: child,
+    );
+  }
+
+  Widget _buildDetailRow({
+    required String label,
+    required String value,
+    required Color titleColor,
+    required Color subtitleColor,
+    Widget? valueWidget,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 92,
+          child: Text(
+            label,
+            style: TextStyle(
+              color: subtitleColor,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: valueWidget != null
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: valueWidget,
+                )
+              : Text(
+                  value,
+                  style: TextStyle(
+                    color: titleColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    height: 1.4,
+                  ),
+                ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _copyPayload(Map<String, dynamic> payload) async {
+    final payloadText = JsonEncoder.withIndent('  ').convert(payload);
+    await Clipboard.setData(ClipboardData(text: payloadText));
+    Fluttertoast.showToast(
+      msg: 'Payload copied',
+      backgroundColor: appColor,
+      textColor: Colors.white,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+    );
+  }
+
+  Widget _buildBadge({
+    required String text,
+    required Color color,
+    required bool isDarkMode,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: isDarkMode ? 0.18 : 0.12),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: color,
+          fontSize: 10,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.4,
         ),
       ),
     );
