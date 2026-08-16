@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offline_engine/core/theme/colors.dart';
 import 'package:offline_engine/core/theme/theme_provider.dart';
@@ -517,7 +518,69 @@ class SyncOperationsPage extends ConsumerWidget {
               subtitleColor: subtitleColor,
             ),
           ),
+
+        const SizedBox(height: 24),
+        _buildAppVersionFooter(
+          isDarkMode: isDarkMode,
+          titleColor: titleColor,
+          subtitleColor: subtitleColor,
+        ),
       ],
+    );
+  }
+
+  Widget _buildAppVersionFooter({
+    required bool isDarkMode,
+    required Color titleColor,
+    required Color subtitleColor,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Center(
+        child: FutureBuilder<PackageInfo>(
+          future: PackageInfo.fromPlatform(),
+          builder: (context, snapshot) {
+            final versionText = snapshot.hasData
+                ? 'v${snapshot.data!.version}'
+                : 'Loading version...';
+
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? const Color(0xFF1C1C22)
+                    : const Color(0xFFF7F7FA),
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(
+                  color: isDarkMode
+                      ? const Color(0xFF2C2C34)
+                      : const Color(0xFFEEEEF2),
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.verified_rounded,
+                    size: 14,
+                    color: appColor.withValues(alpha: 0.85),
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    versionText,
+                    style: TextStyle(
+                      color: subtitleColor,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 
