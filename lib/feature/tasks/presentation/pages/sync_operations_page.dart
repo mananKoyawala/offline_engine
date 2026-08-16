@@ -689,14 +689,16 @@ class SyncOperationsPage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 2),
-                Text(
-                  item.label,
-                  style: TextStyle(
-                    color: isDarkMode
-                        ? const Color(0xFF8A8A96)
-                        : const Color(0xFF9B9BA6),
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
+                FittedBox(
+                  child: Text(
+                    item.label,
+                    style: TextStyle(
+                      color: isDarkMode
+                          ? const Color(0xFF8A8A96)
+                          : const Color(0xFF9B9BA6),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ],
@@ -1001,10 +1003,7 @@ class SyncOperationsPage extends ConsumerWidget {
         const SizedBox(width: 12),
         Expanded(
           child: valueWidget != null
-              ? Align(
-                  alignment: Alignment.centerLeft,
-                  child: valueWidget,
-                )
+              ? Align(alignment: Alignment.centerLeft, child: valueWidget)
               : Text(
                   value,
                   style: TextStyle(
