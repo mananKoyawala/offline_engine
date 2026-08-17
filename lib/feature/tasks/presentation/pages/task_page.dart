@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:offline_engine/core/theme/colors.dart';
 import 'package:offline_engine/core/theme/theme_provider.dart';
 import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
@@ -87,38 +88,60 @@ class _TaskPageState extends ConsumerState<TaskPage> {
         ? const Color(0xFF2C2C34)
         : const Color(0xFFEEEEF2);
 
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(
-              isDarkMode: isDarkMode,
-              titleColor: titleColor,
-              subtitleColor: subtitleColor,
-              surfaceColor: surfaceColor,
-              borderColor: borderColor,
-            ),
-            Expanded(
-              child: RefreshIndicator(
-                color: appColor,
-                onRefresh: () async {
-                  ref.read(taskProvider.notifier).refresh(remote: true);
-                  await HapticFeedback.mediumImpact();
-                },
-                child: _buildBody(
-                  state: state,
-                  isDarkMode: isDarkMode,
-                  titleColor: titleColor,
-                  subtitleColor: subtitleColor,
+    DateTime? lastBackPressTime;
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+
+        final now = DateTime.now();
+
+        if (lastBackPressTime == null ||
+            now.difference(lastBackPressTime!) > const Duration(seconds: 2)) {
+          lastBackPressTime = now;
+
+          Fluttertoast.showToast(msg: 'Press back again to exit');
+
+          return;
+        }
+
+        // Exit the app
+        SystemNavigator.pop();
+      },
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(
+                isDarkMode: isDarkMode,
+                titleColor: titleColor,
+                subtitleColor: subtitleColor,
+                surfaceColor: surfaceColor,
+                borderColor: borderColor,
+              ),
+              Expanded(
+                child: RefreshIndicator(
+                  color: appColor,
+                  onRefresh: () async {
+                    ref.read(taskProvider.notifier).refresh(remote: true);
+                    await HapticFeedback.mediumImpact();
+                  },
+                  child: _buildBody(
+                    state: state,
+                    isDarkMode: isDarkMode,
+                    titleColor: titleColor,
+                    subtitleColor: subtitleColor,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        floatingActionButton: _buildFAB(isDarkMode),
       ),
-      floatingActionButton: _buildFAB(isDarkMode),
     );
   }
 
