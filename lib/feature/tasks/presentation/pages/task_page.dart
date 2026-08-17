@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offline_engine/core/theme/colors.dart';
 import 'package:offline_engine/core/theme/theme_provider.dart';
@@ -102,8 +103,10 @@ class _TaskPageState extends ConsumerState<TaskPage> {
             Expanded(
               child: RefreshIndicator(
                 color: appColor,
-                onRefresh: () =>
-                    ref.read(taskProvider.notifier).refresh(remote: true),
+                onRefresh: () async {
+                  ref.read(taskProvider.notifier).refresh(remote: true);
+                  await HapticFeedback.mediumImpact();
+                },
                 child: _buildBody(
                   state: state,
                   isDarkMode: isDarkMode,
@@ -178,10 +181,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
               ],
             ),
           ),
-          _buildThemeToggleButton(
-            context: context,
-            isDarkMode: isDarkMode,
-          ),
+          _buildThemeToggleButton(context: context, isDarkMode: isDarkMode),
           const SizedBox(width: 6),
           _buildIconButton(
             icon: Icons.info_outline_rounded,
@@ -207,7 +207,8 @@ class _TaskPageState extends ConsumerState<TaskPage> {
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
-        onTap: () => ref.read(themeProvider.notifier).changeThemeMode(!isDarkMode),
+        onTap: () =>
+            ref.read(themeProvider.notifier).changeThemeMode(!isDarkMode),
         child: Container(
           width: 38,
           height: 38,
@@ -226,10 +227,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
               );
               return ScaleTransition(
                 scale: animation,
-                child: RotationTransition(
-                  turns: rotate,
-                  child: child,
-                ),
+                child: RotationTransition(turns: rotate, child: child),
               );
             },
             child: Icon(
