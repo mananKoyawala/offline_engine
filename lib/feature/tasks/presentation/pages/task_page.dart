@@ -367,7 +367,9 @@ class _TaskPageState extends ConsumerState<TaskPage> {
     }
 
     final activeTasks = state.tasks.where((task) => !task.isCompleted).toList();
-    final completedTasks = state.tasks.where((task) => task.isCompleted).toList();
+    final completedTasks = state.tasks
+        .where((task) => task.isCompleted)
+        .toList();
 
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
@@ -405,6 +407,8 @@ class _TaskPageState extends ConsumerState<TaskPage> {
     final sectionSurface = isDarkMode
         ? const Color(0xFF1A1A1F)
         : const Color(0xFFF7F7FA);
+
+    if (completedTasks.isEmpty) return SizedBox.shrink();
 
     return Container(
       margin: const EdgeInsets.only(top: 4),
