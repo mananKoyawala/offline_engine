@@ -20,6 +20,8 @@ class TaskPage extends ConsumerStatefulWidget {
 }
 
 class _TaskPageState extends ConsumerState<TaskPage> {
+  bool _showCompletedTasks = false;
+
   void _openCreateForm() {
     showTaskFormSheet(
       context,
@@ -58,7 +60,6 @@ class _TaskPageState extends ConsumerState<TaskPage> {
   }
 
   void _toggleComplete(TaskEntity task, bool isDone) {
-    if (isDone) {}
     ref
         .read(taskProvider.notifier)
         .updateTask(
@@ -365,18 +366,165 @@ class _TaskPageState extends ConsumerState<TaskPage> {
       );
     }
 
-    return ListView.builder(
+    final activeTasks = state.tasks.where((task) => !task.isCompleted).toList();
+    final completedTasks = state.tasks.where((task) => task.isCompleted).toList();
+
+    return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-      itemCount: state.tasks.length,
-      itemBuilder: (context, index) {
-        final task = state.tasks[index];
-        return TaskCard(
-          task: task,
-          onTap: () => _openEditForm(task),
-          onDeleteConfirmed: () => _deleteTask(task),
-          onToggleComplete: (isDone) => _toggleComplete(task, isDone),
-        );
-      },
+      children: [
+        if (activeTasks.isNotEmpty) ...[
+          ...activeTasks.map(
+            (task) => TaskCard(
+              task: task,
+              onTap: () => _openEditForm(task),
+              onDeleteConfirmed: () => _deleteTask(task),
+              onToggleComplete: (isDone) => _toggleComplete(task, isDone),
+            ),
+          ),
+        ],
+        const SizedBox(height: 8),
+        _buildCompletedTasksSection(
+          completedTasks: completedTasks,
+          isDarkMode: isDarkMode,
+          titleColor: titleColor,
+          subtitleColor: subtitleColor,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCompletedTasksSection({
+    required List<TaskEntity> completedTasks,
+    required bool isDarkMode,
+    required Color titleColor,
+    required Color subtitleColor,
+  }) {
+    final sectionBorder = isDarkMode
+        ? const Color(0xFF2C2C34)
+        : const Color(0xFFEEEEF2);
+    final sectionSurface = isDarkMode
+        ? const Color(0xFF1A1A1F)
+        : const Color(0xFFF7F7FA);
+
+    return Container(
+      margin: const EdgeInsets.only(top: 4),
+      decoration: BoxDecoration(
+        color: sectionSurface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: sectionBorder, width: 1),
+      ),
+      child: Column(
+        children: [
+          Material(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(18),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(18),
+              onTap: () {
+                setState(() {
+                  _showCompletedTasks = !_showCompletedTasks;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: appColor.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.done_all_rounded,
+                        color: appColor,
+                        size: 21,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Completed Tasks',
+                            style: TextStyle(
+                              color: titleColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            '${completedTasks.length} completed',
+                            style: TextStyle(
+                              color: subtitleColor,
+                              fontSize: 12,
+                              height: 1.35,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    AnimatedRotation(
+                      duration: const Duration(milliseconds: 180),
+                      turns: _showCompletedTasks ? 0.5 : 0,
+                      child: Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        size: 24,
+                        color: subtitleColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          AnimatedCrossFade(
+            firstChild: const SizedBox.shrink(),
+            secondChild: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: completedTasks.isEmpty
+                  ? Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'No completed tasks yet',
+                        style: TextStyle(
+                          color: subtitleColor,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        const SizedBox(height: 6),
+                        ...completedTasks.map(
+                          (task) => Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: TaskCard(
+                              task: task,
+                              onTap: () => _openEditForm(task),
+                              onDeleteConfirmed: () => _deleteTask(task),
+                              onToggleComplete: (isDone) =>
+                                  _toggleComplete(task, isDone),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+            crossFadeState: _showCompletedTasks
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+            duration: const Duration(milliseconds: 220),
+          ),
+        ],
+      ),
     );
   }
 
