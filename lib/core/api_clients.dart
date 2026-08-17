@@ -7,7 +7,7 @@ import 'package:offline_engine/core/base_url.dart';
 import 'package:offline_engine/core/global_getters.dart';
 import 'package:offline_engine/core/interceptors.dart';
 import 'package:offline_engine/core/navigator_key.dart';
-import 'package:offline_engine/feature/login/presentation/pages/login_page.dart';
+import 'package:offline_engine/feature/splash/presentation/pages/splash_page.dart';
 
 @lazySingleton
 class APIClients {
@@ -37,24 +37,16 @@ class APIClients {
       customSessionExpiryCodes: {401, 498},
       onSessionExpired:
           onSessionExpired ??
-          () {
+          () async {
+            await prefsInstance.clearAuthSession();
             Fluttertoast.showToast(
-              msg: 'You have to authorize you self again.',
+              msg: 'Your session expired. Please sign in again.',
             );
-            Navigator.pushAndRemoveUntil(
-              navigatorCtx,
-              MaterialPageRoute(builder: (_) => LoginPage()),
+            navigatorKey.currentState?.pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const SpalshPage()),
               (_) => false,
             );
           },
     );
   }
 }
-
-// TODO :
-/* 
-1. Update client version in task and sync operation (done)
-2. Static login and refresh token generator (done)
-3. Queue operation merger (done)
-4. Conflict resolver
-*/

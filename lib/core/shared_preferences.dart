@@ -44,6 +44,15 @@ class Preferences {
         AppAudio.defaultTaskCompleteSound;
   }
 
+  bool get hasAuthSession {
+    return getAccessToken().isNotEmpty || getRefreshToken().isNotEmpty;
+  }
+
+  Future<void> clearAuthSession() async {
+    await _preferences.remove(_accessToken);
+    await _preferences.remove(_refreshToken);
+  }
+
   Future<void> clear() async {
     await _preferences.clear();
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:offline_engine/core/global_getters.dart';
 import 'package:offline_engine/core/theme/colors.dart';
 import 'package:offline_engine/core/theme/theme_provider.dart';
 import 'package:offline_engine/feature/login/presentation/pages/login_page.dart';
+import 'package:offline_engine/feature/tasks/presentation/pages/task_page.dart';
 
 class SpalshPage extends ConsumerStatefulWidget {
   const SpalshPage({super.key});
@@ -21,13 +23,18 @@ class _SpalshPageState extends ConsumerState<SpalshPage> {
 
   void _loadNextPage() async {
     await Future.delayed(const Duration(milliseconds: 1500));
+    if (!mounted) return;
     _navigateUser();
   }
 
   void _navigateUser() {
+    final nextPage = prefsInstance.hasAuthSession
+        ? const TaskPage()
+        : const LoginPage();
+
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => LoginPage()),
+      MaterialPageRoute(builder: (_) => nextPage),
     );
   }
 

@@ -27,8 +27,8 @@ class LoginNotifier extends _$LoginNotifier {
 
     final result = await loginUsecases.call(params);
 
-    return result.fold(
-      (failure) {
+    return await result.fold<Future<bool>>(
+      (failure) async {
         state = state.copyWith(
           isLoading: false,
           errorMessage: failure.message,
@@ -37,10 +37,10 @@ class LoginNotifier extends _$LoginNotifier {
         _startRetryCountdown();
         return false;
       },
-      (response) {
+      (response) async {
         if (response.success) {
-          prefsInstance.setAccessToken(response.data.accessToken);
-          prefsInstance.setRefreshToken(response.data.refreshToken);
+          await prefsInstance.setAccessToken(response.data.accessToken);
+          await prefsInstance.setRefreshToken(response.data.refreshToken);
           state = state.copyWith(isLoading: false, hasError: false);
         } else {
           state = state.copyWith(
