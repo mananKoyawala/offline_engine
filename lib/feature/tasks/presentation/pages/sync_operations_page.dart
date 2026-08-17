@@ -9,6 +9,7 @@ import 'package:offline_engine/core/theme/colors.dart';
 import 'package:offline_engine/core/theme/theme_provider.dart';
 import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
 import 'package:offline_engine/feature/tasks/presentation/enums/sync_operations.dart';
+import 'package:offline_engine/feature/tasks/presentation/pages/settings_page.dart';
 import 'package:offline_engine/feature/tasks/presentation/provider/sync_operation_provider.dart';
 import 'package:offline_engine/feature/tasks/presentation/provider/task_provider.dart';
 
@@ -150,6 +151,18 @@ class SyncOperationsPage extends ConsumerWidget {
             isDarkMode: isDarkMode,
             onTap: () => ref.read(taskProvider.notifier).initScheduler(),
             tooltip: 'Schedule Tasks',
+          ),
+          const SizedBox(width: 8),
+          _buildIconBtn(
+            icon: Icons.settings_rounded,
+            isDarkMode: isDarkMode,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SettingsPage()),
+              );
+            },
+            tooltip: 'Task Sound Settings',
           ),
         ],
       ),

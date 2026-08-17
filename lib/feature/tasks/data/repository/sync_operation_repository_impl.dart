@@ -34,7 +34,7 @@ class SyncOperationRepositoryImpl implements ISyncOperationRepository {
 
   @override
   Stream<int> getAutoResolvedCount() {
-    return local.getMergedCount();
+    return local.getAutoResolvedCount();
   }
 
   @override

@@ -28,6 +28,7 @@ dependencies:
   get_it: ^9.2.1
   fluttertoast: ^9.1.0
   package_info_plus: ^10.2.1
+  audioplayers: ^6.8.1
 
   j_client:
     path: ../dio_client
@@ -57,3 +58,4 @@ flutter:
 
   assets:
     - assets/logo/
+    - assets/audio/

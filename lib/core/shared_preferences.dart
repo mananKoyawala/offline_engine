@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:offline_engine/core/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @lazySingleton
@@ -34,6 +35,15 @@ class Preferences {
     return _preferences.getBool(_themeMode) ?? false;
   }
 
+  Future<void> setTaskCompleteSound(String assetPath) async {
+    await _preferences.setString(_taskCompleteSound, assetPath);
+  }
+
+  String getTaskCompleteSound() {
+    return _preferences.getString(_taskCompleteSound) ??
+        AppAudio.defaultTaskCompleteSound;
+  }
+
   Future<void> clear() async {
     await _preferences.clear();
   }
@@ -41,4 +51,5 @@ class Preferences {
   final String _accessToken = 'access_token';
   final String _refreshToken = 'refresh_token';
   final String _themeMode = 'theme_mode';
+  final String _taskCompleteSound = 'task_complete_sound';
 }

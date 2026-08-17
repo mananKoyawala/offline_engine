@@ -58,6 +58,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
   }
 
   void _toggleComplete(TaskEntity task, bool isDone) {
+    if (isDone) {}
     ref
         .read(taskProvider.notifier)
         .updateTask(
@@ -68,6 +69,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
             priority: task.priority,
             isCompleted: isDone,
           ),
+          playCompletionSound: isDone,
         );
   }
 

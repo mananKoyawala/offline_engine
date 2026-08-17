@@ -8,6 +8,7 @@ import 'package:offline_engine/feature/tasks/domain/params/update_task_params.da
 import 'package:offline_engine/feature/tasks/presentation/enums/task_priority.dart';
 import 'package:offline_engine/feature/tasks/presentation/getters/task_getters.dart';
 import 'package:offline_engine/feature/tasks/presentation/provider/state/task_state.dart';
+import 'package:offline_engine/service/audio/task_complete_sound_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'task_provider.g.dart';
@@ -69,36 +70,42 @@ class TaskNotifier extends _$TaskNotifier {
 
     result.fold(
       (failure) {
-        Fluttertoast.showToast(msg: "Failed to create task");
+        Fluttertoast.showToast(msg: 'Failed to create task');
         state = state.copyWith(isSubmitting: false);
       },
       (taskCreated) async {
         if (taskCreated) {
-          Fluttertoast.showToast(msg: "Task created");
+          Fluttertoast.showToast(msg: 'Task created');
           await refresh();
         } else {
-          Fluttertoast.showToast(msg: "Failed to create task");
+          Fluttertoast.showToast(msg: 'Failed to create task');
         }
       },
     );
   }
 
-  Future<void> updateTask(UpdateTaskParams params) async {
+  Future<void> updateTask(
+    UpdateTaskParams params, {
+    bool playCompletionSound = false,
+  }) async {
     state = state.copyWith(isSubmitting: true, clearError: true);
 
     final result = await updateTasksLocalUsecase(params);
 
     result.fold(
       (failure) {
-        Fluttertoast.showToast(msg: "Failed to update task");
+        Fluttertoast.showToast(msg: 'Failed to update task');
         state = state.copyWith(isSubmitting: false);
       },
       (taskUpdated) async {
         if (taskUpdated) {
-          Fluttertoast.showToast(msg: "Task updated");
+          Fluttertoast.showToast(msg: 'Task updated');
+          if (playCompletionSound && params.isCompleted) {
+            await TaskCompleteSoundService.playSelectedSound();
+          }
           await refresh();
         } else {
-          Fluttertoast.showToast(msg: "Failed to update task");
+          Fluttertoast.showToast(msg: 'Failed to update task');
         }
         state = state.copyWith(isSubmitting: false);
       },
@@ -118,15 +125,15 @@ class TaskNotifier extends _$TaskNotifier {
 
     result.fold(
       (failure) {
-        Fluttertoast.showToast(msg: "Failed to delete task");
+        Fluttertoast.showToast(msg: 'Failed to delete task');
         state = state.copyWith(tasks: previousTasks);
       },
       (taskDeleted) async {
         if (taskDeleted) {
-          Fluttertoast.showToast(msg: "Task deleted");
+          Fluttertoast.showToast(msg: 'Task deleted');
           await refresh();
         } else {
-          Fluttertoast.showToast(msg: "Failed to delete task");
+          Fluttertoast.showToast(msg: 'Failed to delete task');
           state = state.copyWith(tasks: previousTasks);
         }
       },
@@ -176,7 +183,7 @@ class TaskNotifier extends _$TaskNotifier {
     final updateParams1 = UpdateTaskParams(
       id: task.id,
       title: task.title,
-      description: "Updated description",
+      description: 'Updated description',
       priority: TaskPriority.high,
       isCompleted: task.isCompleted,
     );
@@ -190,7 +197,7 @@ class TaskNotifier extends _$TaskNotifier {
     await _schedulerTime();
     final updateParams2 = UpdateTaskParams(
       id: task.id,
-      title: "Title updated",
+      title: 'Title updated',
       description: task.description,
       priority: task.priority,
       isCompleted: true,
