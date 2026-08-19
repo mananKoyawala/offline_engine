@@ -46,19 +46,19 @@ import 'package:offline_engine/feature/tasks/domain/usecases/sync_operation_usec
 import 'package:offline_engine/feature/tasks/domain/usecases/task_usecases.dart'
     as _i1008;
 import 'package:offline_engine/service/network/internet_service/internet_service.dart'
-    as _i665;
+    as _i210;
 import 'package:offline_engine/service/sync/queue_manager/queue_manager.dart'
-    as _i178;
+    as _i695;
 import 'package:offline_engine/service/sync/sync_event_bus/sync_event_bus.dart'
-    as _i437;
+    as _i325;
 import 'package:offline_engine/service/sync/sync_manager/sync_manager.dart'
-    as _i762;
+    as _i841;
 import 'package:offline_engine/service/sync/sync_processor/repository/sync_processor_repository.dart'
-    as _i570;
+    as _i643;
 import 'package:offline_engine/service/sync/sync_processor/repository/sync_processor_repository_impl.dart'
-    as _i722;
+    as _i12;
 import 'package:offline_engine/service/sync/sync_processor/usecase/sync_manager_usecases.dart'
-    as _i116;
+    as _i53;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -76,28 +76,31 @@ extension GetItInjectableX on _i174.GetIt {
       final i = _i319.Preferences();
       return i.initialize().then((_) => i);
     }, preResolve: true);
-    gh.lazySingleton<_i665.InternetService>(() => _i665.InternetService());
-    gh.lazySingleton<_i178.QueueManager>(() => _i178.QueueManager());
-    gh.lazySingleton<_i437.SyncEventBus>(
-      () => _i437.SyncEventBus(),
+    gh.lazySingleton<_i210.InternetService>(() => _i210.InternetService());
+    gh.lazySingleton<_i695.QueueManager>(() => _i695.QueueManager());
+    gh.lazySingleton<_i325.SyncEventBus>(
+      () => _i325.SyncEventBus(),
+      dispose: (i) => i.dispose(),
+    );
+    gh.lazySingleton<_i643.ISyncProcessorRepository>(
+      () => _i12.SyncProcessorRepositoryImpl(gh<_i626.APIClients>()),
+    );
+    gh.lazySingleton<_i841.SyncManager>(
+      () => _i841.SyncManager(
+        gh<_i695.QueueManager>(),
+        gh<_i210.InternetService>(),
+        gh<_i325.SyncEventBus>(),
+      ),
       dispose: (i) => i.dispose(),
     );
     gh.lazySingleton<_i883.TaskLocalDataSource>(
       () => _i3.TaskLocalDataSourceImpl(
         gh<_i467.AppDatabase>(),
-        gh<_i437.SyncEventBus>(),
+        gh<_i325.SyncEventBus>(),
       ),
     );
-    gh.lazySingleton<_i762.SyncManager>(
-      () => _i762.SyncManager(
-        gh<_i178.QueueManager>(),
-        gh<_i665.InternetService>(),
-        gh<_i437.SyncEventBus>(),
-      ),
-      dispose: (i) => i.dispose(),
-    );
-    gh.lazySingleton<_i570.ISyncProcessorRepository>(
-      () => _i722.SyncProcessorRepositoryImpl(gh<_i626.APIClients>()),
+    gh.lazySingleton<_i53.SyncOperationUsecase>(
+      () => _i53.SyncOperationUsecase(gh<_i643.ISyncProcessorRepository>()),
     );
     gh.lazySingleton<_i836.ILoginRepository>(
       () => _i31.LoginRepositoryImpl(clients: gh<_i626.APIClients>()),
@@ -110,9 +113,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i44.LoginUsecases>(
       () => _i44.LoginUsecases(loginRepository: gh<_i836.ILoginRepository>()),
-    );
-    gh.lazySingleton<_i116.SyncOperationUsecase>(
-      () => _i116.SyncOperationUsecase(gh<_i570.ISyncProcessorRepository>()),
     );
     gh.lazySingleton<_i461.ITaskRepository>(
       () => _i662.TaskRepositoryImpl(

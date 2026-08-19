@@ -9,6 +9,7 @@ abstract class LoginResponse with _$LoginResponse {
     @Default(false) bool success,
     @Default(0) @JsonKey(name: 'status_code') int statusCode,
     @Default('') String message,
+    @Default('') String error,
     @Default(LoginData()) LoginData data,
   }) = _LoginResponseModel;
 

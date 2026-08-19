@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:offline_engine/core/global_getters.dart';
 import 'package:offline_engine/feature/login/domain/params/login_params.dart';
@@ -20,10 +19,10 @@ class LoginNotifier extends _$LoginNotifier {
     return const LoginState();
   }
 
-  Future<bool> login() async {
+  Future<bool> login({required String email, required String password}) async {
     state = state.copyWith(isLoading: true, hasError: false);
 
-    final params = LoginParams(email: 'manan@gmail.com', password: 'Manan@123');
+    final params = LoginParams(email: email, password: password);
 
     final result = await loginUsecases.call(params);
 
@@ -46,11 +45,9 @@ class LoginNotifier extends _$LoginNotifier {
           state = state.copyWith(
             isLoading: false,
             hasError: true,
-            errorMessage: 'Failed to login. Check what was the problem',
+            errorMessage: '',
           );
-          Fluttertoast.showToast(
-            msg: 'Failed to login. Check what was the problem',
-          );
+          Fluttertoast.showToast(msg: response.error);
           _startRetryCountdown();
         }
 

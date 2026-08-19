@@ -14,12 +14,9 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final TextEditingController _emailController = TextEditingController(
-    text: 'manan@gmail.com',
-  );
-  final TextEditingController _passwordController = TextEditingController(
-    text: 'Manan@123',
-  );
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
@@ -30,7 +27,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<void> _handleLogin() async {
-    final success = await ref.read(loginProvider.notifier).login();
+    FocusScope.of(context).unfocus();
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+
+    final success = await ref
+        .read(loginProvider.notifier)
+        .login(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
 
     if (!mounted) return;
 
@@ -71,129 +76,157 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _buildBranding(isDarkMode),
-                  const SizedBox(height: 26),
-                  Text(
-                    'Welcome back',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: titleColor,
-                      fontSize: 33,
-                      height: 1.05,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Log in to continue syncing your workspace',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: bodyColor,
-                      fontSize: 16,
-                      height: 1.2,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(height: 28),
-                  Text(
-                    'Email',
-                    style: TextStyle(
-                      color: labelColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  _buildField(
-                    controller: _emailController,
-                    isDarkMode: isDarkMode,
-                    borderColor: fieldBorderColor,
-                    filledColor: fieldFillColor,
-                    textColor: titleColor,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Password',
-                    style: TextStyle(
-                      color: labelColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  _buildField(
-                    controller: _passwordController,
-                    isDarkMode: isDarkMode,
-                    borderColor: fieldBorderColor,
-                    filledColor: fieldFillColor,
-                    textColor: titleColor,
-                    obscureText: _obscurePassword,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                      ),
-                      color: appColor,
-                    ),
-                  ),
-                  const SizedBox(height: 28),
-                  SizedBox(
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: state.isLoading ? null : _handleLogin,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: appColor,
-                        foregroundColor: Colors.white,
-                        disabledBackgroundColor: appColor.withValues(
-                          alpha: 0.65,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: state.isLoading
-                          ? const SizedBox(
-                              width: 22,
-                              height: 22,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.4,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white,
-                                ),
-                              ),
-                            )
-                          : const Text(
-                              'Log In',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                    ),
-                  ),
-                  if (state.hasError) ...[
-                    const SizedBox(height: 16),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildBranding(isDarkMode),
+                    const SizedBox(height: 26),
                     Text(
-                      state.errorMessage ?? 'Login failed. Please try again.',
-                      textAlign: TextAlign.center,
+                      'Welcome back',
+                      textAlign: TextAlign.left,
                       style: TextStyle(
-                        color: isDarkMode ? Colors.redAccent : Colors.red,
-                        fontSize: 13,
+                        color: titleColor,
+                        fontSize: 33,
+                        height: 1.05,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Log in to continue syncing your workspace',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: bodyColor,
+                        fontSize: 16,
+                        height: 1.2,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(height: 28),
+                    Text(
+                      'Email',
+                      style: TextStyle(
+                        color: labelColor,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
+                    const SizedBox(height: 8),
+                    _buildField(
+                      hintText: 'Enter Email',
+                      controller: _emailController,
+                      isDarkMode: isDarkMode,
+                      borderColor: fieldBorderColor,
+                      filledColor: fieldFillColor,
+                      textColor: titleColor,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        final trimmed = value?.trim() ?? '';
+                        if (trimmed.isEmpty) {
+                          return 'Email is required';
+                        }
+                        final emailRegex = RegExp(
+                          r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$',
+                        );
+                        if (!emailRegex.hasMatch(trimmed)) {
+                          return 'Enter a valid email address';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Password',
+                      style: TextStyle(
+                        color: labelColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    _buildField(
+                      hintText: 'Enter Password',
+                      controller: _passwordController,
+                      isDarkMode: isDarkMode,
+                      borderColor: fieldBorderColor,
+                      filledColor: fieldFillColor,
+                      textColor: titleColor,
+                      obscureText: _obscurePassword,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                        ),
+                        color: appColor,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Password is required';
+                        }
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 28),
+                    SizedBox(
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: state.isLoading ? null : _handleLogin,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: appColor,
+                          foregroundColor: Colors.white,
+                          disabledBackgroundColor: appColor.withValues(
+                            alpha: 0.65,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: state.isLoading
+                            ? const SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.4,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
+                                ),
+                              )
+                            : const Text(
+                                'Log In',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                      ),
+                    ),
+                    if (state.hasError) ...[
+                      const SizedBox(height: 16),
+                      Text(
+                        state.errorMessage ?? 'Login failed. Please try again.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: isDarkMode ? Colors.redAccent : Colors.red,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
           ),
@@ -254,18 +287,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     required Color borderColor,
     required Color filledColor,
     required Color textColor,
+    String? hintText,
     bool obscureText = false,
     Widget? suffixIcon,
+    TextInputType? keyboardType,
+    String? Function(String?)? validator,
   }) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      keyboardType: keyboardType,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: validator,
+
       style: TextStyle(
         color: textColor,
         fontSize: 16,
         fontWeight: FontWeight.w500,
       ),
       decoration: InputDecoration(
+        hintText: hintText,
         filled: true,
         fillColor: filledColor,
         contentPadding: const EdgeInsets.symmetric(
@@ -284,6 +325,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: appColor, width: 1.2),
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFFE5484D), width: 1),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: Color(0xFFE5484D), width: 1.2),
+        ),
+        errorStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
         suffixIcon: suffixIcon,
       ),
     );
