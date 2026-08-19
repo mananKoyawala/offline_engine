@@ -4,6 +4,7 @@ import 'package:offline_engine/core/constants.dart';
 import 'package:offline_engine/core/global_getters.dart';
 import 'package:offline_engine/core/theme/colors.dart';
 import 'package:offline_engine/core/theme/theme_provider.dart';
+import 'package:offline_engine/feature/login/presentation/pages/login_page.dart';
 import 'package:offline_engine/feature/tasks/presentation/pages/task_complete_sound_page.dart';
 
 class SettingsPage extends ConsumerWidget {
@@ -59,6 +60,13 @@ class SettingsPage extends ConsumerWidget {
                       );
                     },
                   ),
+                  const SizedBox(height: 12),
+                  _LogoutRow(
+                    isDarkMode: isDarkMode,
+                    cardColor: cardColor,
+                    borderColor: borderColor,
+                    onTap: () => _handleLogout(context),
+                  ),
                 ],
               ),
             ),
@@ -74,6 +82,144 @@ class SettingsPage extends ConsumerWidget {
       orElse: () => AppAudio.taskCompleteSounds.first,
     );
     return selected.label;
+  }
+
+  Future<void> _handleLogout(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.5),
+      builder: (ctx) {
+        final isDark = Theme.of(ctx).brightness == Brightness.dark;
+        final bgColor = isDark ? const Color(0xFF1C1C22) : Colors.white;
+        final titleColor = isDark ? Colors.white : const Color(0xFF111111);
+        final bodyColor = isDark
+            ? const Color(0xFFB0B0BA)
+            : const Color(0xFF8A8A96);
+
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Container(
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: isDark
+                    ? const Color(0xFF2C2C34)
+                    : const Color(0xFFEEEEF2),
+              ),
+            ),
+            padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE53935).withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Icon(
+                    Icons.logout_rounded,
+                    color: Color(0xFFE53935),
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Log out?',
+                  style: TextStyle(
+                    color: titleColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    height: 1.1,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'You will be signed out and returned to the login screen.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: bodyColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 46,
+                        child: OutlinedButton(
+                          onPressed: () => Navigator.pop(ctx, false),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: bodyColor,
+                            side: BorderSide(
+                              color: isDark
+                                  ? const Color(0xFF3C3C44)
+                                  : const Color(0xFFE5E7EB),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: titleColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: SizedBox(
+                        height: 46,
+                        child: ElevatedButton(
+                          onPressed: () => Navigator.pop(ctx, true),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFE53935),
+                            foregroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                          child: const Text(
+                            'Log out',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    if (confirmed == true) {
+      await prefsInstance.clearAuthSession();
+      if (context.mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const LoginPage()),
+          (route) => false,
+        );
+      }
+    }
   }
 
   Widget _buildHeader({
@@ -281,6 +427,71 @@ class _SettingsRow extends StatelessWidget {
                     ? const Color(0xFFB0B0BA)
                     : const Color(0xFF6B7280),
                 size: 22,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LogoutRow extends StatelessWidget {
+  final bool isDarkMode;
+  final Color cardColor;
+  final Color borderColor;
+  final VoidCallback onTap;
+
+  const _LogoutRow({
+    required this.isDarkMode,
+    required this.cardColor,
+    required this.borderColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const logoutRed = Color(0xFFE53935);
+    final iconBg = logoutRed.withValues(alpha: 0.12);
+
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: cardColor,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: borderColor, width: 1),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: iconBg,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(
+                  Icons.logout_rounded,
+                  color: logoutRed,
+                  size: 22,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  'Log out',
+                  style: TextStyle(
+                    color: logoutRed,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
             ],
           ),
