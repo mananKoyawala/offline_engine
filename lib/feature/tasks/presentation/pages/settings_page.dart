@@ -211,6 +211,8 @@ class SettingsPage extends ConsumerWidget {
     );
 
     if (confirmed == true) {
+      syncManagerInstance.reset();
+      await appDatabaseInstance.clearAllData();
       await prefsInstance.clearAuthSession();
       if (context.mounted) {
         Navigator.pushAndRemoveUntil(

@@ -30,6 +30,13 @@ class AppDatabase extends _$AppDatabase {
       await m.createAll();
     },
   );
+
+  Future<void> clearAllData() async {
+    await transaction(() async {
+      await customStatement('DELETE FROM sync_operations');
+      await customStatement('DELETE FROM tasks');
+    });
+  }
 }
 
 LazyDatabase _openConnection() {

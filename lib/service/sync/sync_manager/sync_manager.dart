@@ -180,6 +180,19 @@ class SyncManager with WidgetsBindingObserver {
 
   void stopSync() {}
 
+  /// Resets the initialization state so [initialize] can be called again.
+  /// Call this on logout so the next login triggers a fresh remote fetch.
+  void reset() {
+    _isInitialized = false;
+    _isInitializing = false;
+    _syncDebounceTimer?.cancel();
+    _internetSubscription?.cancel();
+    _internetSubscription = null;
+    _taskWriteSubscription?.cancel();
+    _taskWriteSubscription = null;
+    log('SyncManager: reset – ready for re-initialization');
+  }
+
   Future<void> _processQueue() async {
     final result = await getAllPendingOperationsUsecase();
 

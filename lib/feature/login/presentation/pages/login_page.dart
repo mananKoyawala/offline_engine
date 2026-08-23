@@ -40,11 +40,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!mounted) return;
 
     if (success) {
+      syncManagerInstance.initialize();
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (_) => const TaskPage()),
         (route) => false,
       );
-      syncManagerInstance.initialize();
     }
   }
 
