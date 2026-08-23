@@ -30,7 +30,7 @@ class OfflineEngineApp extends ConsumerWidget {
 
     return MaterialApp(
       title: 'Offline Engine',
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
