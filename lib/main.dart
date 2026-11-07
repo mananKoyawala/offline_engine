@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todus/core/app_container.dart';
 import 'package:todus/core/theme/colors.dart';
@@ -10,6 +11,10 @@ import 'package:todus/shared/widgets/sync_banner_wrapper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await setupLocator();
   final container = ProviderContainer();
   appContainer = container;
