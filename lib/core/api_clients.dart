@@ -39,6 +39,8 @@ class APIClients {
           onSessionExpired ??
           () async {
             await prefsInstance.clearAuthSession();
+            syncManagerInstance.reset();
+            await appDatabaseInstance.clearAllData();
             Fluttertoast.showToast(
               msg: 'Your session expired. Please sign in again.',
             );

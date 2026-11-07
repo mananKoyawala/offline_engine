@@ -36,6 +36,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
+    // Hide password when login is attempted
+    if (!_obscurePassword) {
+      setState(() {
+        _obscurePassword = true;
+      });
+    }
 
     if (!mounted) return;
 

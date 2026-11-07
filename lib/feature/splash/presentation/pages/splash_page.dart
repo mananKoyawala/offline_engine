@@ -27,10 +27,14 @@ class _SpalshPageState extends ConsumerState<SpalshPage> {
     _navigateUser();
   }
 
-  void _navigateUser() {
+  void _navigateUser() async {
     final nextPage = prefsInstance.hasAuthSession
         ? const TaskPage()
         : const LoginPage();
+
+    if (prefsInstance.hasAuthSession) {
+      await syncManagerInstance.initialize();
+    }
 
     Navigator.pushReplacement(
       context,
