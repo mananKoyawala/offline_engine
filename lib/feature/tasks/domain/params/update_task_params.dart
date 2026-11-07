@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:offline_engine/core/import/app_imports.dart';
+import 'package:todus/core/import/app_imports.dart';
 
 part 'update_task_params.freezed.dart';
 part 'update_task_params.g.dart';

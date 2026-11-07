@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/core/import/app_imports.dart';
-import 'package:offline_engine/feature/tasks/domain/repository/sync_operation_repository.dart';
-import 'package:offline_engine/service/sync/conflict_resolver/conflict_resolver_params.dart';
+import 'package:todus/core/import/app_imports.dart';
+import 'package:todus/feature/tasks/domain/repository/sync_operation_repository.dart';
+import 'package:todus/service/sync/conflict_resolver/conflict_resolver_params.dart';
 
 @lazySingleton
 class GetSyncOperationLocalUsecase {

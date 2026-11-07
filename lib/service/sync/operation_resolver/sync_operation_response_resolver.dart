@@ -1,9 +1,9 @@
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
-import 'package:offline_engine/feature/tasks/presentation/getters/sync_operation_getters.dart';
-import 'package:offline_engine/service/sync/conflict_resolver/conflict_resolver.dart';
-import 'package:offline_engine/service/sync/sync_processor/enums/sync_processor_enums.dart';
-import 'package:offline_engine/service/sync/sync_processor/model/sync_processor_response.dart';
+import 'package:todus/feature/tasks/data/models/sync_operation_item.dart';
+import 'package:todus/feature/tasks/presentation/getters/sync_operation_getters.dart';
+import 'package:todus/service/sync/conflict_resolver/conflict_resolver.dart';
+import 'package:todus/service/sync/sync_processor/enums/sync_processor_enums.dart';
+import 'package:todus/service/sync/sync_processor/model/sync_processor_response.dart';
 
 class SyncOperationResponseResolver {
   static Future<void> resolveResponse(SyncProcessorResponse response) async {

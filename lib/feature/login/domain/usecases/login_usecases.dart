@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/feature/login/data/models/login_response.dart';
-import 'package:offline_engine/feature/login/domain/params/login_params.dart';
-import 'package:offline_engine/feature/login/domain/repository/login_repository.dart';
+import 'package:todus/feature/login/data/models/login_response.dart';
+import 'package:todus/feature/login/domain/params/login_params.dart';
+import 'package:todus/feature/login/domain/repository/login_repository.dart';
 
 @lazySingleton
 class LoginUsecases {

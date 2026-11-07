@@ -1,6 +1,6 @@
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/core/import/app_imports.dart';
-import 'package:offline_engine/feature/tasks/data/models/task_item.dart';
+import 'package:todus/core/import/app_imports.dart';
+import 'package:todus/feature/tasks/data/models/task_item.dart';
 
 abstract class TaskLocalDataSource {
   Future<Either<ApiFailure, List<TaskItem>>> getTasks();

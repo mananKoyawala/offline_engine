@@ -1,5 +1,5 @@
-import 'package:offline_engine/core/import/app_imports.dart';
-import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
+import 'package:todus/core/import/app_imports.dart';
+import 'package:todus/feature/tasks/domain/entiites/task_entity.dart';
 
 part 'task_item.freezed.dart';
 part 'task_item.g.dart';

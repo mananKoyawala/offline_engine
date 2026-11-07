@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offline_engine/core/app_container.dart';
-import 'package:offline_engine/core/theme/colors.dart';
-import 'package:offline_engine/core/theme/theme_provider.dart';
-import 'package:offline_engine/core/navigator_key.dart';
-import 'package:offline_engine/feature/splash/presentation/pages/splash_page.dart';
-import 'package:offline_engine/locator/locator.dart';
-import 'package:offline_engine/shared/widgets/sync_banner_wrapper.dart';
+import 'package:todus/core/app_container.dart';
+import 'package:todus/core/theme/colors.dart';
+import 'package:todus/core/theme/theme_provider.dart';
+import 'package:todus/core/navigator_key.dart';
+import 'package:todus/feature/splash/presentation/pages/splash_page.dart';
+import 'package:todus/locator/locator.dart';
+import 'package:todus/shared/widgets/sync_banner_wrapper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,20 +16,20 @@ Future<void> main() async {
   runApp(
     UncontrolledProviderScope(
       container: container,
-      child: const OfflineEngineApp(),
+      child: const TodusApp(),
     ),
   );
 }
 
-class OfflineEngineApp extends ConsumerWidget {
-  const OfflineEngineApp({super.key});
+class TodusApp extends ConsumerWidget {
+  const TodusApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(themeProvider).isDarkMode;
 
     return MaterialApp(
-      title: 'Offline Engine',
+      title: 'Todus',
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey,
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,

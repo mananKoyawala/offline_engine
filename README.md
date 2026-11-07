@@ -1,17 +1,16 @@
-# offline_engine
+# Todus
 
-A new Flutter project.
+Offline-first Todo List.
 
-## Getting Started
+Your day. Your tasks.
 
-This project is a starting point for a Flutter application.
+Todus lets you create and manage tasks without connectivity. Pending changes synchronize with the existing backend when connectivity returns.
 
-A few resources to get you started if this is your first Flutter project:
+## Getting started
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```sh
+flutter pub get
+flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The project requires Flutter 3.44.4 (Dart 3.12.2) or a compatible SDK.

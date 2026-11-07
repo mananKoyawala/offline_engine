@@ -5,10 +5,10 @@ import 'package:dartz/dartz.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/core/import/app_imports.dart';
-import 'package:offline_engine/feature/tasks/data/datasources/local/task_local_data_source.dart';
-import 'package:offline_engine/feature/tasks/presentation/enums/sync_operations.dart';
-import 'package:offline_engine/service/sync/sync_event_bus/sync_event_bus.dart';
+import 'package:todus/core/import/app_imports.dart';
+import 'package:todus/feature/tasks/data/datasources/local/task_local_data_source.dart';
+import 'package:todus/feature/tasks/presentation/enums/sync_operations.dart';
+import 'package:todus/service/sync/sync_event_bus/sync_event_bus.dart';
 import 'package:uuid/uuid.dart';
 
 @LazySingleton(as: TaskLocalDataSource)

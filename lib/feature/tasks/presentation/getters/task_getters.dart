@@ -1,5 +1,5 @@
-import 'package:offline_engine/feature/tasks/domain/usecases/task_usecases.dart';
-import 'package:offline_engine/locator/locator.dart';
+import 'package:todus/feature/tasks/domain/usecases/task_usecases.dart';
+import 'package:todus/locator/locator.dart';
 
 GetTasksLocalUsecase get getTasksLocalUsecase =>
     locator<GetTasksLocalUsecase>();

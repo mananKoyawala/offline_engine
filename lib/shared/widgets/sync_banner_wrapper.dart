@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offline_engine/feature/tasks/presentation/provider/sync_operation_provider.dart';
+import 'package:todus/feature/tasks/presentation/provider/sync_operation_provider.dart';
 
 /// Wraps any child and overlays a "Syncing…" banner at the very top
 /// whenever [isSyncingProvider] emits true. Works globally across all pages.

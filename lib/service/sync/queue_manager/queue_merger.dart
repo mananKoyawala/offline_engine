@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
-import 'package:offline_engine/service/sync/queue_manager/enums/queue_enums.dart';
+import 'package:todus/feature/tasks/data/models/sync_operation_item.dart';
+import 'package:todus/service/sync/queue_manager/enums/queue_enums.dart';
 
 //  TODO : APPLY COMMENT LOGIC AT TIME OF MARK STATUS SUCCESS
 class MergeQueue {

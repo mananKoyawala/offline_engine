@@ -1,4 +1,4 @@
-package com.manan.offline_engine.offline_engine
+package com.manan.todus
 
 import io.flutter.embedding.android.FlutterActivity
 

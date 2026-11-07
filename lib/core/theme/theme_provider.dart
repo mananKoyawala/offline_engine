@@ -1,5 +1,5 @@
-import 'package:offline_engine/core/global_getters.dart';
-import 'package:offline_engine/core/theme/state/theme_state.dart';
+import 'package:todus/core/global_getters.dart';
+import 'package:todus/core/theme/state/theme_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'theme_provider.g.dart';

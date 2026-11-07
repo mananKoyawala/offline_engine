@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:offline_engine/core/theme/colors.dart';
-import 'package:offline_engine/core/theme/theme_provider.dart';
-import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
-import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
-import 'package:offline_engine/feature/tasks/presentation/pages/sync_operations_page.dart';
-import 'package:offline_engine/feature/tasks/presentation/pages/widgets/task_card.dart';
-import 'package:offline_engine/feature/tasks/presentation/pages/widgets/task_form_sheet.dart';
-import 'package:offline_engine/feature/tasks/presentation/provider/task_provider.dart';
-import 'package:offline_engine/feature/tasks/presentation/provider/state/task_state.dart';
+import 'package:todus/core/theme/colors.dart';
+import 'package:todus/core/theme/theme_provider.dart';
+import 'package:todus/feature/tasks/domain/entiites/task_entity.dart';
+import 'package:todus/feature/tasks/domain/params/update_task_params.dart';
+import 'package:todus/feature/tasks/presentation/pages/sync_operations_page.dart';
+import 'package:todus/feature/tasks/presentation/pages/widgets/task_card.dart';
+import 'package:todus/feature/tasks/presentation/pages/widgets/task_form_sheet.dart';
+import 'package:todus/feature/tasks/presentation/provider/task_provider.dart';
+import 'package:todus/feature/tasks/presentation/provider/state/task_state.dart';
 
 class TaskPage extends ConsumerStatefulWidget {
   const TaskPage({super.key});
@@ -197,7 +197,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
                   ),
                 ),
                 Text(
-                  'Offline Engine',
+                  'Todus',
                   style: TextStyle(
                     color: subtitleColor,
                     fontSize: 12,

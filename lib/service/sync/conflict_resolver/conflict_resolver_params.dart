@@ -1,4 +1,4 @@
-import 'package:offline_engine/core/import/app_imports.dart';
+import 'package:todus/core/import/app_imports.dart';
 
 part 'conflict_resolver_params.freezed.dart';
 part 'conflict_resolver_params.g.dart';

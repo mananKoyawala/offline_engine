@@ -1,4 +1,4 @@
-import 'package:offline_engine/core/import/app_imports.dart';
+import 'package:todus/core/import/app_imports.dart';
 
 part 'theme_state.freezed.dart';
 

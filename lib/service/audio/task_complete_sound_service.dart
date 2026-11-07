@@ -1,5 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:offline_engine/core/global_getters.dart';
+import 'package:todus/core/global_getters.dart';
 
 class TaskCompleteSoundService {
   TaskCompleteSoundService._();

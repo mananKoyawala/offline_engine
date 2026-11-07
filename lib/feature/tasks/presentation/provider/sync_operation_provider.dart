@@ -1,7 +1,7 @@
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/core/global_getters.dart';
-import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
-import 'package:offline_engine/feature/tasks/presentation/getters/sync_operation_getters.dart';
+import 'package:todus/core/global_getters.dart';
+import 'package:todus/feature/tasks/data/models/sync_operation_item.dart';
+import 'package:todus/feature/tasks/presentation/getters/sync_operation_getters.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'sync_operation_provider.g.dart';

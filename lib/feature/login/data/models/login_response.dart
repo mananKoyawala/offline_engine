@@ -1,4 +1,4 @@
-import 'package:offline_engine/core/import/app_imports.dart';
+import 'package:todus/core/import/app_imports.dart';
 
 part 'login_response.freezed.dart';
 part 'login_response.g.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offline_engine/core/global_getters.dart';
-import 'package:offline_engine/core/theme/colors.dart';
-import 'package:offline_engine/core/theme/theme_provider.dart';
-import 'package:offline_engine/feature/login/presentation/pages/login_page.dart';
-import 'package:offline_engine/feature/tasks/presentation/pages/task_page.dart';
+import 'package:todus/core/global_getters.dart';
+import 'package:todus/core/theme/colors.dart';
+import 'package:todus/core/theme/theme_provider.dart';
+import 'package:todus/feature/login/presentation/pages/login_page.dart';
+import 'package:todus/feature/tasks/presentation/pages/task_page.dart';
 
 class SpalshPage extends ConsumerStatefulWidget {
   const SpalshPage({super.key});
@@ -72,7 +72,7 @@ class _SpalshPageState extends ConsumerState<SpalshPage> {
             ),
             SizedBox(height: 30),
             Text(
-              'Offline Engine',
+              'Todus',
               style: TextStyle(
                 color: isDarkMode ? appColor : Colors.white,
                 fontWeight: FontWeight.w900,

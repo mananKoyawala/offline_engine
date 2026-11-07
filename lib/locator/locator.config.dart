@@ -11,53 +11,53 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import 'package:offline_engine/core/api_clients.dart' as _i626;
-import 'package:offline_engine/core/database/app_database.dart' as _i410;
-import 'package:offline_engine/core/import/app_imports.dart' as _i467;
-import 'package:offline_engine/core/shared_preferences.dart' as _i319;
-import 'package:offline_engine/feature/login/data/repository/login_repository_impl.dart'
+import 'package:todus/core/api_clients.dart' as _i626;
+import 'package:todus/core/database/app_database.dart' as _i410;
+import 'package:todus/core/import/app_imports.dart' as _i467;
+import 'package:todus/core/shared_preferences.dart' as _i319;
+import 'package:todus/feature/login/data/repository/login_repository_impl.dart'
     as _i31;
-import 'package:offline_engine/feature/login/domain/repository/login_repository.dart'
+import 'package:todus/feature/login/domain/repository/login_repository.dart'
     as _i836;
-import 'package:offline_engine/feature/login/domain/usecases/login_usecases.dart'
+import 'package:todus/feature/login/domain/usecases/login_usecases.dart'
     as _i44;
-import 'package:offline_engine/feature/tasks/data/datasources/local/sync_operations_local_data_source.dart'
+import 'package:todus/feature/tasks/data/datasources/local/sync_operations_local_data_source.dart'
     as _i537;
-import 'package:offline_engine/feature/tasks/data/datasources/local/sync_operations_local_data_source_impl.dart'
+import 'package:todus/feature/tasks/data/datasources/local/sync_operations_local_data_source_impl.dart'
     as _i340;
-import 'package:offline_engine/feature/tasks/data/datasources/local/task_local_data_source.dart'
+import 'package:todus/feature/tasks/data/datasources/local/task_local_data_source.dart'
     as _i883;
-import 'package:offline_engine/feature/tasks/data/datasources/local/task_local_data_source_impl.dart'
+import 'package:todus/feature/tasks/data/datasources/local/task_local_data_source_impl.dart'
     as _i3;
-import 'package:offline_engine/feature/tasks/data/datasources/remote/task_remote_data_source.dart'
+import 'package:todus/feature/tasks/data/datasources/remote/task_remote_data_source.dart'
     as _i662;
-import 'package:offline_engine/feature/tasks/data/datasources/remote/task_remote_data_source_impl.dart'
+import 'package:todus/feature/tasks/data/datasources/remote/task_remote_data_source_impl.dart'
     as _i367;
-import 'package:offline_engine/feature/tasks/data/repository/sync_operation_repository_impl.dart'
+import 'package:todus/feature/tasks/data/repository/sync_operation_repository_impl.dart'
     as _i860;
-import 'package:offline_engine/feature/tasks/data/repository/task_repository_impl.dart'
+import 'package:todus/feature/tasks/data/repository/task_repository_impl.dart'
     as _i662;
-import 'package:offline_engine/feature/tasks/domain/repository/sync_operation_repository.dart'
+import 'package:todus/feature/tasks/domain/repository/sync_operation_repository.dart'
     as _i1037;
-import 'package:offline_engine/feature/tasks/domain/repository/task_repository.dart'
+import 'package:todus/feature/tasks/domain/repository/task_repository.dart'
     as _i461;
-import 'package:offline_engine/feature/tasks/domain/usecases/sync_operation_usecases.dart'
+import 'package:todus/feature/tasks/domain/usecases/sync_operation_usecases.dart'
     as _i1046;
-import 'package:offline_engine/feature/tasks/domain/usecases/task_usecases.dart'
+import 'package:todus/feature/tasks/domain/usecases/task_usecases.dart'
     as _i1008;
-import 'package:offline_engine/service/network/internet_service/internet_service.dart'
+import 'package:todus/service/network/internet_service/internet_service.dart'
     as _i210;
-import 'package:offline_engine/service/sync/queue_manager/queue_manager.dart'
+import 'package:todus/service/sync/queue_manager/queue_manager.dart'
     as _i695;
-import 'package:offline_engine/service/sync/sync_event_bus/sync_event_bus.dart'
+import 'package:todus/service/sync/sync_event_bus/sync_event_bus.dart'
     as _i325;
-import 'package:offline_engine/service/sync/sync_manager/sync_manager.dart'
+import 'package:todus/service/sync/sync_manager/sync_manager.dart'
     as _i841;
-import 'package:offline_engine/service/sync/sync_processor/repository/sync_processor_repository.dart'
+import 'package:todus/service/sync/sync_processor/repository/sync_processor_repository.dart'
     as _i643;
-import 'package:offline_engine/service/sync/sync_processor/repository/sync_processor_repository_impl.dart'
+import 'package:todus/service/sync/sync_processor/repository/sync_processor_repository_impl.dart'
     as _i12;
-import 'package:offline_engine/service/sync/sync_processor/usecase/sync_manager_usecases.dart'
+import 'package:todus/service/sync/sync_processor/usecase/sync_manager_usecases.dart'
     as _i53;
 
 extension GetItInjectableX on _i174.GetIt {

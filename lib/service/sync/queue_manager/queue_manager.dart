@@ -1,10 +1,10 @@
 import 'dart:collection';
 import 'package:injectable/injectable.dart';
-import 'package:offline_engine/core/import/app_imports.dart';
-import 'package:offline_engine/feature/tasks/presentation/enums/sync_operations.dart';
-import 'package:offline_engine/service/logging/queue_logger/queue_logger.dart';
-import 'package:offline_engine/service/sync/queue_manager/enums/queue_enums.dart';
-import 'package:offline_engine/service/sync/queue_manager/queue_merger.dart';
+import 'package:todus/core/import/app_imports.dart';
+import 'package:todus/feature/tasks/presentation/enums/sync_operations.dart';
+import 'package:todus/service/logging/queue_logger/queue_logger.dart';
+import 'package:todus/service/sync/queue_manager/enums/queue_enums.dart';
+import 'package:todus/service/sync/queue_manager/queue_merger.dart';
 
 @lazySingleton
 class QueueManager {

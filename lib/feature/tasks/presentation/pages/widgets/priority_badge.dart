@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:offline_engine/feature/tasks/presentation/enums/task_priority.dart';
+import 'package:todus/feature/tasks/presentation/enums/task_priority.dart';
 
 class PriorityBadge extends StatelessWidget {
   final TaskPriority priority;

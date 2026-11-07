@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:offline_engine/core/theme/colors.dart';
-import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
-import 'package:offline_engine/feature/tasks/domain/params/create_task_params.dart';
-import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
-import 'package:offline_engine/feature/tasks/presentation/enums/task_priority.dart';
+import 'package:todus/core/theme/colors.dart';
+import 'package:todus/feature/tasks/domain/entiites/task_entity.dart';
+import 'package:todus/feature/tasks/domain/params/create_task_params.dart';
+import 'package:todus/feature/tasks/domain/params/update_task_params.dart';
+import 'package:todus/feature/tasks/presentation/enums/task_priority.dart';
 
 /// Result returned by the form: either a CreateTaskParams (new task)
 /// or an UpdateTaskParams (editing an existing task).

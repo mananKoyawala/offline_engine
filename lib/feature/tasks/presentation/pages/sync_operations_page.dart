@@ -5,13 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offline_engine/core/theme/colors.dart';
-import 'package:offline_engine/core/theme/theme_provider.dart';
-import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
-import 'package:offline_engine/feature/tasks/presentation/enums/sync_operations.dart';
-import 'package:offline_engine/feature/tasks/presentation/pages/settings_page.dart';
-import 'package:offline_engine/feature/tasks/presentation/provider/sync_operation_provider.dart';
-import 'package:offline_engine/feature/tasks/presentation/provider/task_provider.dart';
+import 'package:todus/core/theme/colors.dart';
+import 'package:todus/core/theme/theme_provider.dart';
+import 'package:todus/feature/tasks/data/models/sync_operation_item.dart';
+import 'package:todus/feature/tasks/presentation/enums/sync_operations.dart';
+import 'package:todus/feature/tasks/presentation/pages/settings_page.dart';
+import 'package:todus/feature/tasks/presentation/provider/sync_operation_provider.dart';
+import 'package:todus/feature/tasks/presentation/provider/task_provider.dart';
 
 class SyncOperationsPage extends ConsumerWidget {
   const SyncOperationsPage({super.key});

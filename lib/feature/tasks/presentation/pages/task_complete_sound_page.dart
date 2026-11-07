@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offline_engine/core/constants.dart';
-import 'package:offline_engine/core/global_getters.dart';
-import 'package:offline_engine/core/theme/colors.dart';
-import 'package:offline_engine/core/theme/theme_provider.dart';
+import 'package:todus/core/constants.dart';
+import 'package:todus/core/global_getters.dart';
+import 'package:todus/core/theme/colors.dart';
+import 'package:todus/core/theme/theme_provider.dart';
 
 class TaskCompleteSoundPage extends ConsumerStatefulWidget {
   const TaskCompleteSoundPage({super.key});

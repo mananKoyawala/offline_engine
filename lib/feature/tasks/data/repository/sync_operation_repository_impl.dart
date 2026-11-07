@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/feature/tasks/data/datasources/local/sync_operations_local_data_source.dart';
-import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
-import 'package:offline_engine/feature/tasks/domain/repository/sync_operation_repository.dart';
-import 'package:offline_engine/service/sync/conflict_resolver/conflict_resolver_params.dart';
+import 'package:todus/feature/tasks/data/datasources/local/sync_operations_local_data_source.dart';
+import 'package:todus/feature/tasks/data/models/sync_operation_item.dart';
+import 'package:todus/feature/tasks/domain/repository/sync_operation_repository.dart';
+import 'package:todus/service/sync/conflict_resolver/conflict_resolver_params.dart';
 
 @LazySingleton(as: ISyncOperationRepository)
 class SyncOperationRepositoryImpl implements ISyncOperationRepository {

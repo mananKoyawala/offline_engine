@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/feature/tasks/data/datasources/local/task_local_data_source.dart';
-import 'package:offline_engine/feature/tasks/data/datasources/remote/task_remote_data_source.dart';
-import 'package:offline_engine/feature/tasks/data/models/task_item.dart';
-import 'package:offline_engine/feature/tasks/domain/entiites/task_entity.dart';
-import 'package:offline_engine/feature/tasks/domain/params/create_task_params.dart';
-import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
-import 'package:offline_engine/feature/tasks/domain/repository/task_repository.dart';
+import 'package:todus/feature/tasks/data/datasources/local/task_local_data_source.dart';
+import 'package:todus/feature/tasks/data/datasources/remote/task_remote_data_source.dart';
+import 'package:todus/feature/tasks/data/models/task_item.dart';
+import 'package:todus/feature/tasks/domain/entiites/task_entity.dart';
+import 'package:todus/feature/tasks/domain/params/create_task_params.dart';
+import 'package:todus/feature/tasks/domain/params/update_task_params.dart';
+import 'package:todus/feature/tasks/domain/repository/task_repository.dart';
 
 @LazySingleton(as: ITaskRepository)
 class TaskRepositoryImpl implements ITaskRepository {

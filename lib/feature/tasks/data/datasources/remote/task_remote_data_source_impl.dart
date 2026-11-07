@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/core/api_clients.dart';
-import 'package:offline_engine/core/endpoints.dart';
-import 'package:offline_engine/feature/tasks/data/datasources/remote/task_remote_data_source.dart';
-import 'package:offline_engine/feature/tasks/data/models/task_item.dart';
+import 'package:todus/core/api_clients.dart';
+import 'package:todus/core/endpoints.dart';
+import 'package:todus/feature/tasks/data/datasources/remote/task_remote_data_source.dart';
+import 'package:todus/feature/tasks/data/models/task_item.dart';
 
 @LazySingleton(as: TaskRemoteDataSource)
 class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {

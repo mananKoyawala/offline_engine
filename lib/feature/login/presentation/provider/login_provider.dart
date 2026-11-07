@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:offline_engine/core/global_getters.dart';
-import 'package:offline_engine/feature/login/domain/params/login_params.dart';
-import 'package:offline_engine/feature/login/presentation/getters/login_getters.dart';
-import 'package:offline_engine/feature/login/presentation/provider/state/login_state.dart';
+import 'package:todus/core/global_getters.dart';
+import 'package:todus/feature/login/domain/params/login_params.dart';
+import 'package:todus/feature/login/presentation/getters/login_getters.dart';
+import 'package:todus/feature/login/presentation/provider/state/login_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_provider.g.dart';

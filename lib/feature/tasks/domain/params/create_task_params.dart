@@ -1,4 +1,4 @@
-import 'package:offline_engine/core/import/app_imports.dart';
+import 'package:todus/core/import/app_imports.dart';
 
 part 'create_task_params.freezed.dart';
 part 'create_task_params.g.dart';

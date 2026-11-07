@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:offline_engine/core/constants.dart';
+import 'package:todus/core/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @lazySingleton

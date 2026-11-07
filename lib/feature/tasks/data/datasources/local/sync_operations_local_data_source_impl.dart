@@ -5,11 +5,11 @@ import 'package:dartz/dartz.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:j_client/j_client.dart';
-import 'package:offline_engine/core/database/app_database.dart';
-import 'package:offline_engine/feature/tasks/data/datasources/local/sync_operations_local_data_source.dart';
-import 'package:offline_engine/feature/tasks/data/models/sync_operation_item.dart';
-import 'package:offline_engine/feature/tasks/presentation/enums/sync_operations.dart';
-import 'package:offline_engine/service/sync/conflict_resolver/conflict_resolver_params.dart';
+import 'package:todus/core/database/app_database.dart';
+import 'package:todus/feature/tasks/data/datasources/local/sync_operations_local_data_source.dart';
+import 'package:todus/feature/tasks/data/models/sync_operation_item.dart';
+import 'package:todus/feature/tasks/presentation/enums/sync_operations.dart';
+import 'package:todus/service/sync/conflict_resolver/conflict_resolver_params.dart';
 
 @LazySingleton(as: SyncOperationsLocalDataSource)
 class SyncOperationsLocalDataSourceImpl

@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:offline_engine/core/global_getters.dart';
-import 'package:offline_engine/feature/tasks/domain/params/create_task_params.dart';
-import 'package:offline_engine/feature/tasks/domain/params/update_task_params.dart';
-import 'package:offline_engine/feature/tasks/presentation/enums/task_priority.dart';
-import 'package:offline_engine/feature/tasks/presentation/getters/task_getters.dart';
-import 'package:offline_engine/feature/tasks/presentation/provider/state/task_state.dart';
-import 'package:offline_engine/service/audio/task_complete_sound_service.dart';
+import 'package:todus/core/global_getters.dart';
+import 'package:todus/feature/tasks/domain/params/create_task_params.dart';
+import 'package:todus/feature/tasks/domain/params/update_task_params.dart';
+import 'package:todus/feature/tasks/presentation/enums/task_priority.dart';
+import 'package:todus/feature/tasks/presentation/getters/task_getters.dart';
+import 'package:todus/feature/tasks/presentation/provider/state/task_state.dart';
+import 'package:todus/service/audio/task_complete_sound_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'task_provider.g.dart';
