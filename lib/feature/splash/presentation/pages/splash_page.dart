@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todus/core/constants.dart';
 import 'package:todus/core/global_getters.dart';
 import 'package:todus/core/theme/colors.dart';
 import 'package:todus/core/theme/theme_provider.dart';
@@ -53,21 +54,13 @@ class _SpalshPageState extends ConsumerState<SpalshPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              height: 80,
-              width: 80,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: isDarkMode ? appColor : Colors.white,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text(
-                'OE',
-                style: TextStyle(
-                  color: isDarkMode ? Colors.white : appColor,
-                  fontWeight: FontWeight.w900,
-                  fontSize: 24,
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.asset(
+                isDarkMode ? AppLogo.dark : AppLogo.light,
+                height: 80,
+                width: 80,
+                fit: BoxFit.cover,
               ),
             ),
             SizedBox(height: 30),

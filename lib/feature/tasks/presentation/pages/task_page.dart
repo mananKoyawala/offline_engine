@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:todus/core/constants.dart';
 import 'package:todus/core/theme/colors.dart';
 import 'package:todus/core/theme/theme_provider.dart';
 import 'package:todus/feature/tasks/domain/entiites/task_entity.dart';
@@ -164,22 +165,13 @@ class _TaskPageState extends ConsumerState<TaskPage> {
       child: Row(
         children: [
           // Branding logo
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: appColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            alignment: Alignment.center,
-            child: const Text(
-              'OE',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.4,
-              ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              isDarkMode ? AppLogo.dark : AppLogo.light,
+              width: 36,
+              height: 36,
+              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(width: 12),

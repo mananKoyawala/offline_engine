@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todus/core/constants.dart';
 import 'package:todus/core/global_getters.dart';
 import 'package:todus/core/theme/colors.dart';
 import 'package:todus/core/theme/theme_provider.dart';
@@ -244,22 +245,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget _buildBranding(bool isDarkMode) {
     return Column(
       children: [
-        Container(
-          width: 66,
-          height: 66,
-          decoration: BoxDecoration(
-            color: appColor,
-            borderRadius: BorderRadius.circular(18),
-          ),
-          alignment: Alignment.center,
-          child: const Text(
-            'OE',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 22,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 0.4,
-            ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(18),
+          child: Image.asset(
+            isDarkMode ? AppLogo.dark : AppLogo.light,
+            width: 66,
+            height: 66,
+            fit: BoxFit.cover,
           ),
         ),
         const SizedBox(height: 18),

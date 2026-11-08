@@ -1,3 +1,9 @@
+class AppLogo {
+  static const String app = 'assets/logo/todus_app_logo.jpg';
+  static const String dark = 'assets/logo/todus_dark_logo.jpg';
+  static const String light = 'assets/logo/todus_light_logo.jpg';
+}
+
 class AppAudio {
   static const String tunk = 'assets/audio/tunk.wav';
   static const String fahhh = 'assets/audio/fahhh.mp3';
@@ -21,8 +27,6 @@ class AppAudio {
     AppAudioOption(label: 'Aayein', assetPath: aayein),
     AppAudioOption(label: 'Ding Sound', assetPath: dingSound),
     AppAudioOption(label: 'Thunder', assetPath: thunder),
-    AppAudioOption(label: 'Chaloo', assetPath: chaloo),
-    AppAudioOption(label: 'CID', assetPath: cid),
   ];
 }
 
