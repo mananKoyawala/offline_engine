@@ -43,7 +43,7 @@ LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dir = await getApplicationDocumentsDirectory();
 
-    final file = File(p.join(dir.path, 'offline_engine.sqlite'));
+    final file = File(p.join(dir.path, 'todus.sqlite'));
 
     return NativeDatabase(file);
   });
