@@ -2,6 +2,7 @@ class AppLogo {
   static const String app = 'assets/logo/todus_app_logo.jpg';
   static const String dark = 'assets/logo/todus_dark_logo.jpg';
   static const String light = 'assets/logo/todus_light_logo.jpg';
+  static const String splash = 'assets/logo/todo_splash_light_logo.jpg';
 }
 
 class AppAudio {

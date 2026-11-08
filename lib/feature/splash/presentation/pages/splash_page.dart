@@ -57,7 +57,7 @@ class _SpalshPageState extends ConsumerState<SpalshPage> {
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
               child: Image.asset(
-                isDarkMode ? AppLogo.dark : AppLogo.light,
+                isDarkMode ? AppLogo.dark : AppLogo.splash,
                 height: 80,
                 width: 80,
                 fit: BoxFit.cover,
