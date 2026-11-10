@@ -142,8 +142,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? const Color(0xFF1C1C22) : Colors.white;
     final titleColor = isDark ? Colors.white : const Color(0xFF111111);
-    final bodyColor =
-        isDark ? const Color(0xFFB0B0BA) : const Color(0xFF8A8A96);
+    final bodyColor = isDark
+        ? const Color(0xFFB0B0BA)
+        : const Color(0xFF8A8A96);
 
     final notifier = ref.read(deleteAccountProvider.notifier);
 
@@ -159,9 +160,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             color: bgColor,
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: isDark
-                  ? const Color(0xFF2C2C34)
-                  : const Color(0xFFEEEEF2),
+              color: isDark ? const Color(0xFF2C2C34) : const Color(0xFFEEEEF2),
             ),
           ),
           padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
@@ -193,7 +192,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Your deletion request will be reviewed by an admin. You will not be able to log in until a decision is made.',
+                'Your deletion request will be reviewed by an admin and may take up to 30 days. You will not be able to log in until a decision is made.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: bodyColor,
@@ -601,10 +600,18 @@ class _DeleteAccountSheetState extends State<_DeleteAccountSheet> {
     final isDark = widget.isDarkMode;
     final bgColor = isDark ? const Color(0xFF1C1C22) : Colors.white;
     final titleColor = isDark ? Colors.white : const Color(0xFF111111);
-    final bodyColor = isDark ? const Color(0xFFB0B0BA) : const Color(0xFF8A8A96);
-    final borderColor = isDark ? const Color(0xFF2C2C34) : const Color(0xFFEEEEF2);
-    final fieldFill = isDark ? const Color(0xFF2B2B2F) : const Color(0xFFF7F7FA);
-    final fieldBorder = isDark ? const Color(0xFF404049) : const Color(0xFFE5E7EB);
+    final bodyColor = isDark
+        ? const Color(0xFFB0B0BA)
+        : const Color(0xFF8A8A96);
+    final borderColor = isDark
+        ? const Color(0xFF2C2C34)
+        : const Color(0xFFEEEEF2);
+    final fieldFill = isDark
+        ? const Color(0xFF2B2B2F)
+        : const Color(0xFFF7F7FA);
+    final fieldBorder = isDark
+        ? const Color(0xFF404049)
+        : const Color(0xFFE5E7EB);
     const deleteRed = Color(0xFFE53935);
 
     return Padding(
@@ -694,15 +701,24 @@ class _DeleteAccountSheetState extends State<_DeleteAccountSheet> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: appColor, width: 1.2),
+                        borderSide: const BorderSide(
+                          color: appColor,
+                          width: 1.2,
+                        ),
                       ),
                       errorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: deleteRed, width: 1),
+                        borderSide: const BorderSide(
+                          color: deleteRed,
+                          width: 1,
+                        ),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: deleteRed, width: 1.2),
+                        borderSide: const BorderSide(
+                          color: deleteRed,
+                          width: 1.2,
+                        ),
                       ),
                     ),
                     validator: (value) {
@@ -734,10 +750,7 @@ class _DeleteAccountSheetState extends State<_DeleteAccountSheet> {
                   ),
                   child: const Text(
                     'Continue',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                 ),
               ),
