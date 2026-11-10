@@ -6,7 +6,7 @@ import 'package:todus/feature/tasks/presentation/enums/task_priority.dart';
 
 class TaskCard extends StatelessWidget {
   final TaskEntity task;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final VoidCallback onDeleteConfirmed;
   final ValueChanged<bool> onToggleComplete;
 

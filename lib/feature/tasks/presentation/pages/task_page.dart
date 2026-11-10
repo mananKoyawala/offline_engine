@@ -35,6 +35,8 @@ class _TaskPageState extends ConsumerState<TaskPage> {
   }
 
   void _openEditForm(TaskEntity task) {
+    if (task.isCompleted) return;
+
     showTaskFormSheet(
       context,
       existingTask: task,
@@ -456,7 +458,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: TaskCard(
                               task: task,
-                              onTap: () => _openEditForm(task),
+                              onTap: null,
                               onDeleteConfirmed: () => _deleteTask(task),
                               onToggleComplete: (isDone) =>
                                   _toggleComplete(task, isDone),
