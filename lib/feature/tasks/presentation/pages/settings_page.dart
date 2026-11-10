@@ -70,7 +70,26 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     },
                   ),
                   const SizedBox(height: 12),
-                  _TermsRow(
+                  _SettingsRow(
+                    label: 'Theme',
+                    value: isDarkMode ? 'Dark' : 'Light',
+                    icon: isDarkMode
+                        ? Icons.dark_mode_rounded
+                        : Icons.light_mode_rounded,
+                    cardColor: cardColor,
+                    borderColor: borderColor,
+                    titleColor: titleColor,
+                    subtitleColor: subtitleColor,
+                    isDarkMode: isDarkMode,
+                    onTap: () => ref
+                        .read(themeProvider.notifier)
+                        .changeThemeMode(!isDarkMode),
+                  ),
+                  const SizedBox(height: 12),
+                  _LinkRow(
+                    title: 'Terms & Conditions',
+                    subtitle: 'Read our terms of service',
+                    icon: Icons.gavel_rounded,
                     isDarkMode: isDarkMode,
                     cardColor: cardColor,
                     borderColor: borderColor,
@@ -79,6 +98,23 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     onTap: () {
                       launchUrl(
                         Uri.parse('https://todusapp.netlify.app/#privacy'),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  _LinkRow(
+                    title: 'Contact us',
+                    subtitle: 'Get in touch with us',
+                    icon: Icons.mail_outline_rounded,
+                    isDarkMode: isDarkMode,
+                    cardColor: cardColor,
+                    borderColor: borderColor,
+                    titleColor: titleColor,
+                    subtitleColor: subtitleColor,
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse('https://todusapp.netlify.app/#contact'),
                         mode: LaunchMode.externalApplication,
                       );
                     },
@@ -765,6 +801,7 @@ class _DeleteAccountSheetState extends State<_DeleteAccountSheet> {
 class _SettingsRow extends StatelessWidget {
   final String label;
   final String value;
+  final IconData icon;
   final Color cardColor;
   final Color borderColor;
   final Color titleColor;
@@ -775,6 +812,7 @@ class _SettingsRow extends StatelessWidget {
   const _SettingsRow({
     required this.label,
     required this.value,
+    this.icon = Icons.graphic_eq_rounded,
     required this.cardColor,
     required this.borderColor,
     required this.titleColor,
@@ -808,7 +846,7 @@ class _SettingsRow extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
-                  Icons.graphic_eq_rounded,
+                  icon,
                   color: AppColors.primary,
                   size: 22,
                 ),
@@ -919,7 +957,10 @@ class _LogoutRow extends StatelessWidget {
   }
 }
 
-class _TermsRow extends StatelessWidget {
+class _LinkRow extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
   final bool isDarkMode;
   final Color cardColor;
   final Color borderColor;
@@ -927,7 +968,10 @@ class _TermsRow extends StatelessWidget {
   final Color subtitleColor;
   final VoidCallback onTap;
 
-  const _TermsRow({
+  const _LinkRow({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
     required this.isDarkMode,
     required this.cardColor,
     required this.borderColor,
@@ -960,7 +1004,7 @@ class _TermsRow extends StatelessWidget {
                   color: AppColors.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: Icon(Icons.gavel_rounded, color: AppColors.primary, size: 22),
+                child: Icon(icon, color: AppColors.primary, size: 22),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -968,7 +1012,7 @@ class _TermsRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Terms & Conditions',
+                      title,
                       style: TextStyle(
                         color: titleColor,
                         fontSize: 15,
@@ -977,7 +1021,7 @@ class _TermsRow extends StatelessWidget {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      'Read our terms of service',
+                      subtitle,
                       style: TextStyle(
                         color: subtitleColor,
                         fontSize: 12,

@@ -199,8 +199,6 @@ class _TaskPageState extends ConsumerState<TaskPage> {
               ],
             ),
           ),
-          _buildThemeToggleButton(context: context, isDarkMode: isDarkMode),
-          const SizedBox(width: 6),
           _buildIconButton(
             icon: Icons.info_outline_rounded,
             isDarkMode: isDarkMode,
@@ -212,52 +210,6 @@ class _TaskPageState extends ConsumerState<TaskPage> {
             },
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildThemeToggleButton({
-    required BuildContext context,
-    required bool isDarkMode,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(10),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(10),
-        onTap: () =>
-            ref.read(themeProvider.notifier).changeThemeMode(!isDarkMode),
-        child: Container(
-          width: 38,
-          height: 38,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: isDarkMode
-                ? AppColors.color2B2B2F
-                : AppColors.colorF0F0F5,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 260),
-            transitionBuilder: (child, animation) {
-              final rotate = Tween<double>(begin: 0.8, end: 1.0).animate(
-                CurvedAnimation(parent: animation, curve: Curves.easeOutBack),
-              );
-              return ScaleTransition(
-                scale: animation,
-                child: RotationTransition(turns: rotate, child: child),
-              );
-            },
-            child: Icon(
-              isDarkMode ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-              key: ValueKey(isDarkMode),
-              size: 20,
-              color: isDarkMode
-                  ? AppColors.colorB0B0BA
-                  : AppColors.color6B7280,
-            ),
-          ),
-        ),
       ),
     );
   }
