@@ -1,4 +1,4 @@
 class BaseUrls {
   static String get offlineEngineBaseUrl =>
-      'https://offline-engine-backend.onrender.com';
+      'https://preblooming-zain-exhalingly.ngrok-free.dev';
 }

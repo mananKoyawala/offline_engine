@@ -5,6 +5,7 @@ import 'package:todus/core/global_getters.dart';
 import 'package:todus/core/theme/colors.dart';
 import 'package:todus/core/theme/theme_provider.dart';
 import 'package:todus/feature/login/presentation/provider/login_provider.dart';
+import 'package:todus/feature/register/presentation/pages/register_page.dart';
 import 'package:todus/feature/tasks/presentation/pages/task_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -232,6 +233,37 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                       ),
                     ],
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account? ",
+                          style: TextStyle(
+                            color: bodyColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const RegisterPage(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              color: appColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
