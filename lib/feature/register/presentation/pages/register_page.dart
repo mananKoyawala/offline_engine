@@ -305,21 +305,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       ),
                     ),
 
-                    if (state.hasError) ...[
-                      const SizedBox(height: 16),
-                      Text(
-                        state.errorMessage ??
-                            'Registration failed. Please try again.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: isDarkMode ? Colors.redAccent : Colors.red,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 28),
 
                     // Already have an account
                     Row(
