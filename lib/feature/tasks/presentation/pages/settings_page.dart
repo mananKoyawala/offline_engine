@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:todus/core/constants.dart';
 import 'package:todus/core/global_getters.dart';
 import 'package:todus/core/theme/colors.dart';
@@ -61,6 +63,20 @@ class SettingsPage extends ConsumerWidget {
                     },
                   ),
                   const SizedBox(height: 12),
+                  _TermsRow(
+                    isDarkMode: isDarkMode,
+                    cardColor: cardColor,
+                    borderColor: borderColor,
+                    titleColor: titleColor,
+                    subtitleColor: subtitleColor,
+                    onTap: () {
+                      launchUrl(
+                        Uri.parse('https://todusapp.netlify.app/#privacy'),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 12),
                   _LogoutRow(
                     isDarkMode: isDarkMode,
                     cardColor: cardColor,
@@ -68,6 +84,13 @@ class SettingsPage extends ConsumerWidget {
                     onTap: () => _handleLogout(context),
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 24),
+              child: _AppVersionFooter(
+                isDarkMode: isDarkMode,
+                subtitleColor: subtitleColor,
               ),
             ),
           ],
@@ -498,6 +521,149 @@ class _LogoutRow extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _TermsRow extends StatelessWidget {
+  final bool isDarkMode;
+  final Color cardColor;
+  final Color borderColor;
+  final Color titleColor;
+  final Color subtitleColor;
+  final VoidCallback onTap;
+
+  const _TermsRow({
+    required this.isDarkMode,
+    required this.cardColor,
+    required this.borderColor,
+    required this.titleColor,
+    required this.subtitleColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(18),
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: cardColor,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: borderColor, width: 1),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: appColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Icon(Icons.gavel_rounded, color: appColor, size: 22),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Terms & Conditions',
+                      style: TextStyle(
+                        color: titleColor,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Read our terms of service',
+                      style: TextStyle(
+                        color: subtitleColor,
+                        fontSize: 12,
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: isDarkMode
+                    ? const Color(0xFFB0B0BA)
+                    : const Color(0xFF6B7280),
+                size: 22,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AppVersionFooter extends StatelessWidget {
+  final bool isDarkMode;
+  final Color subtitleColor;
+
+  const _AppVersionFooter({
+    required this.isDarkMode,
+    required this.subtitleColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: FutureBuilder<PackageInfo>(
+        future: PackageInfo.fromPlatform(),
+        builder: (context, snapshot) {
+          final versionText = snapshot.hasData
+              ? 'v${snapshot.data!.version}'
+              : 'Loading version...';
+
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            decoration: BoxDecoration(
+              color: isDarkMode
+                  ? const Color(0xFF1C1C22)
+                  : const Color(0xFFF7F7FA),
+              borderRadius: BorderRadius.circular(999),
+              border: Border.all(
+                color: isDarkMode
+                    ? const Color(0xFF2C2C34)
+                    : const Color(0xFFEEEEF2),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.verified_rounded,
+                  size: 14,
+                  color: appColor.withValues(alpha: 0.85),
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  versionText,
+                  style: TextStyle(
+                    color: subtitleColor,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
