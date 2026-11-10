@@ -35,7 +35,7 @@ class _AppLoaderOverlay extends StatelessWidget {
             height: 32,
             child: CircularProgressIndicator(
               strokeWidth: 3,
-              valueColor: AlwaysStoppedAnimation<Color>(appColor),
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
             ),
           ),
         ),

@@ -21,11 +21,11 @@ class TaskCard extends StatelessWidget {
   Color get _priorityColor {
     switch (task.priority) {
       case TaskPriority.high:
-        return const Color(0xFFE5484D);
+        return AppColors.colorE5484D;
       case TaskPriority.medium:
-        return const Color(0xFFF5A623);
+        return AppColors.colorF5A623;
       case TaskPriority.low:
-        return const Color(0xFF30A46C);
+        return AppColors.color30A46C;
     }
   }
 
@@ -56,18 +56,18 @@ class TaskCard extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isDone = task.isCompleted;
 
-    final cardColor = isDark ? const Color(0xFF1C1C22) : Colors.white;
+    final cardColor = isDark ? AppColors.color1C1C22 : Colors.white;
     final borderColor = isDark
         ? (isDone
-              ? const Color(0xFF2C2C34)
+              ? AppColors.color2C2C34
               : _priorityColor.withValues(alpha: 0.25))
         : (isDone
-              ? const Color(0xFFEEEEF2)
+              ? AppColors.colorEEEEF2
               : _priorityColor.withValues(alpha: 0.2));
-    final titleColor = isDark ? Colors.white : const Color(0xFF111111);
+    final titleColor = isDark ? Colors.white : AppColors.color111111;
     final subtitleColor = isDark
-        ? const Color(0xFFB0B0BA)
-        : const Color(0xFF8A8A96);
+        ? AppColors.colorB0B0BA
+        : AppColors.color8A8A96;
 
     return Dismissible(
       key: ValueKey(task.id),
@@ -80,7 +80,7 @@ class TaskCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.centerRight,
         decoration: BoxDecoration(
-          color: const Color(0xFFE5484D),
+          color: AppColors.colorE5484D,
           borderRadius: BorderRadius.circular(14),
         ),
         child: const Column(
@@ -141,8 +141,8 @@ class TaskCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: isDone
                           ? (isDark
-                                ? const Color(0xFF3C3C44)
-                                : const Color(0xFFDDDDE8))
+                                ? AppColors.color3C3C44
+                                : AppColors.colorDDDDE8)
                           : _priorityColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
@@ -234,13 +234,13 @@ class TaskCard extends StatelessWidget {
                       height: 26,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: isDone ? appColor : Colors.transparent,
+                        color: isDone ? AppColors.primary : Colors.transparent,
                         border: Border.all(
                           color: isDone
-                              ? appColor
+                              ? AppColors.primary
                               : (isDark
-                                    ? const Color(0xFF4C4C56)
-                                    : const Color(0xFFCCCCD6)),
+                                    ? AppColors.color4C4C56
+                                    : AppColors.colorCCCCD6),
                           width: 2,
                         ),
                       ),
@@ -268,11 +268,11 @@ class TaskCard extends StatelessWidget {
       barrierColor: Colors.black.withValues(alpha: 0.5),
       builder: (ctx) {
         final isDark = Theme.of(ctx).brightness == Brightness.dark;
-        final bgColor = isDark ? const Color(0xFF1C1C22) : Colors.white;
-        final titleColor = isDark ? Colors.white : const Color(0xFF111111);
+        final bgColor = isDark ? AppColors.color1C1C22 : Colors.white;
+        final titleColor = isDark ? Colors.white : AppColors.color111111;
         final bodyColor = isDark
-            ? const Color(0xFFB0B0BA)
-            : const Color(0xFF8A8A96);
+            ? AppColors.colorB0B0BA
+            : AppColors.color8A8A96;
 
         return Dialog(
           backgroundColor: Colors.transparent,
@@ -283,8 +283,8 @@ class TaskCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: isDark
-                    ? const Color(0xFF2C2C34)
-                    : const Color(0xFFEEEEF2),
+                    ? AppColors.color2C2C34
+                    : AppColors.colorEEEEF2,
               ),
             ),
             padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
@@ -296,12 +296,12 @@ class TaskCard extends StatelessWidget {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFE5484D).withValues(alpha: 0.1),
+                    color: AppColors.colorE5484D.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(
                     Icons.delete_outline_rounded,
-                    color: Color(0xFFE5484D),
+                    color: AppColors.colorE5484D,
                     size: 28,
                   ),
                 ),
@@ -338,8 +338,8 @@ class TaskCard extends StatelessWidget {
                             foregroundColor: bodyColor,
                             side: BorderSide(
                               color: isDark
-                                  ? const Color(0xFF3C3C44)
-                                  : const Color(0xFFE5E7EB),
+                                  ? AppColors.color3C3C44
+                                  : AppColors.colorE5E7EB,
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
@@ -363,7 +363,7 @@ class TaskCard extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () => Navigator.pop(ctx, true),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFE5484D),
+                            backgroundColor: AppColors.colorE5484D,
                             foregroundColor: Colors.white,
                             elevation: 0,
                             shape: RoundedRectangleBorder(

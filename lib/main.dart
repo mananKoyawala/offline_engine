@@ -43,7 +43,7 @@ class TodusApp extends ConsumerWidget {
         useMaterial3: true,
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: appColor,
+          seedColor: AppColors.primary,
           brightness: Brightness.light,
         ),
       ),
@@ -51,7 +51,7 @@ class TodusApp extends ConsumerWidget {
         useMaterial3: true,
         brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: appColor,
+          seedColor: AppColors.primary,
           brightness: Brightness.dark,
         ),
       ),

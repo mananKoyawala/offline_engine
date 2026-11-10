@@ -28,14 +28,14 @@ class _TaskCompleteSoundPageState extends ConsumerState<TaskCompleteSoundPage> {
     final isDarkMode = ref.watch(themeProvider).isDarkMode;
 
     final backgroundColor = isDarkMode ? Colors.black : Colors.white;
-    final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
+    final titleColor = isDarkMode ? Colors.white : AppColors.color111111;
     final subtitleColor = isDarkMode
-        ? const Color(0xFFB0B0BA)
-        : const Color(0xFF8A8A96);
+        ? AppColors.colorB0B0BA
+        : AppColors.color8A8A96;
     final borderColor = isDarkMode
-        ? const Color(0xFF2C2C34)
-        : const Color(0xFFEEEEF2);
-    final cardColor = isDarkMode ? const Color(0xFF1C1C22) : const Color(0xFFF7F7FA);
+        ? AppColors.color2C2C34
+        : AppColors.colorEEEEF2;
+    final cardColor = isDarkMode ? AppColors.color1C1C22 : AppColors.colorF7F7FA;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -116,16 +116,16 @@ class _TaskCompleteSoundPageState extends ConsumerState<TaskCompleteSoundPage> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: isDarkMode
-                    ? const Color(0xFF2B2B2F)
-                    : const Color(0xFFF0F0F5),
+                    ? AppColors.color2B2B2F
+                    : AppColors.colorF0F0F5,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
                 Icons.arrow_back_ios_new_rounded,
                 size: 16,
                 color: isDarkMode
-                    ? const Color(0xFFB0B0BA)
-                    : const Color(0xFF6B7280),
+                    ? AppColors.colorB0B0BA
+                    : AppColors.color6B7280,
               ),
             ),
           ),
@@ -179,10 +179,10 @@ class _TaskCompleteSoundPageState extends ConsumerState<TaskCompleteSoundPage> {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: appColor.withValues(alpha: 0.12),
+              color: AppColors.primary.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Icon(Icons.graphic_eq_rounded, color: appColor, size: 22),
+            child: Icon(Icons.graphic_eq_rounded, color: AppColors.primary, size: 22),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -250,13 +250,13 @@ class _AudioOptionTile extends StatelessWidget {
             color: cardColor,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: isSelected ? appColor : borderColor,
+              color: isSelected ? AppColors.primary : borderColor,
               width: isSelected ? 1.4 : 1,
             ),
             boxShadow: isSelected
                 ? [
                     BoxShadow(
-                      color: appColor.withValues(alpha: 0.08),
+                      color: AppColors.primary.withValues(alpha: 0.08),
                       blurRadius: 14,
                       offset: const Offset(0, 4),
                     ),
@@ -270,19 +270,19 @@ class _AudioOptionTile extends StatelessWidget {
                 height: 42,
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? appColor.withValues(alpha: 0.12)
+                      ? AppColors.primary.withValues(alpha: 0.12)
                       : (isDarkMode
-                            ? const Color(0xFF2B2B2F)
-                            : const Color(0xFFF0F0F5)),
+                            ? AppColors.color2B2B2F
+                            : AppColors.colorF0F0F5),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   isSelected ? Icons.volume_up_rounded : Icons.music_note_rounded,
                   color: isSelected
-                      ? appColor
+                      ? AppColors.primary
                       : (isDarkMode
-                            ? const Color(0xFFB0B0BA)
-                            : const Color(0xFF6B7280)),
+                            ? AppColors.colorB0B0BA
+                            : AppColors.color6B7280),
                   size: 20,
                 ),
               ),
@@ -318,13 +318,13 @@ class _AudioOptionTile extends StatelessWidget {
                 height: 22,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isSelected ? appColor : Colors.transparent,
+                  color: isSelected ? AppColors.primary : Colors.transparent,
                   border: Border.all(
                     color: isSelected
-                        ? appColor
+                        ? AppColors.primary
                         : (isDarkMode
-                              ? const Color(0xFF4C4C56)
-                              : const Color(0xFFCCCCD6)),
+                              ? AppColors.color4C4C56
+                              : AppColors.colorCCCCD6),
                     width: 2,
                   ),
                 ),

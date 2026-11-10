@@ -25,16 +25,16 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     final currentSound = prefsInstance.getTaskCompleteSound();
 
     final backgroundColor = isDarkMode ? Colors.black : Colors.white;
-    final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
+    final titleColor = isDarkMode ? Colors.white : AppColors.color111111;
     final subtitleColor = isDarkMode
-        ? const Color(0xFFB0B0BA)
-        : const Color(0xFF8A8A96);
+        ? AppColors.colorB0B0BA
+        : AppColors.color8A8A96;
     final borderColor = isDarkMode
-        ? const Color(0xFF2C2C34)
-        : const Color(0xFFEEEEF2);
+        ? AppColors.color2C2C34
+        : AppColors.colorEEEEF2;
     final cardColor = isDarkMode
-        ? const Color(0xFF1C1C22)
-        : const Color(0xFFF7F7FA);
+        ? AppColors.color1C1C22
+        : AppColors.colorF7F7FA;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -140,11 +140,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     String reason,
   ) async {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? const Color(0xFF1C1C22) : Colors.white;
-    final titleColor = isDark ? Colors.white : const Color(0xFF111111);
+    final bgColor = isDark ? AppColors.color1C1C22 : Colors.white;
+    final titleColor = isDark ? Colors.white : AppColors.color111111;
     final bodyColor = isDark
-        ? const Color(0xFFB0B0BA)
-        : const Color(0xFF8A8A96);
+        ? AppColors.colorB0B0BA
+        : AppColors.color8A8A96;
 
     final notifier = ref.read(deleteAccountProvider.notifier);
 
@@ -160,7 +160,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             color: bgColor,
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: isDark ? const Color(0xFF2C2C34) : const Color(0xFFEEEEF2),
+              color: isDark ? AppColors.color2C2C34 : AppColors.colorEEEEF2,
             ),
           ),
           padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
@@ -171,12 +171,12 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 width: 56,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE53935).withValues(alpha: 0.1),
+                  color: AppColors.colorE53935.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
                   Icons.delete_forever_rounded,
-                  color: Color(0xFFE53935),
+                  color: AppColors.colorE53935,
                   size: 28,
                 ),
               ),
@@ -212,8 +212,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
                             color: isDark
-                                ? const Color(0xFF3C3C44)
-                                : const Color(0xFFE5E7EB),
+                                ? AppColors.color3C3C44
+                                : AppColors.colorE5E7EB,
                           ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
@@ -237,7 +237,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       child: ElevatedButton(
                         onPressed: () => Navigator.pop(ctx, true),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFE53935),
+                          backgroundColor: AppColors.colorE53935,
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -299,11 +299,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       barrierColor: Colors.black.withValues(alpha: 0.5),
       builder: (ctx) {
         final isDark = Theme.of(ctx).brightness == Brightness.dark;
-        final bgColor = isDark ? const Color(0xFF1C1C22) : Colors.white;
-        final titleColor = isDark ? Colors.white : const Color(0xFF111111);
+        final bgColor = isDark ? AppColors.color1C1C22 : Colors.white;
+        final titleColor = isDark ? Colors.white : AppColors.color111111;
         final bodyColor = isDark
-            ? const Color(0xFFB0B0BA)
-            : const Color(0xFF8A8A96);
+            ? AppColors.colorB0B0BA
+            : AppColors.color8A8A96;
 
         return Dialog(
           backgroundColor: Colors.transparent,
@@ -314,8 +314,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
                 color: isDark
-                    ? const Color(0xFF2C2C34)
-                    : const Color(0xFFEEEEF2),
+                    ? AppColors.color2C2C34
+                    : AppColors.colorEEEEF2,
               ),
             ),
             padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
@@ -326,12 +326,12 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFE53935).withValues(alpha: 0.1),
+                    color: AppColors.colorE53935.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(
                     Icons.logout_rounded,
-                    color: Color(0xFFE53935),
+                    color: AppColors.colorE53935,
                     size: 28,
                   ),
                 ),
@@ -368,8 +368,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                             foregroundColor: bodyColor,
                             side: BorderSide(
                               color: isDark
-                                  ? const Color(0xFF3C3C44)
-                                  : const Color(0xFFE5E7EB),
+                                  ? AppColors.color3C3C44
+                                  : AppColors.colorE5E7EB,
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
@@ -393,7 +393,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         child: ElevatedButton(
                           onPressed: () => Navigator.pop(ctx, true),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFE53935),
+                            backgroundColor: AppColors.colorE53935,
                             foregroundColor: Colors.white,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
@@ -456,16 +456,16 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: isDarkMode
-                    ? const Color(0xFF2B2B2F)
-                    : const Color(0xFFF0F0F5),
+                    ? AppColors.color2B2B2F
+                    : AppColors.colorF0F0F5,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
                 Icons.arrow_back_ios_new_rounded,
                 size: 16,
                 color: isDarkMode
-                    ? const Color(0xFFB0B0BA)
-                    : const Color(0xFF6B7280),
+                    ? AppColors.colorB0B0BA
+                    : AppColors.color6B7280,
               ),
             ),
           ),
@@ -515,7 +515,7 @@ class _DeleteAccountRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const deleteRed = Color(0xFFE53935);
+    const deleteRed = AppColors.colorE53935;
     final iconBg = deleteRed.withValues(alpha: 0.12);
 
     return Material(
@@ -598,21 +598,21 @@ class _DeleteAccountSheetState extends State<_DeleteAccountSheet> {
   @override
   Widget build(BuildContext context) {
     final isDark = widget.isDarkMode;
-    final bgColor = isDark ? const Color(0xFF1C1C22) : Colors.white;
-    final titleColor = isDark ? Colors.white : const Color(0xFF111111);
+    final bgColor = isDark ? AppColors.color1C1C22 : Colors.white;
+    final titleColor = isDark ? Colors.white : AppColors.color111111;
     final bodyColor = isDark
-        ? const Color(0xFFB0B0BA)
-        : const Color(0xFF8A8A96);
+        ? AppColors.colorB0B0BA
+        : AppColors.color8A8A96;
     final borderColor = isDark
-        ? const Color(0xFF2C2C34)
-        : const Color(0xFFEEEEF2);
+        ? AppColors.color2C2C34
+        : AppColors.colorEEEEF2;
     final fieldFill = isDark
-        ? const Color(0xFF2B2B2F)
-        : const Color(0xFFF7F7FA);
+        ? AppColors.color2B2B2F
+        : AppColors.colorF7F7FA;
     final fieldBorder = isDark
-        ? const Color(0xFF404049)
-        : const Color(0xFFE5E7EB);
-    const deleteRed = Color(0xFFE53935);
+        ? AppColors.color404049
+        : AppColors.colorE5E7EB;
+    const deleteRed = AppColors.colorE53935;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -702,7 +702,7 @@ class _DeleteAccountSheetState extends State<_DeleteAccountSheet> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                         borderSide: const BorderSide(
-                          color: appColor,
+                          color: AppColors.primary,
                           width: 1.2,
                         ),
                       ),
@@ -804,12 +804,12 @@ class _SettingsRow extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: appColor.withValues(alpha: 0.12),
+                  color: AppColors.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
                   Icons.graphic_eq_rounded,
-                  color: appColor,
+                  color: AppColors.primary,
                   size: 22,
                 ),
               ),
@@ -842,8 +842,8 @@ class _SettingsRow extends StatelessWidget {
               Icon(
                 Icons.chevron_right_rounded,
                 color: isDarkMode
-                    ? const Color(0xFFB0B0BA)
-                    : const Color(0xFF6B7280),
+                    ? AppColors.colorB0B0BA
+                    : AppColors.color6B7280,
                 size: 22,
               ),
             ],
@@ -869,7 +869,7 @@ class _LogoutRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const logoutRed = Color(0xFFE53935);
+    const logoutRed = AppColors.colorE53935;
     final iconBg = logoutRed.withValues(alpha: 0.12);
 
     return Material(
@@ -957,10 +957,10 @@ class _TermsRow extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: appColor.withValues(alpha: 0.12),
+                  color: AppColors.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: Icon(Icons.gavel_rounded, color: appColor, size: 22),
+                child: Icon(Icons.gavel_rounded, color: AppColors.primary, size: 22),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -991,8 +991,8 @@ class _TermsRow extends StatelessWidget {
               Icon(
                 Icons.chevron_right_rounded,
                 color: isDarkMode
-                    ? const Color(0xFFB0B0BA)
-                    : const Color(0xFF6B7280),
+                    ? AppColors.colorB0B0BA
+                    : AppColors.color6B7280,
                 size: 22,
               ),
             ],
@@ -1026,13 +1026,13 @@ class _AppVersionFooter extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
               color: isDarkMode
-                  ? const Color(0xFF1C1C22)
-                  : const Color(0xFFF7F7FA),
+                  ? AppColors.color1C1C22
+                  : AppColors.colorF7F7FA,
               borderRadius: BorderRadius.circular(999),
               border: Border.all(
                 color: isDarkMode
-                    ? const Color(0xFF2C2C34)
-                    : const Color(0xFFEEEEF2),
+                    ? AppColors.color2C2C34
+                    : AppColors.colorEEEEF2,
                 width: 1,
               ),
             ),
@@ -1042,7 +1042,7 @@ class _AppVersionFooter extends StatelessWidget {
                 Icon(
                   Icons.verified_rounded,
                   size: 14,
-                  color: appColor.withValues(alpha: 0.85),
+                  color: AppColors.primary.withValues(alpha: 0.85),
                 ),
                 const SizedBox(width: 6),
                 Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todus/core/theme/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todus/feature/tasks/presentation/provider/sync_operation_provider.dart';
 
@@ -64,7 +65,7 @@ class _SyncBannerState extends State<_SyncBanner>
       child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFFF1493), Color(0xFFFF6EC7)],
+            colors: [AppColors.primary, AppColors.colorFF6EC7],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),

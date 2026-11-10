@@ -48,7 +48,7 @@ class _SpalshPageState extends ConsumerState<SpalshPage> {
     final isDarkMode = ref.read(themeProvider).isDarkMode;
 
     return Scaffold(
-      backgroundColor: isDarkMode ? Colors.black : appColor,
+      backgroundColor: isDarkMode ? Colors.black : AppColors.primary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +67,7 @@ class _SpalshPageState extends ConsumerState<SpalshPage> {
             Text(
               'Todus',
               style: TextStyle(
-                color: isDarkMode ? appColor : Colors.white,
+                color: isDarkMode ? AppColors.primary : Colors.white,
                 fontWeight: FontWeight.w900,
                 fontSize: 24,
               ),

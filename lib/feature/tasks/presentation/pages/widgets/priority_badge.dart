@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todus/core/theme/colors.dart';
 import 'package:todus/feature/tasks/presentation/enums/task_priority.dart';
 
 class PriorityBadge extends StatelessWidget {
@@ -9,11 +10,11 @@ class PriorityBadge extends StatelessWidget {
   Color get _color {
     switch (priority) {
       case TaskPriority.high:
-        return const Color(0xFFE5484D);
+        return AppColors.colorE5484D;
       case TaskPriority.medium:
-        return const Color(0xFFF5A623);
+        return AppColors.colorF5A623;
       case TaskPriority.low:
-        return const Color(0xFF30A46C);
+        return AppColors.color30A46C;
     }
   }
 

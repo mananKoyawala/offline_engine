@@ -73,18 +73,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
     final backgroundColor = isDarkMode ? Colors.black : Colors.white;
     final fieldFillColor = isDarkMode
-        ? const Color(0xFF2B2B2F)
-        : const Color(0xFFF7F7FA);
+        ? AppColors.color2B2B2F
+        : AppColors.colorF7F7FA;
     final fieldBorderColor = isDarkMode
-        ? const Color(0xFF404049)
-        : const Color(0xFFE5E7EB);
-    final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
+        ? AppColors.color404049
+        : AppColors.colorE5E7EB;
+    final titleColor = isDarkMode ? Colors.white : AppColors.color111111;
     final bodyColor = isDarkMode
-        ? const Color(0xFFB0B0BA)
-        : const Color(0xFF8A8A96);
+        ? AppColors.colorB0B0BA
+        : AppColors.color8A8A96;
     final labelColor = isDarkMode
-        ? const Color(0xFFB8B8C2)
-        : const Color(0xFF6B7280);
+        ? AppColors.colorB8B8C2
+        : AppColors.color6B7280;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -219,7 +219,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
                         ),
-                        color: appColor,
+                        color: AppColors.primary,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -262,7 +262,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
                         ),
-                        color: appColor,
+                        color: AppColors.primary,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -282,9 +282,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       child: ElevatedButton(
                         onPressed: state.isLoading ? null : _handleRegister,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: appColor,
+                          backgroundColor: AppColors.primary,
                           foregroundColor: Colors.white,
-                          disabledBackgroundColor: appColor.withValues(
+                          disabledBackgroundColor: AppColors.primary.withValues(
                             alpha: 0.65,
                           ),
                           shape: RoundedRectangleBorder(
@@ -332,7 +332,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           child: const Text(
                             'Log In',
                             style: TextStyle(
-                              color: appColor,
+                              color: AppColors.primary,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
@@ -366,7 +366,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         Text(
           'Todus',
           style: TextStyle(
-            color: isDarkMode ? Colors.white : const Color(0xFF111111),
+            color: isDarkMode ? Colors.white : AppColors.color111111,
             fontSize: 24,
             fontWeight: FontWeight.w800,
             height: 1.1,
@@ -377,8 +377,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           'Sync anywhere. Instantly.',
           style: TextStyle(
             color: isDarkMode
-                ? const Color(0xFF9A9AA6)
-                : const Color(0xFF9B9BA6),
+                ? AppColors.color9A9AA6
+                : AppColors.color9B9BA6,
             fontSize: 14,
             fontWeight: FontWeight.w400,
           ),
@@ -430,15 +430,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: appColor, width: 1.2),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFFE5484D), width: 1),
+          borderSide: const BorderSide(color: AppColors.colorE5484D, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFFE5484D), width: 1.2),
+          borderSide: const BorderSide(color: AppColors.colorE5484D, width: 1.2),
         ),
         errorStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
         suffixIcon: suffixIcon,

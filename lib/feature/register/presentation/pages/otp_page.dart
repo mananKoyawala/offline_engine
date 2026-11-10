@@ -100,13 +100,13 @@ class _OtpPageState extends ConsumerState<OtpPage> {
     final isDarkMode = ref.watch(themeProvider).isDarkMode;
 
     final backgroundColor = isDarkMode ? Colors.black : Colors.white;
-    final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
+    final titleColor = isDarkMode ? Colors.white : AppColors.color111111;
     final bodyColor =
-        isDarkMode ? const Color(0xFFB0B0BA) : const Color(0xFF8A8A96);
+        isDarkMode ? AppColors.colorB0B0BA : AppColors.color8A8A96;
     final fieldFillColor =
-        isDarkMode ? const Color(0xFF2B2B2F) : const Color(0xFFF7F7FA);
+        isDarkMode ? AppColors.color2B2B2F : AppColors.colorF7F7FA;
     final fieldBorderColor =
-        isDarkMode ? const Color(0xFF404049) : const Color(0xFFE5E7EB);
+        isDarkMode ? AppColors.color404049 : AppColors.colorE5E7EB;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -138,12 +138,12 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                       width: 72,
                       height: 72,
                       decoration: BoxDecoration(
-                        color: appColor.withValues(alpha: 0.12),
+                        color: AppColors.primary.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: const Icon(
                         Icons.mark_email_unread_outlined,
-                        color: appColor,
+                        color: AppColors.primary,
                         size: 36,
                       ),
                     ),
@@ -219,7 +219,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: const BorderSide(
-                                  color: appColor,
+                                  color: AppColors.primary,
                                   width: 1.6,
                                 ),
                               ),
@@ -249,10 +249,10 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                           ? null
                           : _handleVerify,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: appColor,
+                        backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
                         disabledBackgroundColor:
-                            appColor.withValues(alpha: 0.65),
+                            AppColors.primary.withValues(alpha: 0.65),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
@@ -304,7 +304,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
                               valueColor:
-                                  AlwaysStoppedAnimation<Color>(appColor),
+                                  AlwaysStoppedAnimation<Color>(AppColors.primary),
                             ),
                           )
                         : state.canResend
@@ -322,7 +322,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                                 child: const Text(
                                   'Resend OTP',
                                   style: TextStyle(
-                                    color: appColor,
+                                    color: AppColors.primary,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -340,7 +340,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                                     TextSpan(
                                       text: '${state.resendCountdown}s',
                                       style: const TextStyle(
-                                        color: appColor,
+                                        color: AppColors.primary,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),

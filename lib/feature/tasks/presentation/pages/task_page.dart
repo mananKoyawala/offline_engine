@@ -82,15 +82,15 @@ class _TaskPageState extends ConsumerState<TaskPage> {
 
     final backgroundColor = isDarkMode ? Colors.black : Colors.white;
     final surfaceColor = isDarkMode
-        ? const Color(0xFF1A1A1F)
-        : const Color(0xFFF7F7FA);
-    final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
+        ? AppColors.color1A1A1F
+        : AppColors.colorF7F7FA;
+    final titleColor = isDarkMode ? Colors.white : AppColors.color111111;
     final subtitleColor = isDarkMode
-        ? const Color(0xFFB0B0BA)
-        : const Color(0xFF8A8A96);
+        ? AppColors.colorB0B0BA
+        : AppColors.color8A8A96;
     final borderColor = isDarkMode
-        ? const Color(0xFF2C2C34)
-        : const Color(0xFFEEEEF2);
+        ? AppColors.color2C2C34
+        : AppColors.colorEEEEF2;
 
     DateTime? lastBackPressTime;
 
@@ -128,7 +128,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
               ),
               Expanded(
                 child: RefreshIndicator(
-                  color: appColor,
+                  color: AppColors.primary,
                   onRefresh: () async {
                     ref.read(taskProvider.notifier).refresh(remote: true);
                     await HapticFeedback.mediumImpact();
@@ -233,8 +233,8 @@ class _TaskPageState extends ConsumerState<TaskPage> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: isDarkMode
-                ? const Color(0xFF2B2B2F)
-                : const Color(0xFFF0F0F5),
+                ? AppColors.color2B2B2F
+                : AppColors.colorF0F0F5,
             borderRadius: BorderRadius.circular(10),
           ),
           child: AnimatedSwitcher(
@@ -253,8 +253,8 @@ class _TaskPageState extends ConsumerState<TaskPage> {
               key: ValueKey(isDarkMode),
               size: 20,
               color: isDarkMode
-                  ? const Color(0xFFB0B0BA)
-                  : const Color(0xFF6B7280),
+                  ? AppColors.colorB0B0BA
+                  : AppColors.color6B7280,
             ),
           ),
         ),
@@ -279,16 +279,16 @@ class _TaskPageState extends ConsumerState<TaskPage> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: isDarkMode
-                ? const Color(0xFF2B2B2F)
-                : const Color(0xFFF0F0F5),
+                ? AppColors.color2B2B2F
+                : AppColors.colorF0F0F5,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(
             icon,
             size: 20,
             color: isDarkMode
-                ? const Color(0xFFB0B0BA)
-                : const Color(0xFF6B7280),
+                ? AppColors.colorB0B0BA
+                : AppColors.color6B7280,
           ),
         ),
       ),
@@ -301,7 +301,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: appColor.withValues(alpha: 0.35),
+            color: AppColors.primary.withValues(alpha: 0.35),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),
@@ -309,7 +309,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
       ),
       child: FloatingActionButton.extended(
         onPressed: _openCreateForm,
-        backgroundColor: appColor,
+        backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -330,7 +330,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
   }) {
     if (state.isLoading && state.tasks.isEmpty) {
       return Center(
-        child: CircularProgressIndicator(color: appColor, strokeWidth: 2.4),
+        child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 2.4),
       );
     }
 
@@ -354,7 +354,7 @@ class _TaskPageState extends ConsumerState<TaskPage> {
         isDarkMode: isDarkMode,
         titleColor: titleColor,
         subtitleColor: subtitleColor,
-        iconColor: appColor.withValues(alpha: 0.35),
+        iconColor: AppColors.primary.withValues(alpha: 0.35),
       );
     }
 
@@ -394,11 +394,11 @@ class _TaskPageState extends ConsumerState<TaskPage> {
     required Color subtitleColor,
   }) {
     final sectionBorder = isDarkMode
-        ? const Color(0xFF2C2C34)
-        : const Color(0xFFEEEEF2);
+        ? AppColors.color2C2C34
+        : AppColors.colorEEEEF2;
     final sectionSurface = isDarkMode
-        ? const Color(0xFF1A1A1F)
-        : const Color(0xFFF7F7FA);
+        ? AppColors.color1A1A1F
+        : AppColors.colorF7F7FA;
 
     if (completedTasks.isEmpty) return SizedBox.shrink();
 
@@ -429,12 +429,12 @@ class _TaskPageState extends ConsumerState<TaskPage> {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: appColor.withValues(alpha: 0.12),
+                        color: AppColors.primary.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
                         Icons.done_all_rounded,
-                        color: appColor,
+                        color: AppColors.primary,
                         size: 21,
                       ),
                     ),
@@ -544,8 +544,8 @@ class _TaskPageState extends ConsumerState<TaskPage> {
               height: 80,
               decoration: BoxDecoration(
                 color: isDarkMode
-                    ? const Color(0xFF2B2B2F)
-                    : const Color(0xFFF0F0F5),
+                    ? AppColors.color2B2B2F
+                    : AppColors.colorF0F0F5,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Icon(icon, size: 36, color: iconColor),

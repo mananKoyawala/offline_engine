@@ -21,13 +21,13 @@ class SyncOperationsPage extends ConsumerWidget {
     final syncOperations = ref.watch(syncOperationsProvider);
 
     final backgroundColor = isDarkMode ? Colors.black : Colors.white;
-    final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
+    final titleColor = isDarkMode ? Colors.white : AppColors.color111111;
     final subtitleColor = isDarkMode
-        ? const Color(0xFFB0B0BA)
-        : const Color(0xFF8A8A96);
+        ? AppColors.colorB0B0BA
+        : AppColors.color8A8A96;
     final borderColor = isDarkMode
-        ? const Color(0xFF2C2C34)
-        : const Color(0xFFEEEEF2);
+        ? AppColors.color2C2C34
+        : AppColors.colorEEEEF2;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -69,7 +69,7 @@ class SyncOperationsPage extends ConsumerWidget {
                 ),
                 loading: () => Center(
                   child: CircularProgressIndicator(
-                    color: appColor,
+                    color: AppColors.primary,
                     strokeWidth: 2.4,
                   ),
                 ),
@@ -107,16 +107,16 @@ class SyncOperationsPage extends ConsumerWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: isDarkMode
-                    ? const Color(0xFF2B2B2F)
-                    : const Color(0xFFF0F0F5),
+                    ? AppColors.color2B2B2F
+                    : AppColors.colorF0F0F5,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
                 Icons.arrow_back_ios_new_rounded,
                 size: 16,
                 color: isDarkMode
-                    ? const Color(0xFFB0B0BA)
-                    : const Color(0xFF6B7280),
+                    ? AppColors.colorB0B0BA
+                    : AppColors.color6B7280,
               ),
             ),
           ),
@@ -166,17 +166,17 @@ class SyncOperationsPage extends ConsumerWidget {
     SyncOperationItem op,
     bool isDarkMode,
   ) {
-    final titleColor = isDarkMode ? Colors.white : const Color(0xFF111111);
+    final titleColor = isDarkMode ? Colors.white : AppColors.color111111;
     final subtitleColor = isDarkMode
-        ? const Color(0xFFB0B0BA)
-        : const Color(0xFF8A8A96);
+        ? AppColors.colorB0B0BA
+        : AppColors.color8A8A96;
     final borderColor = isDarkMode
-        ? const Color(0xFF2C2C34)
-        : const Color(0xFFEEEEF2);
-    final surfaceColor = isDarkMode ? const Color(0xFF16161A) : Colors.white;
+        ? AppColors.color2C2C34
+        : AppColors.colorEEEEF2;
+    final surfaceColor = isDarkMode ? AppColors.color16161A : Colors.white;
     final softSurfaceColor = isDarkMode
-        ? const Color(0xFF1C1C22)
-        : const Color(0xFFF7F7FA);
+        ? AppColors.color1C1C22
+        : AppColors.colorF7F7FA;
 
     showModalBottomSheet(
       context: context,
@@ -214,8 +214,8 @@ class SyncOperationsPage extends ConsumerWidget {
                           margin: const EdgeInsets.symmetric(vertical: 14),
                           decoration: BoxDecoration(
                             color: isDarkMode
-                                ? const Color(0xFF3C3C44)
-                                : const Color(0xFFDDDDE6),
+                                ? AppColors.color3C3C44
+                                : AppColors.colorDDDDE6,
                             borderRadius: BorderRadius.circular(4),
                           ),
                         ),
@@ -341,7 +341,7 @@ class SyncOperationsPage extends ConsumerWidget {
                                         vertical: 8,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: appColor.withValues(alpha: 0.12),
+                                        color: AppColors.primary.withValues(alpha: 0.12),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Row(
@@ -350,13 +350,13 @@ class SyncOperationsPage extends ConsumerWidget {
                                           Icon(
                                             Icons.copy_rounded,
                                             size: 14,
-                                            color: appColor,
+                                            color: AppColors.primary,
                                           ),
                                           const SizedBox(width: 6),
                                           Text(
                                             'Copy',
                                             style: TextStyle(
-                                              color: appColor,
+                                              color: AppColors.primary,
                                               fontSize: 11,
                                               fontWeight: FontWeight.w700,
                                             ),
@@ -374,7 +374,7 @@ class SyncOperationsPage extends ConsumerWidget {
                               padding: const EdgeInsets.all(14),
                               decoration: BoxDecoration(
                                 color: isDarkMode
-                                    ? const Color(0xFF15151A)
+                                    ? AppColors.color15151A
                                     : Colors.white,
                                 borderRadius: BorderRadius.circular(14),
                                 border: Border.all(
@@ -426,16 +426,16 @@ class SyncOperationsPage extends ConsumerWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: isDarkMode
-                ? const Color(0xFF2B2B2F)
-                : const Color(0xFFF0F0F5),
+                ? AppColors.color2B2B2F
+                : AppColors.colorF0F0F5,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(
             icon,
             size: 20,
             color: isDarkMode
-                ? const Color(0xFFB0B0BA)
-                : const Color(0xFF6B7280),
+                ? AppColors.colorB0B0BA
+                : AppColors.color6B7280,
           ),
         ),
       ),
@@ -543,10 +543,10 @@ class SyncOperationsPage extends ConsumerWidget {
           width: 28,
           height: 28,
           decoration: BoxDecoration(
-            color: appColor.withValues(alpha: 0.12),
+            color: AppColors.primary.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(icon, size: 15, color: appColor),
+          child: Icon(icon, size: 15, color: AppColors.primary),
         ),
         const SizedBox(width: 10),
         Text(
@@ -582,55 +582,55 @@ class SyncOperationsPage extends ConsumerWidget {
         label: 'Pending',
         value: pendingCount,
         icon: Icons.hourglass_top_rounded,
-        color: const Color(0xFFF5A623),
+        color: AppColors.colorF5A623,
       ),
       _StatItem(
         label: 'Success',
         value: successCount,
         icon: Icons.check_circle_rounded,
-        color: const Color(0xFF30A46C),
+        color: AppColors.color30A46C,
       ),
       _StatItem(
         label: 'Merged',
         value: mergedCount,
         icon: Icons.merge_rounded,
-        color: appColor,
+        color: AppColors.primary,
       ),
       _StatItem(
         label: 'Failed',
         value: failedCount,
         icon: Icons.error_rounded,
-        color: const Color(0xFFE5484D),
+        color: AppColors.colorE5484D,
       ),
       _StatItem(
         label: 'Auto Resolved',
         value: autoResolvedCount,
         icon: Icons.auto_fix_high_rounded,
-        color: const Color(0xFF7C6FFF),
+        color: AppColors.color7C6FFF,
       ),
       _StatItem(
         label: 'Version Resolved',
         value: versionResolvedCount,
         icon: Icons.history_toggle_off_rounded,
-        color: const Color(0xFF06B6D4),
+        color: AppColors.color06B6D4,
       ),
       _StatItem(
         label: 'Already Deleted',
         value: alreadyDeletedCount,
         icon: Icons.delete_forever_rounded,
-        color: const Color(0xFFFF6B6B),
+        color: AppColors.colorFF6B6B,
       ),
       _StatItem(
         label: 'Delete Resolved',
         value: deleteResolvedCount,
         icon: Icons.delete_sweep_rounded,
-        color: const Color(0xFFFF9F43),
+        color: AppColors.colorFF9F43,
       ),
       _StatItem(
         label: 'Duplicate Create',
         value: duplicateCreateCount,
         icon: Icons.content_copy_rounded,
-        color: const Color(0xFF26C6DA),
+        color: AppColors.color26C6DA,
       ),
     ];
 
@@ -649,7 +649,7 @@ class SyncOperationsPage extends ConsumerWidget {
   }
 
   Widget _buildStatCard(_StatItem item, bool isDarkMode) {
-    final cardColor = isDarkMode ? const Color(0xFF1C1C22) : Colors.white;
+    final cardColor = isDarkMode ? AppColors.color1C1C22 : Colors.white;
     final borderColor = isDarkMode
         ? item.color.withValues(alpha: 0.2)
         : item.color.withValues(alpha: 0.15);
@@ -702,8 +702,8 @@ class SyncOperationsPage extends ConsumerWidget {
                     item.label,
                     style: TextStyle(
                       color: isDarkMode
-                          ? const Color(0xFF8A8A96)
-                          : const Color(0xFF9B9BA6),
+                          ? AppColors.color8A8A96
+                          : AppColors.color9B9BA6,
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                     ),
@@ -729,19 +729,19 @@ class SyncOperationsPage extends ConsumerWidget {
         label: 'Create',
         value: createCount,
         icon: Icons.add_circle_rounded,
-        color: const Color(0xFF30A46C),
+        color: AppColors.color30A46C,
       ),
       _StatItem(
         label: 'Update',
         value: updateCount,
         icon: Icons.edit_rounded,
-        color: const Color(0xFFF5A623),
+        color: AppColors.colorF5A623,
       ),
       _StatItem(
         label: 'Delete',
         value: deleteCount,
         icon: Icons.delete_rounded,
-        color: const Color(0xFFE5484D),
+        color: AppColors.colorE5484D,
       ),
     ];
 
@@ -760,7 +760,7 @@ class SyncOperationsPage extends ConsumerWidget {
   }
 
   Widget _buildTypeCard(_StatItem item, bool isDarkMode) {
-    final cardColor = isDarkMode ? const Color(0xFF1C1C22) : Colors.white;
+    final cardColor = isDarkMode ? AppColors.color1C1C22 : Colors.white;
 
     return Container(
       padding: const EdgeInsets.all(14),
@@ -811,8 +811,8 @@ class SyncOperationsPage extends ConsumerWidget {
                 item.label,
                 style: TextStyle(
                   color: isDarkMode
-                      ? const Color(0xFF8A8A96)
-                      : const Color(0xFF9B9BA6),
+                      ? AppColors.color8A8A96
+                      : AppColors.color9B9BA6,
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                 ),
@@ -835,7 +835,7 @@ class SyncOperationsPage extends ConsumerWidget {
   }) {
     final statusColor = _statusColor(op.status);
     final typeColor = _typeColor(op.type);
-    final cardColor = isDarkMode ? const Color(0xFF1C1C22) : Colors.white;
+    final cardColor = isDarkMode ? AppColors.color1C1C22 : Colors.white;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -850,8 +850,8 @@ class SyncOperationsPage extends ConsumerWidget {
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: isDarkMode
-                    ? const Color(0xFF2C2C34)
-                    : const Color(0xFFEEEEF2),
+                    ? AppColors.color2C2C34
+                    : AppColors.colorEEEEF2,
                 width: 1,
               ),
             ),
@@ -1031,7 +1031,7 @@ class SyncOperationsPage extends ConsumerWidget {
     await Clipboard.setData(ClipboardData(text: payloadText));
     Fluttertoast.showToast(
       msg: 'Payload copied',
-      backgroundColor: appColor,
+      backgroundColor: AppColors.primary,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
@@ -1077,14 +1077,14 @@ class SyncOperationsPage extends ConsumerWidget {
               height: 72,
               decoration: BoxDecoration(
                 color: isDarkMode
-                    ? const Color(0xFF2B2B2F)
-                    : const Color(0xFFF0F0F5),
+                    ? AppColors.color2B2B2F
+                    : AppColors.colorF0F0F5,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Icon(
                 Icons.sync_disabled_rounded,
                 size: 32,
-                color: appColor.withValues(alpha: 0.4),
+                color: AppColors.primary.withValues(alpha: 0.4),
               ),
             ),
             const SizedBox(height: 16),
@@ -1121,14 +1121,14 @@ class SyncOperationsPage extends ConsumerWidget {
               height: 72,
               decoration: BoxDecoration(
                 color: isDarkMode
-                    ? const Color(0xFF2B2B2F)
-                    : const Color(0xFFF0F0F5),
+                    ? AppColors.color2B2B2F
+                    : AppColors.colorF0F0F5,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Icon(
                 Icons.error_outline_rounded,
                 size: 32,
-                color: Color(0xFFE5484D),
+                color: AppColors.colorE5484D,
               ),
             ),
             const SizedBox(height: 16),
@@ -1157,23 +1157,23 @@ class SyncOperationsPage extends ConsumerWidget {
   Color _statusColor(SyncStatus status) {
     switch (status) {
       case SyncStatus.pending:
-        return const Color(0xFFF5A623);
+        return AppColors.colorF5A623;
       case SyncStatus.success:
-        return const Color(0xFF30A46C);
+        return AppColors.color30A46C;
       case SyncStatus.merged:
-        return appColor;
+        return AppColors.primary;
       case SyncStatus.failed:
-        return const Color(0xFFE5484D);
+        return AppColors.colorE5484D;
       case SyncStatus.autoResolved:
-        return const Color(0xFF7C6FFF);
+        return AppColors.color7C6FFF;
       case SyncStatus.versionResolved:
-        return const Color(0xFF06B6D4);
+        return AppColors.color06B6D4;
       case SyncStatus.alreadyDeleted:
-        return const Color(0xFFFF6B6B);
+        return AppColors.colorFF6B6B;
       case SyncStatus.deleteResolved:
-        return const Color(0xFFFF9F43);
+        return AppColors.colorFF9F43;
       case SyncStatus.duplicateCreate:
-        return const Color(0xFF26C6DA);
+        return AppColors.color26C6DA;
     }
   }
 
@@ -1203,11 +1203,11 @@ class SyncOperationsPage extends ConsumerWidget {
   Color _typeColor(SyncOperations type) {
     switch (type) {
       case SyncOperations.create:
-        return const Color(0xFF30A46C);
+        return AppColors.color30A46C;
       case SyncOperations.update:
-        return const Color(0xFFF5A623);
+        return AppColors.colorF5A623;
       case SyncOperations.delete:
-        return const Color(0xFFE5484D);
+        return AppColors.colorE5484D;
     }
   }
 }

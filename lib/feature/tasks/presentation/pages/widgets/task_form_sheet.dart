@@ -106,17 +106,17 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final sheetColor = isDark ? const Color(0xFF16161A) : Colors.white;
+    final sheetColor = isDark ? AppColors.color16161A : Colors.white;
     final fieldFill = isDark
-        ? const Color(0xFF2B2B2F)
-        : const Color(0xFFF7F7FA);
+        ? AppColors.color2B2B2F
+        : AppColors.colorF7F7FA;
     final fieldBorder = isDark
-        ? const Color(0xFF3C3C44)
-        : const Color(0xFFE5E7EB);
-    final titleColor = isDark ? Colors.white : const Color(0xFF111111);
+        ? AppColors.color3C3C44
+        : AppColors.colorE5E7EB;
+    final titleColor = isDark ? Colors.white : AppColors.color111111;
     final labelColor = isDark
-        ? const Color(0xFFB8B8C2)
-        : const Color(0xFF6B7280);
+        ? AppColors.colorB8B8C2
+        : AppColors.color6B7280;
 
     return Container(
       decoration: BoxDecoration(
@@ -143,8 +143,8 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
                 margin: const EdgeInsets.symmetric(vertical: 14),
                 decoration: BoxDecoration(
                   color: isDark
-                      ? const Color(0xFF3C3C44)
-                      : const Color(0xFFDDDDE6),
+                      ? AppColors.color3C3C44
+                      : AppColors.colorDDDDE6,
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -157,12 +157,12 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: appColor.withValues(alpha: 0.12),
+                    color: AppColors.primary.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
                     isEditing ? Icons.edit_rounded : Icons.add_rounded,
-                    color: appColor,
+                    color: AppColors.primary,
                     size: 20,
                   ),
                 ),
@@ -238,19 +238,19 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(color: appColor, width: 1.5),
+                  borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
                 ),
                 errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
                   borderSide: const BorderSide(
-                    color: Color(0xFFE5484D),
+                    color: AppColors.colorE5484D,
                     width: 1.2,
                   ),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
                   borderSide: const BorderSide(
-                    color: Color(0xFFE5484D),
+                    color: AppColors.colorE5484D,
                     width: 1.5,
                   ),
                 ),
@@ -307,7 +307,7 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(color: appColor, width: 1.5),
+                  borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
                 ),
               ),
             ),
@@ -336,7 +336,7 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
               child: ElevatedButton(
                 onPressed: _submit,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: appColor,
+                  backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
                   elevation: 0,
                   shadowColor: Colors.transparent,
@@ -365,19 +365,19 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
         priority: TaskPriority.low,
         label: 'Low',
         icon: Icons.keyboard_double_arrow_down_rounded,
-        color: const Color(0xFF30A46C),
+        color: AppColors.color30A46C,
       ),
       (
         priority: TaskPriority.medium,
         label: 'Medium',
         icon: Icons.drag_handle_rounded,
-        color: const Color(0xFFF5A623),
+        color: AppColors.colorF5A623,
       ),
       (
         priority: TaskPriority.high,
         label: 'High',
         icon: Icons.keyboard_double_arrow_up_rounded,
-        color: const Color(0xFFE5484D),
+        color: AppColors.colorE5484D,
       ),
     ];
 
@@ -398,15 +398,15 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
                 color: isSelected
                     ? color.withValues(alpha: 0.12)
                     : (isDark
-                          ? const Color(0xFF2B2B2F)
-                          : const Color(0xFFF7F7FA)),
+                          ? AppColors.color2B2B2F
+                          : AppColors.colorF7F7FA),
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: isSelected
                       ? color.withValues(alpha: 0.5)
                       : (isDark
-                            ? const Color(0xFF3C3C44)
-                            : const Color(0xFFE5E7EB)),
+                            ? AppColors.color3C3C44
+                            : AppColors.colorE5E7EB),
                   width: isSelected ? 1.5 : 1,
                 ),
               ),
@@ -419,8 +419,8 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
                     color: isSelected
                         ? color
                         : (isDark
-                              ? const Color(0xFF6C6C78)
-                              : const Color(0xFFAAAAAA)),
+                              ? AppColors.color6C6C78
+                              : AppColors.colorAAAAAA),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -429,8 +429,8 @@ class _TaskFormSheetState extends State<_TaskFormSheet> {
                       color: isSelected
                           ? color
                           : (isDark
-                                ? const Color(0xFF8A8A96)
-                                : const Color(0xFF9B9BA6)),
+                                ? AppColors.color8A8A96
+                                : AppColors.color9B9BA6),
                       fontSize: 12,
                       fontWeight: isSelected
                           ? FontWeight.w700
