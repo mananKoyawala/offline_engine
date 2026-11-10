@@ -37,6 +37,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
+    // Hide passwords when submit is attempted
+    if (!_obscurePassword || !_obscureConfirmPassword) {
+      setState(() {
+        _obscurePassword = true;
+        _obscureConfirmPassword = true;
+      });
+    }
+
     final email = _emailController.text.trim();
     final message = await ref
         .read(registerProvider.notifier)

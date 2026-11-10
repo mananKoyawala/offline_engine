@@ -32,18 +32,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
+    // Hide password immediately on button tap
+    if (!_obscurePassword) {
+      setState(() {
+        _obscurePassword = true;
+      });
+    }
+
     final success = await ref
         .read(loginProvider.notifier)
         .login(
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
-    // Hide password when login is attempted
-    if (!_obscurePassword) {
-      setState(() {
-        _obscurePassword = true;
-      });
-    }
 
     if (!mounted) return;
 
@@ -221,18 +222,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               ),
                       ),
                     ),
-                    if (state.hasError) ...[
-                      const SizedBox(height: 16),
-                      Text(
-                        state.errorMessage ?? 'Login failed. Please try again.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: isDarkMode ? Colors.redAccent : Colors.red,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
                     const SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

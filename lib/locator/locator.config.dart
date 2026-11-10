@@ -15,6 +15,12 @@ import 'package:todus/core/api_clients.dart' as _i193;
 import 'package:todus/core/database/app_database.dart' as _i981;
 import 'package:todus/core/import/app_imports.dart' as _i314;
 import 'package:todus/core/shared_preferences.dart' as _i143;
+import 'package:todus/feature/account/data/repository/account_repository_impl.dart'
+    as _i640;
+import 'package:todus/feature/account/domain/repository/account_repository.dart'
+    as _i966;
+import 'package:todus/feature/account/domain/usecases/account_usecases.dart'
+    as _i337;
 import 'package:todus/feature/login/data/repository/login_repository_impl.dart'
     as _i870;
 import 'package:todus/feature/login/domain/repository/login_repository.dart'
@@ -128,6 +134,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i734.IRegisterRepository>(
       () => _i833.RegisterRepositoryImpl(clients: gh<_i193.APIClients>()),
     );
+    gh.lazySingleton<_i966.IAccountRepository>(
+      () => _i640.AccountRepositoryImpl(clients: gh<_i193.APIClients>()),
+    );
     gh.lazySingleton<_i605.LoginUsecases>(
       () => _i605.LoginUsecases(loginRepository: gh<_i485.ILoginRepository>()),
     );
@@ -147,6 +156,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i382.OtpUsecases>(
       () => _i382.OtpUsecases(otpRepository: gh<_i418.IOtpRepository>()),
+    );
+    gh.lazySingleton<_i337.AccountUsecases>(
+      () => _i337.AccountUsecases(
+        accountRepository: gh<_i966.IAccountRepository>(),
+      ),
     );
     gh.lazySingleton<_i562.GetSyncOperationLocalUsecase>(
       () => _i562.GetSyncOperationLocalUsecase(

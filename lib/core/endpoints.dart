@@ -18,3 +18,7 @@ class OtpEndpoints {
 class TaskEndpoints {
   static String get getTasks => '/task';
 }
+
+class AccountEndpoints {
+  static String get deletionRequest => '/account-deletion/request';
+}

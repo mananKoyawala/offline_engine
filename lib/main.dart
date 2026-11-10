@@ -19,11 +19,12 @@ Future<void> main() async {
   final container = ProviderContainer();
   appContainer = container;
   runApp(
-    UncontrolledProviderScope(
-      container: container,
-      child: const TodusApp(),
-    ),
+    UncontrolledProviderScope(container: container, child: const TodusApp()),
   );
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+  });
 }
 
 class TodusApp extends ConsumerWidget {
@@ -55,8 +56,10 @@ class TodusApp extends ConsumerWidget {
         ),
       ),
       home: SpalshPage(),
-      builder: (context, child) =>
-          SyncBannerWrapper(child: child ?? const SizedBox.shrink()),
+      builder: (context, child) => GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: SyncBannerWrapper(child: child ?? const SizedBox.shrink()),
+      ),
     );
   }
 }
