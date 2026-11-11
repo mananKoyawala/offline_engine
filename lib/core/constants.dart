@@ -37,3 +37,9 @@ class AppAudioOption {
 
   const AppAudioOption({required this.label, required this.assetPath});
 }
+
+// Error messages
+const String loginErr = 'Unable to login at the moment';
+const String reigsterErr = 'Unable to create account at the moment';
+const String verifyOTPErr = 'Unable to verify OTP at the moment';
+const String resendOTPErr = 'Unable to reend OTP at the moment';

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:todus/core/constants.dart';
 import 'package:todus/core/global_getters.dart';
 import 'package:todus/feature/login/domain/params/login_params.dart';
 import 'package:todus/feature/login/presentation/getters/login_getters.dart';
@@ -34,6 +35,7 @@ class LoginNotifier extends _$LoginNotifier {
           hasError: true,
         );
         _startRetryCountdown();
+        Fluttertoast.showToast(msg: loginErr);
         return false;
       },
       (response) async {

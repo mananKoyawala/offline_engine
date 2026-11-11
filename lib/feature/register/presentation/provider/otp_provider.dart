@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:todus/core/constants.dart';
 import 'package:todus/feature/register/domain/params/otp_params.dart';
 import 'package:todus/feature/register/presentation/getters/otp_getters.dart';
 import 'package:todus/feature/register/presentation/provider/state/otp_state.dart';
@@ -22,10 +23,8 @@ class OtpNotifier extends _$OtpNotifier {
   }
 
   /// Verifies the OTP. Returns the [VerifyOtpData] on success, null on failure.
-  Future<({String accessToken, String refreshToken, String message})?> verifyOtp({
-    required String email,
-    required String otp,
-  }) async {
+  Future<({String accessToken, String refreshToken, String message})?>
+  verifyOtp({required String email, required String otp}) async {
     state = state.copyWith(isVerifying: true, hasError: false);
 
     final result = await otpUsecases.verifyOtp(
@@ -39,6 +38,7 @@ class OtpNotifier extends _$OtpNotifier {
           hasError: true,
           errorMessage: failure.message,
         );
+        Fluttertoast.showToast(msg: verifyOTPErr);
         return null;
       },
       (response) {
@@ -69,9 +69,7 @@ class OtpNotifier extends _$OtpNotifier {
 
     state = state.copyWith(isResending: true, hasError: false);
 
-    final result = await otpUsecases.resendOtp(
-      ResendOtpParams(email: email),
-    );
+    final result = await otpUsecases.resendOtp(ResendOtpParams(email: email));
 
     result.fold(
       (failure) {
@@ -80,6 +78,7 @@ class OtpNotifier extends _$OtpNotifier {
           hasError: true,
           errorMessage: failure.message,
         );
+        Fluttertoast.showToast(msg: resendOTPErr);
       },
       (response) {
         if (response.success) {

@@ -1,4 +1,5 @@
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:todus/core/constants.dart';
 import 'package:todus/feature/register/domain/params/register_params.dart';
 import 'package:todus/feature/register/presentation/getters/register_getters.dart';
 import 'package:todus/feature/register/presentation/provider/state/register_state.dart';
@@ -36,6 +37,7 @@ class RegisterNotifier extends _$RegisterNotifier {
           errorMessage: failure.message,
           hasError: true,
         );
+        Fluttertoast.showToast(msg: reigsterErr);
         return null;
       },
       (response) {
