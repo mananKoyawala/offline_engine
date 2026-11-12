@@ -1,4 +1,4 @@
-package com.manan.todus
+package com.manankoyawala.todus
 
 import io.flutter.embedding.android.FlutterActivity
 
